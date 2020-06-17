@@ -2,7 +2,7 @@
 	<view class="content_wrap">
 		<cu-custom bgColor="bg-white" :isBack="true">
 			<block slot="backText"></block>
-			<block slot="content">{{title}}</block>
+			<block slot="content">列表</block>
 		</cu-custom>
 		<view class="xq_box" :style="style1">
 			
@@ -140,7 +140,7 @@
 		},
 		data() {
 			return {
-				title: '',
+				title: '列表',
 				btnkg:0,
 				modalName: null,
 				data_list:[

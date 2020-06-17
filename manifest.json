@@ -68,5 +68,15 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true
+    },
+    "h5" : {
+        "router" : {
+            "base" : "/suxin/fangmomo"
+        },
+        "devServer" : {
+            "https" : false
+        },
+        "title" : "fangmomo",
+        "domain" : "http://www.wanbonet.com/"
     }
 }
