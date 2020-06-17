@@ -233,4 +233,19 @@
 	.m-input-view{
 		padding-left: 0!important;
 	}
+	.c1a{
+		color: #1a1a1a;
+	}
+	.cu-bar .content{
+		font-weight: bold;
+	}
+	.zawnu{
+		width: 100%;
+		height: 100px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 16px;
+		color: #999;
+	}
 </style>

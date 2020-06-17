@@ -11,7 +11,7 @@ const store = new Vuex.Store({
 		forcedLogin: false,
 		hasLogin: true,
 		platform:'',
-		userName: "问心"
+		userName: "游客"
 	},
 	mutations: {
 		login(state, userName) {

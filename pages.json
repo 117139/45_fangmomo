@@ -86,6 +86,22 @@
             "path" : "pages/xiaoxi_msg/xiaoxi_msg",
             "style" : {}
         }
+        ,{
+            "path" : "pages/list/list",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/details/details",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/ad_zz/ad_zz",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/search/search",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#7a7e83",
@@ -115,7 +131,7 @@
 	},
 	"globalStyle": {
 		"navigationStyle": "custom",
-		"navigationBarTextStyle": "white",
+		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#0faeff",
 		"backgroundColor": "#fbf9fe"
 	}

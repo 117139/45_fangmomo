@@ -114,12 +114,19 @@
 		min-height: 100%;
 		line-height: inherit;
 		background-color: rgba(0, 0, 0, 0);
+		display: flex;
 	}
 
 	.m-input-icon {
 		width: 20px;
 		font-size: 20px;
 		line-height: 20px;
-		color: #666666;
+		color: #CCCCCC;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.m-icon{
+		font-size: 18px;
 	}
 </style>

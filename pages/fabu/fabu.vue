@@ -1,5 +1,5 @@
 <template>
-	<view class="content_wrap" :style="style0">
+	<view class="content_wrap_f3" :style="style0">
 		<view class="cu-custom" :style="style">
 			发布
 		</view>
@@ -17,8 +17,18 @@
 			</view>
 			<simple-address ref="simpleAddress" :pickerValueDefault="cityPickerValueDefault" @onConfirm="onConfirm" themeColor="#007AFF"></simple-address>
 
-			<view class="fb_li">
+			<view class="fb_li" v-if="fb_type==0||fb_type==1">
 				<view>小区名称</view>
+				<input type="text" placeholder="请输入" v-model="xq_name"></input>
+				<!-- <text class="iconfont iconnext"></text> -->
+			</view>
+			<view class="fb_li" v-if="fb_type==2">
+				<view>商铺名称</view>
+				<input type="text" placeholder="请输入" v-model="xq_name"></input>
+				<!-- <text class="iconfont iconnext"></text> -->
+			</view>
+			<view class="fb_li" v-if="fb_type==3">
+				<view>楼盘名称</view>
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
 				<!-- <text class="iconfont iconnext"></text> -->
 			</view>
@@ -27,27 +37,29 @@
 				<switch :checked="dujia" color="#3171F5"  />
 				<!-- <text class="iconfont iconnext"></text> -->
 			</view>
-			<picker @change="bindPickerChange" data-type="0" :value="index" :range="array">
+			<picker  v-if="fb_type !=1" @change="bindPickerChange" data-type="0" :value="index" :range="array">
 				<view class="fb_li">
 					<view>几手</view>
 					<view>{{array[index]}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
-			<picker @change="bindPickerChange" data-type="1" :value="index1" :range="array1">
+			<picker v-if="fb_type==0" @change="bindPickerChange" data-type="1" :value="index1" :range="array1">
 				<view class="fb_li">
 					<view>类型</view>
 					<view>{{array1[index1]}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
-			<view class="fb_li">
+			<!-- 价格 -->
+			<view v-if="fb_type !=1" class="fb_li">
 				<view>价格</view>
 				<input type="number" placeholder="请输入" v-model="jiage"></input>
 				<text class="iconfont">万元</text>
 				<!-- <text class="iconfont iconnext"></text> -->
 			</view>
-			<picker @change="bindPickerChange" data-type="2" :value="index2" :range="array2">
+			<!-- 户型 -->
+			<picker v-if="fb_type==0||fb_type==1" @change="bindPickerChange" data-type="2" :value="index2" :range="array2">
 				<view class="fb_li">
 					<view>户型</view>
 					<view>{{array2[index2]}}</view>
@@ -60,20 +72,22 @@
 				<text class="iconfont">平米</text>
 				<!-- <text class="iconfont iconnext"></text> -->
 			</view>
-			<picker @change="bindPickerChange" data-type="3" :value="index3" :range="array3">
+			<!-- 朝向 -->
+			<picker v-if="fb_type==0||fb_type==1" @change="bindPickerChange" data-type="3" :value="index3" :range="array3">
 				<view class="fb_li">
 					<view>朝向</view>
 					<view>{{array3[index3]}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
-			<!-- louceng -->
-			<view class="fb_li">
+			<!-- 楼层 -->
+			<view v-if="fb_type!=2" class="fb_li">
 				<view>楼层</view>
 				<input type="number" placeholder="请输入" v-model="louceng"></input>
 				<text class="iconfont">层</text>
 				<!-- <text class="iconfont iconnext"></text> -->
 			</view>
+			<!-- 房本 -->
 			<picker @change="bindPickerChange" data-type="4" :value="index4" :range="array4">
 				<view class="fb_li">
 					<view>房本</view>
@@ -81,21 +95,53 @@
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
-			<picker @change="bindPickerChange" data-type="5" :value="index5" :range="array5">
+			<!-- 装修 -->
+			<picker v-if="fb_type!=1" @change="bindPickerChange" data-type="5" :value="index5" :range="array5">
 				<view class="fb_li">
 					<view>装修</view>
 					<view>{{array5[index5]}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
-			<picker @change="bindPickerChange" data-type="6" :value="index6" :range="array6">
+			<!-- 车库 -->
+			<picker v-if="fb_type==0" @change="bindPickerChange" data-type="6" :value="index6" :range="array6">
 				<view class="fb_li">
 					<view>车库</view>
 					<view>{{array6[index6]}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
-
+			<!-- 租金 -->
+			<view v-if="fb_type==1" class="fb_li">
+				<view>租金</view>
+				<input type="number" placeholder="请输入" v-model="zujin"></input>
+				<text class="iconfont">元</text>
+				<!-- <text class="iconfont iconnext"></text> -->
+			</view>
+			<!-- 押金 -->
+			<view v-if="fb_type==1" class="fb_li">
+				<view>押金</view>
+				<input type="number" placeholder="请输入" v-model="yajin"></input>
+				<text class="iconfont">元</text>
+				<!-- <text class="iconfont iconnext"></text> -->
+			</view>
+			<!-- 出租方式 -->
+			<picker v-if="fb_type==1" @change="bindPickerChange" data-type="7" :value="index7" :range="array7">
+				<view class="fb_li">
+					<view>出租方式</view>
+					<view>{{array7[index7]}}</view>
+					<text class="iconfont iconnext"></text>
+				</view>
+			</picker>
+			<!-- 付款方式 -->
+			<picker v-if="fb_type==1" @change="bindPickerChange" data-type="8" :value="index8" :range="array8">
+				<view class="fb_li">
+					<view>付款方式</view>
+					<view>{{array8[index8]}}</view>
+					<text class="iconfont iconnext"></text>
+				</view>
+			</picker>
+			<!-- 图片 -->
 			<view class="fb_li">
 				<view>图片</view>
 				<view class="upimg_box">
@@ -120,7 +166,6 @@
 		mapState,
 		mapMutations
 	} from 'vuex'
-
 	export default {
 		data() {
 			return {
@@ -149,6 +194,12 @@
 				index5: 0,
 				array6: ['有', '无'],
 				index6: 0,
+				zujin:'',
+				yajin:'',
+				array7: ['整租', '隔断'],
+				index7: 0,
+				array8: ['月付', '季付', '年付'],
+				index8: 0,
 				imgb:[],
 			};
 		},
@@ -160,7 +211,7 @@
 			style0() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
-				var padd_top = StatusBar + CustomBar + 40
+				var padd_top = CustomBar + 40
 				var style = `padding-top:${padd_top}px;`;
 
 				return style
@@ -175,7 +226,7 @@
 			style1() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
-				var padd_top = StatusBar + CustomBar
+				var padd_top = CustomBar
 				var style = `top:${padd_top}px;`;
 
 				return style
@@ -373,23 +424,175 @@
 						})
 						return
 					}
-					var value1={
+					
+				}
+				
+				if(this.fb_type==1){
+					if(!that.pickerText){
+						uni.showToast({
+							icon:'none',
+							title:'请选择所在城市'
+						})
+						return
+					}
+					if(!that.xq_name){
+						uni.showToast({
+							icon:'none',
+							title:'请输入小区名称'
+						})
+						return
+					}
+					if(!that.mianji){
+						uni.showToast({
+							icon:'none',
+							title:'请输入面积'
+						})
+						return
+					}
+					if(!that.louceng){
+						uni.showToast({
+							icon:'none',
+							title:'请输入楼层'
+						})
+						return
+					}
+					if(!that.zujin){
+						uni.showToast({
+							icon:'none',
+							title:'请输入租金'
+						})
+						return
+					}
+					if(!that.yajin){
+						uni.showToast({
+							icon:'none',
+							title:'请输入押金'
+						})
+						return
+					}
+					
+				}
+				if(this.fb_type==2){
+					if(!that.pickerText){
+						uni.showToast({
+							icon:'none',
+							title:'请选择所在城市'
+						})
+						return
+					}
+					if(!that.xq_name){
+						uni.showToast({
+							icon:'none',
+							title:'请输入商铺名称'
+						})
+						return
+					}
+					if(!that.jiage){
+						uni.showToast({
+							icon:'none',
+							title:'请输入价格'
+						})
+						return
+					}
+					if(!that.mianji){
+						uni.showToast({
+							icon:'none',
+							title:'请输入面积'
+						})
+						return
+					}
+				}
+				if(this.fb_type==3){
+					if(!that.pickerText){
+						uni.showToast({
+							icon:'none',
+							title:'请选择所在城市'
+						})
+						return
+					}
+					if(!that.xq_name){
+						uni.showToast({
+							icon:'none',
+							title:'请输入楼盘名称'
+						})
+						return
+					}
+					if(!that.jiage){
+						uni.showToast({
+							icon:'none',
+							title:'请输入价格'
+						})
+						return
+					}
+					if(!that.mianji){
+						uni.showToast({
+							icon:'none',
+							title:'请输入面积'
+						})
+						return
+					}
+				}
+				var value1={
+					city:that.pickerText,
+					xq_name:that.xq_name,
+					dujia:that.dujia,
+					jishou:that.array[that.index],
+					leixing:that.array1[that.index1],
+					jiage:that.jiage,
+					huxing:that.array2[that.index2],
+					mianji:that.mianji,
+					chaoxiang:that.array3[that.index3],
+					louceng:that.louceng,
+					fangben:that.array4[that.index4],
+					zhaungxiu:that.array5[that.index5],
+					cheke:that.array6[that.index6],
+					imgs:that.imgb
+				}
+				if(that.fb_type==1){
+					value1={
+						city:that.pickerText,
+						xq_name:that.xq_name,
+						dujia:that.dujia,
+						louceng:that.louceng,
+						huxing:that.array2[that.index2],
+						mianji:that.mianji,
+						chaoxiang:that.array3[that.index3],
+						zujin:that.zujin,
+						yajin:that.yajin,
+						chuzu:that.array7[that.index7],
+						pay_type:that.array8[that.index8],
+						zhaungxiu:that.array5[that.index5],
+						imgs:that.imgb
+					}
+				}
+				if(that.fb_type==2){//商铺
+					value1={
 						city:that.pickerText,
 						xq_name:that.xq_name,
 						dujia:that.dujia,
 						jishou:that.array[that.index],
-						leixing:that.array1[that.index1],
-						jiage:that.jiage,
-						huxing:that.array2[that.index2],
+						jiage:that.jiage,  
 						mianji:that.mianji,
-						chaoxiang:that.array3[that.index3],
-						louceng:that.louceng,
-						fangben:that.array4[that.index4],
 						zhaungxiu:that.array5[that.index5],
-						cheke:that.array6[that.index6],
+						fangben:that.array4[that.index4],
 						imgs:that.imgb
 					}
 				}
+				if(that.fb_type==3){//写字楼
+					value1={
+						city:that.pickerText,
+						xq_name:that.xq_name,
+						dujia:that.dujia,
+						jishou:that.array[that.index],
+						jiage:that.jiage,
+						mianji:that.mianji,
+						louceng:that.louceng,
+						zhaungxiu:that.array5[that.index5],
+						fangben:that.array4[that.index4],
+						imgs:that.imgb
+					}
+				}
+				console.log(that.fb_type)
 				console.log(value1)
 			},
 			jump(e) {
@@ -521,17 +724,20 @@
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
+		background: #fff;
 	}
 
 	.fb_li {
 		width: 100%;
 		min-height: 50px;
-		border-bottom: 1px solid #eee;
+		
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
-
+.fb_li+.fb_li,picker,picker+.fb_li{
+	border-top: 1px solid #eee;
+}
 	.iconfont {
 		font-size: 14px;
 		color: #BFBFBF;

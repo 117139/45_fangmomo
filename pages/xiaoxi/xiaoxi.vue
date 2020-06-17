@@ -37,7 +37,7 @@
 			style0() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
-				var padd_top=StatusBar+CustomBar
+				var padd_top=CustomBar
 				var style = `padding-top:${padd_top}px;`;
 
 				return style

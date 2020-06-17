@@ -1,83 +1,268 @@
 <template>
-	<view class="content_wrap">
-		<view v-if="hasLogin" class="hello">
-			<view class="title">
-				您好 {{userName}}，您已成功登录。
-			</view>
-			<view class="ul">
-				<view>这是 uni-app 带登录模板的示例App首页。</view>
-				<view>在 “我的” 中点击 “退出” 可以 “注销当前账户”</view>
+	<view class="content_wrap" :style="style0">
+		<view class="cu-custom" :style="style">
+			{{userName}},{{time_zz}}！
+		</view>
+		<view class="sousuo_box" :style="style1">
+			<view class="ss_box"  @tap="jump" data-url="../search/search">
+				<image class="ss_icon" src="../../static/img/index/search.png" mode=""></image>搜索房源
 			</view>
 		</view>
-		<view v-if="!hasLogin" class="hello">
-			<view class="title">
-				您好 游客。
+		<swiper class="swiper" :indicator-dots="indicatorDots"
+			indicator-color="rgba(255,255,255,.6)" indicator-active-color="rgba(255,255,255,1)"
+		 :autoplay="autoplay" :interval="interval" :duration="duration" circular='true'>
+				<swiper-item>
+						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill" @tap="jump" data-url="../ad_zz/ad_zz"></image>
+				</swiper-item>
+				<swiper-item>
+						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill" @tap="jump" data-url="../ad_zz/ad_zz"></image>
+				</swiper-item>
+				<swiper-item>
+						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill" @tap="jump" data-url="../ad_zz/ad_zz"></image>
+				</swiper-item>
+		</swiper>
+		<view class="index_list">
+			<view class="index_li" @tap="jump" data-url="../list/list?title=售房&type=1">
+				<image class="indexli_img" src="../../static/img/index/indexbtn1.png" mode=""></image>
+				<text class="indexli_text">售房</text>
 			</view>
-			<view class="ul">
-				<view>这是 uni-app 带登录模板的示例App首页。</view>
-				<view>在 “我的” 中点击 “登录” 可以 “登录您的账户”</view>
+			<view class="index_li" @tap="jump" data-url="../list/list?title=商铺&type=2">
+				<image class="indexli_img" src="../../static/img/index/indexbtn2.png" mode=""></image>
+				<text class="indexli_text">商铺</text>
+			</view>
+			<view class="index_li" @tap="jump" data-url="../list/list?title=写字楼&type=3">
+				<image class="indexli_img" src="../../static/img/index/indexbtn3.png" mode=""></image>
+				<text class="indexli_text">写字楼</text>
+			</view>
+			<view class="index_li" @tap="jump" data-url="../list/list?title=租房&type=4">
+				<image class="indexli_img" src="../../static/img/index/indexbtn4.png" mode=""></image>
+				<text class="indexli_text">租房</text>
+			</view>
+		</view>
+		<view class="gj_tit">房屋工具</view>
+		<view class="gj_list">
+			<view class="gj_li">
+				<image class="gj_li" src="../../static/img/index/gjbtn1.png" mode=""></image>
+			</view>
+			<view class="gj_li">
+				<image class="gj_li" src="../../static/img/index/gjbtn2.png" mode=""></image>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import service from '../../service.js';
 	import {
-		mapState
+		mapState,
+		mapMutations
 	} from 'vuex'
 
 	export default {
-		computed: mapState(['forcedLogin', 'hasLogin', 'userName']),
-		onLoad() {
-			if (!this.hasLogin) {
-				uni.showModal({
-					title: '未登录',
-					content: '您未登录，需要登录后才能继续',
-					/**
-					 * 如果需要强制登录，不显示取消按钮
-					 */
-					showCancel: !this.forcedLogin,
-					success: (res) => {
-						if (res.confirm) {
-							/**
-							 * 如果需要强制登录，使用reLaunch方式
-							 */
-							if (this.forcedLogin) {
-								uni.reLaunch({
-									url: '../login/login'
-								});
-							} else {
-								uni.navigateTo({
-									url: '../login/login'
-								});
-							}
-						}
-					}
-				});
+		data() {
+			return {
+				btnkg: 0,
+				time_zz:'你好',
+				StatusBar: this.StatusBar,
+				CustomBar: this.CustomBar,
+				background: ['color1', 'color2', 'color3'],
+				indicatorDots: true,
+				autoplay: true,
+				interval: 3000,
+				duration: 500
+			};
+		},
+		onShow() {
+			var that = this;
+			var time = getDate();
+			var year = time.getFullYear();
+			var month = time.getMonth() + 1;
+			var date = time.getDate();
+			var hour = time.getHours();
+			var minute = time.getMinutes();
+			var second = time.getSeconds();
+			month = month < 10 ? "0" + month : month;
+			date = date < 10 ? "0" + date : date;
+			hour = hour < 10 ? "0" + hour : hour;
+			minute = minute < 10 ? "0" + minute : minute;
+			second = second < 10 ? "0" + second : second;
+			var now_time = hour + ":" + minute;
+			console.log(now_time)
+			// that.time_zz = '下午好'
+			if (hour > 12) {
+				that.time_zz = "下午好"
+			} else if (hour < 12) {
+				that.time_zz = "上午好"
+			} else {
+				that.time_zz = "中午好"
 			}
+		},
+		computed: {
+			...mapState(['hasLogin', 'forcedLogin', 'userName']),
+			style0() {
+				var StatusBar = this.StatusBar;
+				var CustomBar = this.CustomBar;
+				var padd_top = CustomBar+54
+				var style = `padding-top:${padd_top}px;`;
+
+				return style
+			},
+			style() {
+				var StatusBar = this.StatusBar;
+				var CustomBar = this.CustomBar;
+				var style = `height:${CustomBar}px;padding-top:${StatusBar}px;`;
+
+				return style
+			},
+			style1() {
+				var StatusBar = this.StatusBar;
+				var CustomBar = this.CustomBar;
+				var padd_top = CustomBar
+				var style = `top:${padd_top}px;`;
+
+				return style
+			}
+		},
+		onPullDownRefresh() {
+			console.log('下拉')
+			uni.startPullDownRefresh();
+		},
+		onReachBottom() {
+			console.log('上拉')
+		},
+		methods: {
+			jump(e) {
+				var that = this
+
+				if (that.btnkg == 1) {
+					return
+				} else {
+					that.btnkg = 1
+					setTimeout(function() {
+						that.btnkg = 0
+					}, 1000)
+				}
+
+				var datas = e.currentTarget.dataset
+				if (datas.login) {
+					if (!that.hasLogin) {
+						uni.navigateTo({
+							url: '../login/login',
+						});
+						return
+					}
+				}
+				console.log(e.currentTarget.dataset.url)
+				console.log(datas.url)
+				uni.navigateTo({
+					url: e.currentTarget.dataset.url,
+				});
+			},
 		}
 	}
 </script>
 
 <style>
-	.hello {
+	.content_wrap {
+		padding-top: 200upx;
+	}
+
+	.cu-custom {
 		display: flex;
-		flex: 1;
+		align-items: center;
+		justify-content: flex-start;
+		width: 100%;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		padding: 0 28upx;
+		position: fixed;
+		top: 0;
+		z-index: 9999;
+		background: #fff;
+		font-weight: bold;
+		color: #1A1A1A;
+		font-size: 20px;
+	}
+
+	.sousuo_box {
+		background: #fff;
+		width: 100%;
+		display: flex;
+		align-items: stretch;
+		justify-content: center;
+		padding: 0 32upx 16px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		font-size: 18px;
+		color: #1A1A1A;
+		position: fixed;
+		z-index: 999;
+	}
+	.ss_box{
+		width: 100%;
+		height: 38px;
+		background:rgba(235,239,242,1);
+		border-radius:38px;
+		padding: 0 38upx;
+		font-size: 18px;
+		color: #999;
+		display: flex;
+		align-items: center;
+	}
+	.ss_icon{
+		width: 16px;
+		height: 16px;
+		margin-right: 12px;
+	}
+	.swiper{
+		
+		width: 100%;
+		height: 360upx;
+	}
+	.swi_img{
+		width: 100%;
+		height: 360upx;
+	}
+	.index_list{
+		display: flex;
+		padding: 24upx 0;
+	}
+	.index_li{
+		width: 25%;
+		display: flex;
 		flex-direction: column;
+		align-items: center;
+		padding: 24upx 0;
 	}
-
-	.title {
-		color: #8f8f94;
-		margin-top: 25px;
+	.indexli_img{
+		width: 100upx;
+		height: 100upx;
+		margin-bottom: 19upx;
 	}
-
-	.ul {
-		font-size: 15px;
-		color: #8f8f94;
-		margin-top: 25px;
+	.indexli_text{
+		font-size: 12px;
+		color: #1A1A1A;
 	}
-
-	.ul>view {
-		line-height: 25px;
+	.gj_tit{
+		width: 100%;
+		height: 50px;
+		padding: 0 32upx;
+		box-sizing: border-box;
+		font-size: 18px;
+		font-weight: bold;
+		display: flex;
+		align-items: center;
+	}
+	.gj_list{
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		padding: 0 32upx;
+	}
+	.gj_li{
+		width: 327upx!important;
+		height: 160upx!important;
 	}
 </style>

@@ -145,9 +145,16 @@
 	.xx_inr{
 		font-size: 10px;
 		color: #1a1a1a;
+		width: 100%;
 	}
 	.xx_inr image{
 		margin: 5px auto;
+		max-width: 100%;
+		width: 100%;
+		/* height: auto; */
+	}
+	.xx_inr *{
+		
 		max-width: 100%;
 	}
 </style>
