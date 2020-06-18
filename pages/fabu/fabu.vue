@@ -646,7 +646,7 @@
 		background: #F3F4F6;
 		font-weight: bold;
 		color: #1A1A1A;
-		font-size: 20px;
+		font-size: 40upx;
 		/* border-bottom: 1px solid #DDDDDD; */
 	}
 

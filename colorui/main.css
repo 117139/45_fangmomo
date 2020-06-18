@@ -1556,7 +1556,10 @@ button.cuIcon.lg {
 	margin-left: 30upx;
 	font-size: 30upx;
 }
-
+.cu-bar .nav_right{
+	font-size: 30upx;
+	margin-right: 30upx;
+}
 .cu-bar .action text.text-cut {
 	text-align: left;
 	width: 100%;

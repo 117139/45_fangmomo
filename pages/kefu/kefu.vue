@@ -12,7 +12,7 @@
 					<view>15060708090<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
-			<view class="my_li" @tap="jump"  data-url="" data-login='true'>
+			<view class="my_li" @tap="call_tel"  data-tel="40080009000" data-login='true'>
 				<view class="my_li_msg">
 					<view class="my_li_name">电话</view>
 					<view>400-8000-9000<text class="iconfont iconnext"></text></view>
@@ -31,7 +31,11 @@
 			}
 		},
 		methods: {
-			
+			call_tel(e) {
+				uni.makePhoneCall({
+					phoneNumber: e.currentTarget.dataset.tel + ''
+				});
+			},
 		}
 	}
 </script>

@@ -109,7 +109,7 @@
 		background: #fff;
 		font-weight: bold;
 		color: #1A1A1A;
-		font-size: 20px;
+		font-size: 40upx;
 		border-bottom: 1px solid #DDDDDD;
 	}
 	.xx_list{
@@ -125,15 +125,17 @@
 	}
 	.xx_title{
 		color: #1A1A1A;
-		font-size: 16px;
-		line-height: 16px;
+		font-size: 32upx;
+		line-height: 32upx;
 		font-weight: bold;
 	}
 	.xx_time{
 		margin-top: 10px;
-		font-size: 10px;
+		font-size: 20upx;
 		color: #999;
 		margin-bottom: 7px;
+		display: flex;
+		align-items: center;
 	}
 	.xx_time image{
 		width:12px;
@@ -141,7 +143,7 @@
 		margin-right: 5px;
 	}
 	.xx_inr{
-		font-size: 10px;
+		font-size: 20upx;
 		color: #1a1a1a;
 	}
 </style>

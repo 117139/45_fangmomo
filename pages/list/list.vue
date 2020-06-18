@@ -552,12 +552,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-around;
-		font-size: 14px;
+		font-size: 28upx;
 		color: #1A1A1A;
 	}
 
 	.xz_icon {
-		font-size: 12px;
+		font-size: 24upx;
 		color: #999;
 	}
 

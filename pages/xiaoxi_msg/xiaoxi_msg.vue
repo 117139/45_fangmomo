@@ -127,15 +127,17 @@
 	}
 	.xx_title{
 		color: #1A1A1A;
-		font-size: 16px;
-		line-height: 22px;
+		font-size: 32upx;
+		line-height: 44upx;
 		font-weight: bold;
 	}
 	.xx_time{
 		margin-top: 7px;
-		font-size: 10px;
+		font-size: 20upx;
 		color: #999;
 		margin-bottom: 7px;
+		display: flex;
+		align-items: center;
 	}
 	.xx_time image{
 		width:12px;
@@ -143,7 +145,7 @@
 		margin-right: 5px;
 	}
 	.xx_inr{
-		font-size: 10px;
+		font-size: 20upx;
 		color: #1a1a1a;
 		width: 100%;
 	}

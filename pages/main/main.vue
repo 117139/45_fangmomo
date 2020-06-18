@@ -12,13 +12,16 @@
 			indicator-color="rgba(255,255,255,.6)" indicator-active-color="rgba(255,255,255,1)"
 		 :autoplay="autoplay" :interval="interval" :duration="duration" circular='true'>
 				<swiper-item>
-						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill" @tap="jump" data-url="../ad_zz/ad_zz"></image>
+						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill"
+						 @tap="jump" data-url="../ad_zz/ad_zz"></image>
 				</swiper-item>
 				<swiper-item>
-						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill" @tap="jump" data-url="../ad_zz/ad_zz"></image>
+						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill"
+						 @tap="jump" data-url="../ad_zz/ad_zz"></image>
 				</swiper-item>
 				<swiper-item>
-						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill" @tap="jump" data-url="../ad_zz/ad_zz"></image>
+						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill"
+						 @tap="jump" data-url="../ad_zz/ad_zz"></image>
 				</swiper-item>
 		</swiper>
 		<view class="index_list">
@@ -41,10 +44,10 @@
 		</view>
 		<view class="gj_tit">房屋工具</view>
 		<view class="gj_list">
-			<view class="gj_li">
+			<view class="gj_li" @tap="jump" data-url="../jisuan/jisuan">
 				<image class="gj_li" src="../../static/img/index/gjbtn1.png" mode=""></image>
 			</view>
-			<view class="gj_li">
+			<view class="gj_li"  @tap="jump" data-url="../ad_zz/ad_zz">
 				<image class="gj_li" src="../../static/img/index/gjbtn2.png" mode=""></image>
 			</view>
 		</view>
@@ -182,7 +185,7 @@
 		background: #fff;
 		font-weight: bold;
 		color: #1A1A1A;
-		font-size: 20px;
+		font-size: 40upx;
 	}
 
 	.sousuo_box {
@@ -242,7 +245,7 @@
 		margin-bottom: 19upx;
 	}
 	.indexli_text{
-		font-size: 12px;
+		font-size: 24upx;
 		color: #1A1A1A;
 	}
 	.gj_tit{

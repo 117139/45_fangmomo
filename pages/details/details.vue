@@ -7,7 +7,9 @@
 		<view class="xq_banner">
 			<swiper class="xq_swiper" :autoplay="true" :interval="3000" :duration="1000" circular="true" @change="swi_change">
 				<swiper-item v-for="(item,index) in imgs">
-					<view class="swiper-item"><image class="banner_img" :src="item" mode="aspectFill"></image></view>
+					<!-- <view class="swiper-item"> -->
+						<image class="banner_img" :src="item" mode="aspectFill"></image>
+					<!-- </view> -->
 				</swiper-item>
 			</swiper>
 			<view class="xq_swi_index">{{current}}/{{imgs.length}}</view>
@@ -164,7 +166,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		font-size: 10px;
+		font-size: 20upx;
 		color: #1A1A1A;
 	}
 	.cz_li .iconfont{

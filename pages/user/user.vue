@@ -13,7 +13,7 @@
 					<button v-if="!hasLogin" type="primary" class="primary" @tap="bindLogin">登录</button>
 				</view>
 			</view>
-			<view class="my_msg" v-if="hasLogin">
+			<view class="my_msg" v-if="hasLogin"  @tap="jump" data-url="../my_set/my_set">
 				<image class="user_tx" src="../../static/img/tx_m.jpg" mode="aspectFill"></image>  
 				<view class="user_jj">
 					<view class="user_name">陈女士（15858686868）</view>
@@ -26,7 +26,7 @@
 		</view>
 		<view class="hx20"></view>
 		<view class="my_list">
-			<view class="my_li" @tap="jump"  data-url="" data-login='true'>
+			<view class="my_li" @tap="jump"  data-url="../my_sc/my_sc" data-login='true'>
 				<view class="my_icon">
 					<image src="../../static/img/my/my1.png" mode=""></image>
 				</view>
@@ -35,7 +35,7 @@
 					<text class="iconfont iconnext"></text>
 				</view>
 			</view>
-			<view class="my_li" @tap="jump"  data-url="" data-login='true'>
+			<view class="my_li" @tap="jump"  data-url="../my_fy/my_fy" data-login='true'>
 				<view class="my_icon">
 					<image src="../../static/img/my/my2.png" mode="" style="height: 46upx;"></image>
 				</view>
@@ -190,7 +190,7 @@
 		background: #F3F4F6;
 		font-weight: bold;
 		color: #1A1A1A;
-		font-size: 20px;
+		font-size: 40upx;
 	}
 	.cu-bar .content{
 		margin: 0!important;
@@ -226,8 +226,8 @@
 	}
 	.user_name{
 		color: #1A1A1A;
-		font-size: 18px;
-		line-height: 18px;
+		font-size: 36upx;
+		line-height: 36upx;
 	}
 	.user_dw{
 		display: flex;

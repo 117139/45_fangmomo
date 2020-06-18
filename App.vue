@@ -69,6 +69,9 @@
 	@import "colorui/icon.css";
 	@import "static/iconfont.css";
 	/*每个页面公共css */
+	.nav_right{
+		color: #3171F5;
+	}
 	page {
 		min-height: 100%;
 		display: flex;
