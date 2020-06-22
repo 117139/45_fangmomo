@@ -209,14 +209,14 @@
 		background:rgba(235,239,242,1);
 		border-radius:38px;
 		padding: 0 38upx;
-		font-size: 18px;
+		font-size: 32upx;
 		color: #999;
 		display: flex;
 		align-items: center;
 	}
 	.ss_icon{
-		width: 16px;
-		height: 16px;
+		width: 32upx;
+		height: 32upx;
 		margin-right: 12px;
 	}
 	.swiper{

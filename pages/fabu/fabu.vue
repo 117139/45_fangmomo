@@ -407,13 +407,13 @@
 						})
 						return
 					}
-					if(!that.xq_name){
-						uni.showToast({
-							icon:'none',
-							title:'请输入小区名称'
-						})
-						return
-					}
+					// if(!that.xq_name){
+					// 	uni.showToast({
+					// 		icon:'none',
+					// 		title:'请输入小区名称'
+					// 	})
+					// 	return
+					// }
 					if(!that.jiage){
 						uni.showToast({
 							icon:'none',
@@ -446,13 +446,13 @@
 						})
 						return
 					}
-					if(!that.xq_name){
-						uni.showToast({
-							icon:'none',
-							title:'请输入小区名称'
-						})
-						return
-					}
+					// if(!that.xq_name){
+					// 	uni.showToast({
+					// 		icon:'none',
+					// 		title:'请输入小区名称'
+					// 	})
+					// 	return
+					// }
 					if(!that.mianji){
 						uni.showToast({
 							icon:'none',
@@ -710,7 +710,7 @@
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
-		font-size: 18px;
+		font-size: 36upx;
 		color: #1A1A1A;
 		position: fixed;
 		z-index: 999;
@@ -745,6 +745,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		font-size: 32upx;
 	}
 .fb_li+.fb_li,picker,picker+.fb_li{
 	border-top: 1px solid #eee;
