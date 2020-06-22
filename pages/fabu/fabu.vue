@@ -17,11 +17,17 @@
 			</view>
 			<simple-address ref="simpleAddress" :pickerValueDefault="cityPickerValueDefault" @onConfirm="onConfirm" themeColor="#007AFF"></simple-address>
 
-			<view class="fb_li" v-if="fb_type==0||fb_type==1">
+			<!-- <view class="fb_li" v-if="fb_type==0||fb_type==1">
 				<view>小区名称</view>
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
-				<!-- <text class="iconfont iconnext"></text> -->
-			</view>
+			</view> -->
+			<picker  v-if="fb_type==0||fb_type==1" @change="bindPickerChange" data-type="b" :value="indexb" :range="arrayb">
+				<view class="fb_li">
+					<view>小区名称</view>
+					<view>{{arrayb[indexb]}}</view>
+					<text class="iconfont iconnext"></text>
+				</view>
+			</picker>
 			<view class="fb_li" v-if="fb_type==2">
 				<view>商铺名称</view>
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
@@ -169,7 +175,8 @@
 	export default {
 		data() {
 			return {
-				cityPickerValueDefault: [0, 0, 1],
+				// cityPickerValueDefault: [0, 0, 1],
+				cityPickerValueDefault: [0, 0],
 				pickerText: '',
 				btnkg: 0,
 				fb_type: 0,
@@ -177,6 +184,8 @@
 				CustomBar: this.CustomBar,
 				xq_name: '', //小区名称
 				dujia:false,
+				arrayb: ['小区', '小区1', '小区2'],
+				indexb: 0,
 				array: ['1手', '2手', '3手'],
 				index: 0,
 				array1: ['类型1', '类型2', '类型3'],
@@ -241,7 +250,7 @@
 		},
 		methods: {
 			openAddres() {
-				this.cityPickerValueDefault = [0, 0, 1]
+				this.cityPickerValueDefault = [0, 0]
 				this.$refs.simpleAddress.open();
 			},
 			openAddres2() {
@@ -265,7 +274,9 @@
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				console.log(e)
 				var datas = e.currentTarget.dataset
-				if (datas.type == 0) {
+				if (datas.type == 'b') {
+					this.indexb = e.target.value
+				} else if (datas.type == 0) {
 					this.index = e.target.value
 				} else if (datas.type == 1) {
 					this.index1 = e.target.value

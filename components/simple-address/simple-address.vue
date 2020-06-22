@@ -39,14 +39,14 @@
 						<text class="picker-item" :style="{ fontSize: fontSize }" v-for="(item, index) in cityDataList" :key="index">{{ item.label }}</text>
 						<!-- #endif -->
 					</picker-view-column>
-					<picker-view-column>
-						<!-- #ifndef APP-NVUE -->
+					<!-- <picker-view-column>
+						#ifndef APP-NVUE
 						<view class="picker-item" :style="{ fontSize: fontSize }" v-for="(item, index) in areaDataList" :key="index">{{ item.label }}</view>
-						<!-- #endif -->
-						<!-- #ifdef APP-NVUE -->
+						#endif
+						#ifdef APP-NVUE
 						<text class="picker-item" :style="{ fontSize: fontSize }" v-for="(item, index) in areaDataList" :key="index">{{ item.label }}</text>
-						<!-- #endif -->
-					</picker-view-column>
+						#endif
+					</picker-view-column> -->
 				</picker-view>
 			</view>
 		</view>
@@ -136,7 +136,7 @@ export default {
 		pickerValueDefault: {
 			type: Array,
 			default() {
-				return [0, 0, 0];
+				return [0, 0];
 			}
 		}
 	},
@@ -144,9 +144,40 @@ export default {
 		return {
 			ani: '',
 			showPopup: false,
-			pickerValue: [0, 0, 0],
-			provinceDataList: [],
-			cityDataList: [],
+			// pickerValue: [0, 0, 0],
+			pickerValue: [0, 0],
+			provinceDataList: [
+				{
+				    "label": "宜兴",
+				    "value": "11"
+				  },
+			],
+			cityDataList: [
+				{
+						"label": "城东",
+						"value": "110101"
+					},
+					{
+						"label": "城西",
+						"value": "110102"
+					},
+					{
+						"label": "城北",
+						"value": "110105"
+					},
+					{
+						"label": "城南",
+						"value": "110106"
+					},
+					{
+						"label": "城中",
+						"value": "110107"
+					},
+					{
+						"label": "和桥",
+						"value": "110108"
+					},
+			],
 			areaDataList: []
 		};
 	},
@@ -159,11 +190,11 @@ export default {
 			}
 		},
 		pickerValueDefault() {
-			this.init();
+			// this.init();
 		}
 	},
 	created() {
-		this.init();
+		// this.init();
 	},
 	methods: {
 		init() {
@@ -187,18 +218,20 @@ export default {
 			}
 		},
 		pickerChange(e) {
+			console.log(e.detail.value)
 			let changePickerValue = e.detail.value;
 			if (this.pickerValue[0] !== changePickerValue[0]) {
 				// 第一级发生滚动
 				this.cityDataList = cityData[changePickerValue[0]];
-				this.areaDataList = areaData[changePickerValue[0]][0];
+				// this.areaDataList = areaData[changePickerValue[0]][0];
 				changePickerValue[1] = 0;
-				changePickerValue[2] = 0;
+				// changePickerValue[2] = 0;
 			} else if (this.pickerValue[1] !== changePickerValue[1]) {
 				// 第二级滚动
-				this.areaDataList = areaData[changePickerValue[0]][changePickerValue[1]];
-				changePickerValue[2] = 0;
+				// this.areaDataList = areaData[changePickerValue[0]][changePickerValue[1]];
+				// changePickerValue[2] = 0;
 			}
+			
 			this.pickerValue = changePickerValue;
 			this._$emit('onChange');
 		},
@@ -207,7 +240,7 @@ export default {
 				label: this._getLabel(),
 				value: this.pickerValue,
 				cityCode: this._getCityCode(),
-				areaCode: this._getAreaCode(),
+				// areaCode: this._getAreaCode(),
 				provinceCode: this._getProvinceCode(),
 				labelArr: this._getLabel().split('-')
 			};
@@ -215,7 +248,8 @@ export default {
 		},
 		_getLabel() {
 			let pcikerLabel =
-				this.provinceDataList[this.pickerValue[0]].label + '-' + this.cityDataList[this.pickerValue[1]].label + '-' + this.areaDataList[this.pickerValue[2]].label;
+				// this.provinceDataList[this.pickerValue[0]].label + '-' + this.cityDataList[this.pickerValue[1]].label + '-' + this.areaDataList[this.pickerValue[2]].label;
+				this.provinceDataList[this.pickerValue[0]].label + '-' + this.cityDataList[this.pickerValue[1]].label;
 			return pcikerLabel;
 		},
 		_getCityCode() {
