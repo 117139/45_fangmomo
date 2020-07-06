@@ -28,16 +28,28 @@
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
-			<view class="fb_li" v-if="fb_type==2">
+			<!-- <view class="fb_li" v-if="fb_type==2">
 				<view>商铺名称</view>
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
-				<!-- <text class="iconfont iconnext"></text> -->
-			</view>
-			<view class="fb_li" v-if="fb_type==3">
+			</view> -->
+			<picker  v-if="fb_type==2" @change="bindPickerChange" data-type="b" :value="indexb" :range="arrayb">
+				<view class="fb_li">
+					<view>商铺名称</view>
+					<view>{{arrayb[indexb]}}</view>
+					<text class="iconfont iconnext"></text>
+				</view>
+			</picker>
+			<!-- <view class="fb_li" v-if="fb_type==3">
 				<view>楼盘名称</view>
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
-				<!-- <text class="iconfont iconnext"></text> -->
-			</view>
+			</view> -->
+			<picker  v-if="fb_type==2" @change="bindPickerChange" data-type="b" :value="indexb" :range="arrayb">
+				<view class="fb_li">
+					<view>楼盘名称</view>
+					<view>{{arrayb[indexb]}}</view>
+					<text class="iconfont iconnext"></text>
+				</view>
+			</picker>
 			<view class="fb_li">
 				<view>是否独家</view>
 				<switch :checked="dujia" color="#3171F5"  />
