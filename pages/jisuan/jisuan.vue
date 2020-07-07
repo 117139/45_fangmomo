@@ -2,7 +2,7 @@
 	<view class="content_wrap" :style="style0">
 		<cu-custom bgColor="bg-white" :isBack="true" >
 			<block slot="backText"></block>
-			<block slot="content">商业贷款</block>
+			<block slot="content">房贷计算器</block>
 		</cu-custom>
 		<view class="fb_type" :style="style1">
 			<view :class="{'cur':fb_type==0}" @tap="fb_fuc(0)">商业贷款</view>

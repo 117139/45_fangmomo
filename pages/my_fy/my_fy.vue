@@ -411,7 +411,7 @@
 		line-height: 20upx;
 		color: #666;
 		border: 1px solid #ddd;
-		padding: 13upx 10upx;
+		padding: 10upx 10upx;
 		border-radius: 6upx;
 		display: flex;
 		align-items: center;

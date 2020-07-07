@@ -1,8 +1,8 @@
 // 管理账号信息
 const USERS_KEY = 'USERS_KEY';
 const STATE_KEY = 'STATE_KEY';
-const IPurl = 'https://app.techtextile.com.cn/api/';
-const imgurl = 'https://app.techtextile.com.cn/';
+const IPurl = 'http://fangmomo.net.aa.800123456.top/';
+const imgurl = 'http://fangmomo.net.aa.800123456.top/';
 
 /**
  * 请求头

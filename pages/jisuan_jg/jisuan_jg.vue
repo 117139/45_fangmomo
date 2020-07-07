@@ -80,7 +80,7 @@
 			style0() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
-				var padd_top = CustomBar +50
+				var padd_top = 60
 				var style = `padding-top:${padd_top}px;`;
 
 				return style
@@ -155,6 +155,9 @@
 	
 	.content_wrap {
 		padding-top: 200upx;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 	}
 
 	

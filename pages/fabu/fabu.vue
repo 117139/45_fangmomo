@@ -32,10 +32,10 @@
 				<view>商铺名称</view>
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
 			</view> -->
-			<picker  v-if="fb_type==2" @change="bindPickerChange" data-type="b" :value="indexb" :range="arrayb">
+			<picker  v-if="fb_type==2" @change="bindPickerChange" data-type="b1" :value="indexb1" :range="arrayb1">
 				<view class="fb_li">
 					<view>商铺名称</view>
-					<view>{{arrayb[indexb]}}</view>
+					<view>{{arrayb1[indexb1]}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
@@ -43,10 +43,10 @@
 				<view>楼盘名称</view>
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
 			</view> -->
-			<picker  v-if="fb_type==2" @change="bindPickerChange" data-type="b" :value="indexb" :range="arrayb">
+			<picker  v-if="fb_type==3" @change="bindPickerChange" data-type="b2" :value="indexb2" :range="arrayb2">
 				<view class="fb_li">
 					<view>楼盘名称</view>
-					<view>{{arrayb[indexb]}}</view>
+					<view>{{arrayb2[indexb2]}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
@@ -198,6 +198,10 @@
 				dujia:false,
 				arrayb: ['小区', '小区1', '小区2'],
 				indexb: 0,
+				arrayb1: ['商铺', '商铺1', '商铺2'],
+				indexb1: 0,
+				arrayb2: ['楼盘', '楼盘1', '楼盘2'],
+				indexb2: 0,
 				array: ['1手', '2手', '3手'],
 				index: 0,
 				array1: ['类型1', '类型2', '类型3'],
@@ -288,6 +292,10 @@
 				var datas = e.currentTarget.dataset
 				if (datas.type == 'b') {
 					this.indexb = e.target.value
+				} else if (datas.type == 'b1') {
+					this.indexb1 = e.target.value
+				} else if (datas.type == 'b2') {
+					this.indexb2 = e.target.value
 				} else if (datas.type == 0) {
 					this.index = e.target.value
 				} else if (datas.type == 1) {
