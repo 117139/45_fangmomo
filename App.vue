@@ -48,6 +48,7 @@
 					// #endif
 				}
 			})
+			that.dblogin()
 		},
 		onShow: function() {
 			console.log('App Show');
@@ -56,8 +57,80 @@
 			console.log('App Hide');
 		},
 		methods: {
-				...mapMutations(['login','logout','setplatform']),
-				
+				...mapMutations(['login','logindata','logout','setplatform']),
+				dblogin(){
+					var that =this
+					if(!uni.getStorageSync('phone')){
+						uni.navigateTo({
+							url:'pages/main/main'
+						})
+						return
+					}
+					var account=uni.getStorageSync('phone')
+					var password=uni.getStorageSync('password')
+					console.log(account)
+					const data = {
+						phone: account,
+						password: password
+					}
+					var jkurl='/api/login/login'
+					// that.login(that.account);
+					// setTimeout(() => {
+					// 	uni.reLaunch({
+					// 		url: '../main/main'
+					// 	})
+					// },1000)
+					// return
+					service.post(jkurl, data,
+						function(res) {
+							that.btnkg=0
+							if (res.data.code == 1) {
+					
+								// uni.showToast({
+								// 	icon: 'none',
+								// 	title: '登录成功'
+								// })
+								that.login(res.data.data.nickname);
+								that.logindata(res.data.data)
+								uni.setStorageSync('loginmsg', JSON.stringify(res.data.data))
+								uni.setStorageSync('phone', account)
+								
+								uni.setStorageSync('password', password)
+								// setTimeout(() => {
+								// 	uni.reLaunch({
+								// 		url: '../main/main'
+								// 	})
+								// },1000)
+							} else {
+								if (res.data.msg) {
+								  uni.showToast({
+								    icon: 'none',
+								    title: res.data.msg
+								  })
+								} else {
+								  uni.showToast({
+								    icon: 'none',
+								    title: '操作失败'
+								  })
+								}
+							}
+						},
+						function(err) {
+							that.btnkg=0
+							if (err.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: err.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					)
+				}
 		}
 	}
 </script>
@@ -211,27 +284,27 @@
 
 	button.primary {
 		background-color: rgba(49,113,245,.5);
-		font-size: 18px;
+		font-size: 36upx;
 	}
 	.reg_tit {
 		padding-top: 100upx;
-		font-size: 24px;
-		line-height: 24px;
+		font-size: 48upx;
+		line-height: 48upx;
 		padding-bottom: 26px;
 		color: #1A1A1A;
 	}
 	.view_t{
 		color: #1A1A1A;
-		font-size: 12px;
+		font-size: 24upx;
 		padding: 14px 0 0;
 	}
 	.view_i{
 		height: 45px;
-		font-size: 18px;
+		font-size: 36upx;
 		border-bottom: 1px solid #DBDBDB;
 	}
 	.view_i input,.view_i .uni-input-input{
-		font-size: 18px!important;
+		font-size: 36upx!important;
 	}
 	.m-input-view{
 		padding-left: 0!important;
@@ -248,7 +321,14 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 16px;
+		font-size: 32upx;
 		color: #999;
+	}
+	
+	.xieyi_main image{
+			 max-width: 100%!important;
+	}
+	.xieyi_main img{
+			 max-width: 100%!important;
 	}
 </style>

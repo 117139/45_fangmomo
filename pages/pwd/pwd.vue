@@ -67,12 +67,11 @@
 				// that.codetime()
 				// that.btnkg= 0
 				// return
-				var jkurl = '/sendCode'
+				var jkurl = '/api/login/register'
 				var data = {
-					type: 1,
 					phone: that.account
 				}
-				service.get(jkurl, data,
+				service.post(jkurl, data,
 					function(res) {
 						that.btnkg =0
 						if (res.data.code == 1) {

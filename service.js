@@ -3,7 +3,7 @@ const USERS_KEY = 'USERS_KEY';
 const STATE_KEY = 'STATE_KEY';
 const IPurl = 'http://fangmomo.net.aa.800123456.top/';
 const imgurl = 'http://fangmomo.net.aa.800123456.top/';
-
+import Vue from 'vue'
 /**
  * 请求头
  */
@@ -119,12 +119,42 @@ const addUser = function(userInfo) {
 	});
 	uni.setStorageSync(USERS_KEY, JSON.stringify(users));
 }
-
+const call_tel = function(e) {
+				uni.makePhoneCall({
+					phoneNumber: e.currentTarget.dataset.tel + ''
+				});
+			}
+const jump=function(e){
+	console.log(e)
+	var datas=e.currentTarget.dataset
+	if(datas.login){
+		console.log(datas.haslogin)
+		if(!datas.haslogin){
+			uni.navigateTo({
+				url: '../login/login',
+			});
+			return
+		}
+	}
+	console.log(e.currentTarget.dataset.url)
+	console.log(datas.url)
+	uni.navigateTo({
+		url: e.currentTarget.dataset.url,
+	});
+}
+const getimg=function (img){
+	if(!img) return
+	console.log(imgurl+img)
+	return imgurl+img
+}
 export default {
 	getUsers,
 	addUser,
 	get,
 	post,
 	IPurl,
-	imgurl
+	imgurl,
+	call_tel,
+	jump,
+	getimg
 }

@@ -11,7 +11,7 @@
 				<input class="view_i" type="number" v-model="account" placeholder="请输入手机号码"></input>
 				<view class="view_t">验证码</view>
 				<view class="input-row">
-				<m-input class="view_i" type="text"  v-model="code" placeholder="请输入验证码"></m-input>
+				<m-input class="view_i" type="number"  v-model="code" placeholder="请输入验证码"></m-input>
 				<view v-if="yzm_type==0" class="getyzm" @tap="getCode">获取验证码</view>
 				<view v-if="yzm_type==1" class="getyzm">{{yztime}}s</view>
 				</view>
@@ -30,7 +30,10 @@
 <script>
 	import service from '../../service.js';
 	import mInput from '../../components/m-input.vue';
-
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	export default {
 		components: {
 			mInput
@@ -42,7 +45,12 @@
 				password: '',
 				yzm_type: 0,
 				yztime: 60,
+				verification_key:''
 			}
+		},
+		computed: {
+			...mapState(['hasLogin', 'forcedLogin','userName','loginDatas']),
+			
 		},
 		methods: {
 			getCode() {
@@ -60,19 +68,18 @@
 				} else {
 					that.btnkg = 1
 				}
-				uni.showToast({
-					icon: 'none',
-					title: '发送成功'
-				})
-				that.codetime()
-				that.btnkg= 0
-				return
-				var jkurl = '/sendCode'
+				// uni.showToast({
+				// 	icon: 'none',
+				// 	title: '发送成功'
+				// })
+				// that.codetime()
+				// that.btnkg= 0
+				// return
+				var jkurl = '/api/login/changePhone'
 				var data = {
-					type: 1,
 					phone: that.account
 				}
-				service.get(jkurl, data,
+				service.post(jkurl, data,
 					function(res) {
 						that.btnkg =0
 						if (res.data.code == 1) {
@@ -81,6 +88,7 @@
 								icon: 'none',
 								title: '发送成功'
 							})
+							that.verification_key=res.data.data.key
 							that.codetime()
 			
 						} else {
@@ -156,20 +164,21 @@
 				}
 
 				const data = {
-					account: this.account,
-					password: this.password,
-					code: this.code
+					account: that.account,
+					password: that.password,
+					code: that.code,
+					verification_key:that.verification_key
 				}
 				service.addUser(data);
 				uni.showToast({
 					title: '注册成功'
 				});
 				uni.navigateTo({
-					url:'../reg1/reg1?account='+this.account+'&password='+this.password+'&code='+this.code
+					url:'../reg1/reg1?account='+that.account+'&password='+that.password+'&code='+that.code+'&verification_key='+that.verification_key
 				})
-				uni.navigateBack({
-					delta: 1
-				});
+				// uni.navigateBack({
+				// 	delta: 1
+				// });
 			}
 		}
 	}
@@ -194,7 +203,7 @@
 		height:45px;
 		background:rgba(49,113,245,.5);
 		border-radius:6px;
-		font-size: 18px;
+		font-size: 36upx;
 		color: #fff;
 		margin-left: 14px;
 	}

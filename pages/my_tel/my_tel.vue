@@ -9,13 +9,13 @@
 			<view class="my_li" >
 				<view class="my_li_msg">
 					<view class="my_li_name">当前手机</view>
-					<view>15060708080</view>
+					<view>{{loginDatas.phone}}</view>
 				</view>
 			</view>
 			<view class="my_li" >
 				<view class="my_li_msg">
 					<view class="my_li_name">短信验证码</view>
-					<input type="text" placeholder="6位数验证码" class="yzm"></input>
+					<input type="text" placeholder="6位数验证码" v-model="code" class="yzm"></input>
 					<view v-if="yzm_type==0" class="getyzm" @tap="getCode">发送</view>
 					<view v-if="yzm_type==1" class="getyzm">{{yztime}}s</view>
 				</view>
@@ -37,6 +37,10 @@
 
 <script>
 	import service from '../../service.js';
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -44,37 +48,44 @@
 				code:'',
 				yzm_type: 0,
 				yztime: 60,
+				verification_key:''
 			}
 		},
+		onShow() {
+			if(!this.hasLogin){
+				uni.reLaunch({
+					url:'../main/main'
+				})
+			}
+		},
+		computed: {
+			...mapState(['hasLogin', 'forcedLogin','userName','loginDatas']),
+			
+		},
 		methods: {
+			...mapMutations(['logout']),
 			getCode() {
 				let that = this
 			
-				if (that.account == '' || !(/^1\d{10}$/.test(that.account))) {
-					wx.showToast({
-						icon: 'none',
-						title: '手机号有误'
-					})
-					return
-				}
+				
 				if (that.btnkg == 1) {
 					return
 				} else {
 					that.btnkg = 1
 				}
-				uni.showToast({
-					icon: 'none',
-					title: '发送成功'
-				})
-				that.codetime()
-				that.btnkg= 0
-				return
-				var jkurl = '/sendCode'
+				// uni.showToast({
+				// 	icon: 'none',
+				// 	title: '发送成功'
+				// })
+				// that.codetime()
+				// that.btnkg= 0
+				// return
+				var jkurl = '/api/login/changePhone'
 				var data = {
-					type: 1,
-					phone: that.account
+					phone: that.loginDatas.phone,
+					token:that.loginDatas.token
 				}
-				service.get(jkurl, data,
+				service.post(jkurl, data,
 					function(res) {
 						that.btnkg =0
 						if (res.data.code == 1) {
@@ -83,6 +94,7 @@
 								icon: 'none',
 								title: '发送成功'
 							})
+							that.verification_key=res.data.data.key
 							that.codetime()
 			
 						} else {
@@ -150,18 +162,66 @@
 				}
 				
 				const data = {
-					account: this.account,
-					password: this.password,
-					code: this.code
+					phone:that.loginDatas.phone,
+					verification_key:that.verification_key,
+					verification_code: that.code,
+					new_phone: that.account,
+					token: that.loginDatas.token,
 				}
-				service.addUser(data);
-				uni.showToast({
-					title: '操作成功'
-				});
+				var jkurl='/api/login/changePhone'
+				service.post(jkurl, data,
+					function(res) {
+						
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							uni.showToast({
+								icon:'none',
+								title: '操作成功,请重新登录账号'
+							});
+							that.logout()
+							uni.setStorageSync('phone','')
+							console.log(datas)
+							setTimeout(()=>{
+								uni.reLaunch({
+									url:'../login/login'
+								})
+							},1000)
 				
-				uni.navigateBack({
-					delta: 1
-				});
+				
+						} else {
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
 			}
 		}
 	}

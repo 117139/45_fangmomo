@@ -9,13 +9,13 @@
 			<view class="my_li" @tap="jump"  data-url="" data-login='true'>
 				<view class="my_li_msg">
 					<view class="my_li_name">微信</view>
-					<view>15060708090<text class="iconfont iconnext"></text></view>
+					<view>{{datas.Customer_service_wechat[0].body}}<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
-			<view class="my_li" @tap="call_tel"  data-tel="40080009000" data-login='true'>
+			<view class="my_li" @tap="call_tel"  data-tel="datas.Customer_service_wechat[1].body" data-login='true'>
 				<view class="my_li_msg">
 					<view class="my_li_name">电话</view>
-					<view>400-8000-9000<text class="iconfont iconnext"></text></view>
+					<view>{{datas.Customer_service_wechat[1].body}}<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
 			
@@ -24,17 +24,80 @@
 </template>
 
 <script>
+	import service from '../../service.js';
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				
+				datas:''
 			}
 		},
+		onLoad() {
+			this.getdata()
+		},
 		methods: {
+			getdata(){
+				
+				///api/info/list
+				var that =this
+				var data = {
+					keyword:'Customer_service_wechat,'
+				}
+				
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/info/list'
+				uni.showLoading({
+					title: '正在获取数据'
+				})
+				service.get(jkurl, data,
+					function(res) {
+						
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							console.log(datas)
+							that.datas = datas
+				
+				
+						} else {
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+			},
 			call_tel(e) {
-				uni.makePhoneCall({
-					phoneNumber: e.currentTarget.dataset.tel + ''
-				});
+				service.call_tel(e)
 			},
 		}
 	}

@@ -11,13 +11,13 @@
 				<radio-group @change="radioChange" v-model="sex">
 					<label class="uni-list-cell uni-list-cell-pd" >
 						<view>
-							<radio value="1" checked="true" style="transform:scale(0.7)"/>
+							<radio value="先生" checked="true" style="transform:scale(0.7)"/>
 						</view>
 						<view>先生</view>
 					</label>
 					<label class="uni-list-cell uni-list-cell-pd" >
 						<view>
-							<radio value="0"  style="transform:scale(0.7)"/>
+							<radio value="女士"  style="transform:scale(0.7)"/>
 						</view>
 						<view>女士</view>
 					</label>
@@ -35,6 +35,10 @@
 <script>
 	import service from '../../service.js';
 	import mInput from '../../components/m-input.vue'
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -42,8 +46,21 @@
 				sex:1,
 			}
 		},
+		onShow() {
+			this.btnkg=0
+			if(!this.hasLogin){
+				uni.reLaunch({
+					url:'../main/main'
+				})
+			}
+		},
 		components: {
+			
 			mInput
+		},
+		computed: {
+			...mapState(['hasLogin', 'forcedLogin','userName','loginDatas']),
+			
 		},
 		methods: {
 			radioChange: function(evt) {
@@ -62,19 +79,65 @@
 					return;
 				}
 				
+				
+				
 				const data = {
-					uname: this.uname,
+					uname: that.uname+that.sex,
+					token: that.loginDatas.token,
 				}
+				var jkurl='/api/my/update'
+				service.post(jkurl, data,
+					function(res) {
+						
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							uni.showToast({
+								icon:'none',
+								title: '操作成功'
+							});
+							setTimeout(function (){
+								uni.navigateBack({
+									delta: 1
+								});
+							},1000)
 				
-				uni.showToast({
-					title: '操作成功'
-				});
 				
-				setTimeout(function (){
-					uni.navigateBack({
-						delta: 1
-					});
-				},1000)
+						} else {
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+				
+				
 			}
 		}
 	}
@@ -138,7 +201,7 @@
 		width:280upx;
 		height: 60px;
 		border-radius:6px;
-		font-size: 18px;
+		font-size: 36upx;
 		color: #1A1A1A;
 		margin-left: 14px;
 	}

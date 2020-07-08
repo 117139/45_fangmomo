@@ -4,45 +4,25 @@
 			<block slot="backText"></block>
 			<block slot="content">{{title}}</block>
 		</cu-custom>
-		<view v-if="type<2" class="xieyi_main">
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
-			协议
+		<view v-if="datas&&datas.body" class="xieyi_main" v-html="datas.body">
 		</view>
-		<view v-else-if="type==2" class="xieyi_main">
-			房嬷嬷为房产中介提供房源信息搜索、浏览功能。 
-			房嬷嬷为房产中介提供房源信息搜索、浏览功能。 
-			房嬷嬷为房产中介提供房源信息搜索、
-		</view>
+		<!-- <view v-else-if="type==2" class="xieyi_main"  v-html="datas.body">
+		</view> -->
 	</view>
 </template>
 
 <script>
+	import service from '../../service.js';
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
 				title:'隐私协议',
 				type:0,
+				datas:''
 			}
 		},
 		onLoad(Option) {
@@ -58,9 +38,70 @@
 				that.type=Option.type
 				that.title='关于房嬷嬷'
 			}
+			this.getdata()
 		},
 		methods: {
-			
+			getdata(){
+				
+				///api/info/list
+				var that =this
+				var data = {
+					keyword:'Privacy_agreement'
+				}
+				if(that.type==2){
+					data={
+						keyword:'about_us'
+					}
+				}
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/info/list'
+				uni.showLoading({
+					title: '正在获取数据'
+				})
+				service.get(jkurl, data,
+					function(res) {
+						
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							console.log(datas)
+							that.datas = datas
+				
+				
+						} else {
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+			}
 		}
 	}
 </script>
@@ -76,4 +117,5 @@
 		 -moz-box-sizing: border-box;
 		 box-sizing: border-box;
 	 }
+	 
 </style>

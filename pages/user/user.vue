@@ -14,11 +14,11 @@
 				</view>
 			</view>
 			<view class="my_msg" v-if="hasLogin"  @tap="jump" data-url="../my_set/my_set">
-				<image class="user_tx" src="../../static/img/tx_m.jpg" mode="aspectFill"></image>  
+				<image class="user_tx" :src="getimg(loginDatas.avatar)" mode="aspectFill"></image>  
 				<view class="user_jj">
-					<view class="user_name">陈女士（15858686868）</view>
+					<view class="user_name">{{userName}}（{{loginDatas.phone}}）</view>
 					<view class="user_dw">
-						<view class="d1">真厉害房产中介公司</view>
+						<view class="d1">{{loginDatas.company?loginDatas.company:''}}</view>
 						<text class="iconfont iconnext"></text>
 					</view>
 				</view>
@@ -26,7 +26,7 @@
 		</view>
 		<view class="hx20"></view>
 		<view class="my_list">
-			<view class="my_li" @tap="jump"  data-url="../my_sc/my_sc" data-login='true'>
+			<view class="my_li" @tap="jump"  data-url="../my_sc/my_sc" data-login='true' :data-haslogin='hasLogin'>
 				<view class="my_icon">
 					<image src="../../static/img/my/my1.png" mode=""></image>
 				</view>
@@ -35,7 +35,7 @@
 					<text class="iconfont iconnext"></text>
 				</view>
 			</view>
-			<view class="my_li" @tap="jump"  data-url="../my_fy/my_fy" data-login='true'>
+			<view class="my_li" @tap="jump"  data-url="../my_fy/my_fy" data-login='true' :data-haslogin='hasLogin'>
 				<view class="my_icon">
 					<image src="../../static/img/my/my2.png" mode="" style="height: 46upx;"></image>
 				</view>
@@ -54,7 +54,7 @@
 					<text class="iconfont iconnext"></text>
 				</view>
 			</view>
-			<view class="my_li" @tap="jump" data-url="../kefu/kefu" data-login='true'>
+			<view class="my_li" @tap="jump" data-url="../kefu/kefu" data-login='true' :data-haslogin='hasLogin'>
 				<view class="my_icon">
 					<image src="../../static/img/my/my4.png" mode=""></image>
 				</view>
@@ -73,7 +73,7 @@
 				</view>
 			</view>
 			<view class="hx20"></view>
-			<view class="my_li" @tap="jump" data-url="../my_set/my_set" data-login='true'>
+			<view class="my_li" @tap="jump" data-url="../my_set/my_set" data-login='true' :data-haslogin='hasLogin'>
 				<view class="my_icon">
 					<image src="../../static/img/my/my6.png" mode=""></image>
 				</view>
@@ -103,7 +103,7 @@
 			};
 		},
 		computed: {
-			...mapState(['hasLogin', 'forcedLogin']),
+			...mapState(['hasLogin', 'forcedLogin','userName','loginDatas']),
 			style0() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
@@ -122,6 +122,9 @@
 		},
 		methods: {
 			...mapMutations(['logout']),
+			getimg(img){
+				return service.getimg(img)
+			},
 			bindLogin() {
 				uni.navigateTo({
 					url: '../login/login',
@@ -139,20 +142,7 @@
 					}, 1000)
 				}
 				
-				var datas=e.currentTarget.dataset
-				if(datas.login){
-					if(!that.hasLogin){
-						uni.navigateTo({
-							url: '../login/login',
-						});
-						return
-					}
-				}
-				console.log(e.currentTarget.dataset.url)
-				console.log(datas.url)
-				uni.navigateTo({
-					url: e.currentTarget.dataset.url,
-				});
+				service.jump(e)
 			},
 			
 			bindLogout() {

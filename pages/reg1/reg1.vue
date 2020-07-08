@@ -8,20 +8,20 @@
 			<view class="reg_tit">账户信息</view>
 			<view class="input-group">
 				<view class="view_t">公司</view>
-				<input class="view_i" type="number" v-model="account" placeholder="请输入公司名称"></input>
+				<input class="view_i" type="text" v-model="gs_name" placeholder="请输入公司名称"></input>
 				<view class="view_t">称呼</view>
 				<view class="input-row">
-					<m-input class="view_i" type="text" v-model="code" placeholder="姓"></m-input>
+					<m-input class="view_i" type="text" v-model="f_name" placeholder="姓"></m-input>
 					<radio-group @change="radioChange">
 						<label class="uni-list-cell uni-list-cell-pd" >
 							<view>
-								<radio value="1" checked="true" style="transform:scale(0.7)"/>
+								<radio value="先生" checked="true" style="transform:scale(0.7)"/>
 							</view>
 							<view>先生</view>
 						</label>
 						<label class="uni-list-cell uni-list-cell-pd" >
 							<view>
-								<radio value="0"  style="transform:scale(0.7)"/>
+								<radio value="女士"  style="transform:scale(0.7)"/>
 							</view>
 							<view>女士</view>
 						</label>
@@ -38,6 +38,10 @@
 
 <script>
 	import service from '../../service.js';
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	import mInput from '../../components/m-input.vue';
 
 	export default {
@@ -49,9 +53,10 @@
 				account: '',
 				code: '',
 				password: '',
+				verification_key:'',
 				gs_name: '',
 				f_name: '',
-				sex: 1,
+				sex: '先生',
 				yzm_type: 0,
 				yztime: 60,
 			}
@@ -62,46 +67,69 @@
 			that.account = option.account
 			that.password = option.password
 			that.code = option.code
+			that.verification_key = option.verification_key
 		},
 		methods: {
-			getCode() {
-				let that = this
-
-				if (that.account == '' || !(/^1\d{10}$/.test(that.account))) {
-					wx.showToast({
+			radioChange(e){
+				console.log(e)
+				this.sex=e.detail.value
+			},
+			register() {
+				var that =this
+				
+				if (!that.gs_name) {
+					uni.showToast({
 						icon: 'none',
-						title: '手机号有误'
-					})
-					return
+						title: '请输入公司名称'
+					});
+					return;
 				}
-				if (that.btnkg == 1) {
-					return
-				} else {
-					that.btnkg = 1
+
+				if (!that.f_name) {
+					uni.showToast({
+						icon: 'none',
+						title: '请输入您的姓氏'
+					});
+					return;
 				}
-				// uni.showToast({
-				// 	icon: 'none',
-				// 	title: '发送成功'
-				// })
-				// that.codetime()
-				// that.btnkg= 0
-				// return
-				var jkurl = '/sendCode'
-				var data = {
-					type: 1,
-					phone: that.account
+
+				const data = {
+					phone: that.account,
+					password: that.password,
+					verification_code: that.code,
+					verification_key: that.verification_key,
+					company: that.gs_name,
+					nickname: that.f_name+that.sex,
 				}
-				service.get(jkurl, data,
+				console.log(data)
+				
+				
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/login/register'
+				uni.showLoading({
+					title: '正在提交数据'
+				})
+				service.post(jkurl, data,
 					function(res) {
-						that.btnkg = 0
+						
 						if (res.data.code == 1) {
-
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
 							uni.showToast({
-								icon: 'none',
-								title: '发送成功'
-							})
-							that.codetime()
-
+								title: '注册成功'
+							});
+							console.log(datas)
+							setTimeout(()=>{
+								uni.reLaunch({
+									url:'../login/login'
+								})
+							},1000)
+				
+				
 						} else {
 							if (res.data.msg) {
 								uni.showToast({
@@ -117,7 +145,7 @@
 						}
 					},
 					function(err) {
-						that.btnkg = 0
+						
 						if (err.data.msg) {
 							uni.showToast({
 								icon: 'none',
@@ -129,66 +157,15 @@
 								title: '操作失败'
 							})
 						}
-					})
-
-			},
-			codetime() {
-				let that = this
-				let time = 60
-				let st = setInterval(function() {
-					if (time == 0) {
-						that.yzm_type = 0
-						clearInterval(st);
-					} else {
-						let news = time--;
-						// console.log(news)
-						that.yzm_type = 1
-						that.yztime = news
-
 					}
-				}, 1000);
-			},
-
-			register() {
-				var that =this
-				if (that.account == '' || !(/^1\d{10}$/.test(that.account))) {
-					wx.showToast({
-						icon: 'none',
-						title: '手机号有误'
-					})
-					return
-				}
-				if (!that.code) {
-					uni.showToast({
-						icon: 'none',
-						title: '请输入验证码'
-					});
-					return;
-				}
-
-				if (that.password.length < 6) {
-					uni.showToast({
-						icon: 'none',
-						title: '密码最短为 6 个字符'
-					});
-					return;
-				}
-
-				const data = {
-					account: this.account,
-					password: this.password,
-					code: this.code
-				}
-				service.addUser(data);
-				uni.showToast({
-					title: '注册成功'
-				});
+				)
+				
 				// uni.navigateTo({
 				// 	url:''
 				// })
-				uni.navigateBack({
-					delta: 1
-				});
+				// uni.navigateBack({
+				// 	delta: 1
+				// });
 			}
 		}
 	}
@@ -212,10 +189,10 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-around;
-		width:280upx;
+		width:285upx;
 		height:45px;
 		border-radius:6px;
-		font-size: 18px;
+		font-size: 36upx;
 		color: #1A1A1A;
 		margin-left: 14px;
 	}

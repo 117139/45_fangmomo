@@ -10,24 +10,25 @@
 			<view :class="{'cur':fb_type==3}" @tap="fb_fuc(3)">写字楼</view>
 		</view>
 		<view class="fb_list">
-			<view class="fb_li" @tap="openAddres">
+			<!-- <view class="fb_li" @tap="openAddres"> -->
+			<view class="fb_li" @tap="jump" data-url="/pages/city/city">
 				<view>所在城市</view>
-				<view>{{pickerText?JSON.parse(pickerText).label:'请选择地区'}}</view>
+				<view>{{city_name?city_name:'请选择地区'}}</view>
 				<text class="iconfont iconnext"></text>
 			</view>
-			<simple-address ref="simpleAddress" :pickerValueDefault="cityPickerValueDefault" @onConfirm="onConfirm" themeColor="#007AFF"></simple-address>
+			<!-- <simple-address ref="simpleAddress" :pickerValueDefault="cityPickerValueDefault" @onConfirm="onConfirm" themeColor="#007AFF"></simple-address> -->
 
 			<!-- <view class="fb_li" v-if="fb_type==0||fb_type==1">
 				<view>小区名称</view>
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
 			</view> -->
-			<picker  v-if="fb_type==0||fb_type==1" @change="bindPickerChange" data-type="b" :value="indexb" :range="arrayb">
-				<view class="fb_li">
+			<!-- <picker  v-if="fb_type==0||fb_type==1" @change="bindPickerChange" data-type="b" :value="indexb" :range="arrayb"> -->
+				<view v-if="fb_type==0||fb_type==1" class="fb_li" @tap="jump" data-url="/pages/xiaoqu/xiaoqu">
 					<view>小区名称</view>
-					<view>{{arrayb[indexb]}}</view>
+					<view>{{xq_name?xq_name:'请输入'}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
-			</picker>
+			<!-- </picker> -->
 			<!-- <view class="fb_li" v-if="fb_type==2">
 				<view>商铺名称</view>
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
@@ -194,7 +195,10 @@
 				fb_type: 0,
 				StatusBar: this.StatusBar,
 				CustomBar: this.CustomBar,
+				city_name: '', //所在城市
+				cityitem:'',
 				xq_name: '', //小区名称
+				xqitem:'',
 				dujia:false,
 				arrayb: ['小区', '小区1', '小区2'],
 				indexb: 0,
@@ -230,6 +234,22 @@
 		},
 		components: {
 			simpleAddress
+		},
+		onShow() {
+			//cityitem
+		  if(uni.getStorageSync('cityitem')){
+				this.cityitem=JSON.parse(uni.getStorageSync('cityitem'))
+				this.city_name=this.cityitem
+				console.log(this.cityitem)
+				uni.setStorageSync('cityitem','')
+			}
+			//xqitem
+		  if(uni.getStorageSync('xqitem')){
+				this.xqitem=JSON.parse(uni.getStorageSync('xqitem'))
+				this.xq_name=this.xqitem
+				console.log(this.xqitem)
+				uni.setStorageSync('xqitem','')
+			}
 		},
 		computed: {
 			...mapState(['hasLogin', 'forcedLogin']),

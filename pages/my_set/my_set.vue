@@ -11,32 +11,32 @@
 				<view class="my_li_msg">
 					<view class="my_li_name">头像</view>
 					<view class="dis_flex aic">
-						<image v-if="!tximg" class="user_tx" src="../../static/img/tx_m.jpg" mode="aspectFill"></image>
+						<image v-if="!tximg" class="user_tx" :src="getimg(loginDatas.avatar)" mode="aspectFill"></image>
 						<!-- <image v-if="tximg" class="user_tx" :src="imgurl+tximg" mode="aspectFill"></image> -->
 						<image v-if="tximg" class="user_tx" :src="tximg" mode="aspectFill"></image>
 						<text class="iconfont iconnext"></text>
 					</view>
 				</view>
 			</view>
-			<view class="my_li" @tap="jump"  data-url="../my_gs/my_gs" data-login='true'>
+			<view class="my_li" @tap="jump"  data-url="../my_gs/my_gs" data-login='true' :data-haslogin='hasLogin'>
 				<view class="my_li_msg">
 					<view class="my_li_name">公司</view>
-					<view>宜兴真厉害房产中介公司<text class="iconfont iconnext"></text></view>
+					<view>{{loginDatas.company?loginDatas.company:''}}<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
-			<view class="my_li" @tap="jump"  data-url="../my_name/my_name" data-login='true'>
+			<view class="my_li" @tap="jump"  data-url="../my_name/my_name" data-login='true' :data-haslogin='hasLogin'>
 				<view class="my_li_msg">
 					<view class="my_li_name">称呼</view>
-					<view>陈女士<text class="iconfont iconnext"></text></view>
+					<view>{{userName}}<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
-			<view class="my_li" @tap="jump"  data-url="../my_tel/my_tel" data-login='true'>
+			<view class="my_li" @tap="jump"  data-url="../my_tel/my_tel" data-login='true' :data-haslogin='hasLogin'>
 				<view class="my_li_msg">
 					<view class="my_li_name">手机</view>
-					<view>13812345678<text class="iconfont iconnext"></text></view>
+					<view>{{loginDatas.phone}}<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
-			<view class="my_li" @tap="jump"  data-url="../my_pwd/my_pwd" data-login='true'>
+			<view class="my_li" @tap="jump"  data-url="../my_pwd/my_pwd" data-login='true' :data-haslogin='hasLogin'>
 				<view class="my_li_msg">
 					<view class="my_li_name">密码</view>
 					<view>修改密码<text class="iconfont iconnext"></text></view>
@@ -66,8 +66,16 @@
 				tximg:'',
 			};
 		},
+		
+		onShow() {
+			if(!this.hasLogin){
+				uni.reLaunch({
+					url:'../main/main'
+				})
+			}
+		},
 		computed: {
-			...mapState(['hasLogin', 'forcedLogin']),
+			...mapState(['hasLogin', 'forcedLogin','userName','loginDatas']),
 			style() {
 				var StatusBar= this.StatusBar;
 				var CustomBar= this.CustomBar;
@@ -78,6 +86,9 @@
 		},
 		methods: {
 			...mapMutations(['logout']),
+			getimg(img){
+				return service.getimg(img)
+			},
 			uptx() {
 				var that = this
 				// 从相册选择1张图
@@ -86,15 +97,21 @@
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album'],
 					success: function(res) {
-						console.log(res)
+						console.log(res.tempFiles[0])
 						var tximg = res.tempFilePaths[0]
+						var tximg_h5 = res.tempFiles[0]
 						that.tximg=tximg
 						uni.uploadFile({
-							url: service.IPurl+'/upload/streamImg', //仅为示例，非真实的接口地址
+							url: service.IPurl+'/api/upload', //仅为示例，非真实的接口地址
+							files:{
+								name:'file[]',
+								file:tximg_h5,
+								url:tximg
+							},
 							filePath:tximg,
-							name: 'file',
+							name: 'file[]',
 							formData: {
-								type: 1
+								token: that.loginDatas.token
 							},
 							success: (uploadFileRes) => {
 								console.log(uploadFileRes.data);
@@ -125,32 +142,20 @@
 					}, 1000)
 				}
 				
-				var datas=e.currentTarget.dataset
-				if(datas.login){
-					if(!that.hasLogin){
-						uni.navigateTo({
-							url: '../login/login',
-						});
-						return
-					}
-				}
-				console.log(e.currentTarget.dataset.url)
-				console.log(datas.url)
-				uni.navigateTo({
-					url: e.currentTarget.dataset.url,
-				});
+				service.jump(e)
 			},
 			
 			bindLogout() {
 				this.logout();
+				uni.setStorageSync('phone','')
 				/**
 				 * 如果需要强制登录跳转回登录页面
 				 */
-				if (this.forcedLogin) {
+				// if (this.forcedLogin) {
 					uni.reLaunch({
-						url: '../login/login',
+						url: '../main/main',
 					});
-				}
+				// }
 			}
 		}
 	}

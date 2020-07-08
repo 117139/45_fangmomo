@@ -11,18 +11,20 @@
 		<swiper class="swiper" :indicator-dots="indicatorDots"
 			indicator-color="rgba(255,255,255,.6)" indicator-active-color="rgba(255,255,255,1)"
 		 :autoplay="autoplay" :interval="interval" :duration="duration" circular='true'>
-				<swiper-item>
+				<swiper-item v-if="item.body" v-for="(item,idx) in datas.banner">
+						<image v-if="item.url" class="swi_img" :src="getimg(item.body)" mode="aspectFill"
+						 @tap="jumpurl" data-url="item.url"></image>
+						<image v-else class="swi_img" :src="getimg(item.body)" mode="aspectFill"
+						 @tap="jump" data-url="../ad_zz/ad_zz"></image>
+				</swiper-item>
+				<!-- <swiper-item>
 						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill"
 						 @tap="jump" data-url="../ad_zz/ad_zz"></image>
 				</swiper-item>
 				<swiper-item>
 						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill"
 						 @tap="jump" data-url="../ad_zz/ad_zz"></image>
-				</swiper-item>
-				<swiper-item>
-						<image class="swi_img" src="../../static/img/index/banner.png" mode="aspectFill"
-						 @tap="jump" data-url="../ad_zz/ad_zz"></image>
-				</swiper-item>
+				</swiper-item> -->
 		</swiper>
 		<view class="index_list">
 			<view class="index_li" @tap="jump" data-url="../list/list?title=售房&type=1">
@@ -68,12 +70,15 @@
 				time_zz:'你好',
 				StatusBar: this.StatusBar,
 				CustomBar: this.CustomBar,
-				background: ['color1', 'color2', 'color3'],
+				datas: '',
 				indicatorDots: true,
 				autoplay: true,
 				interval: 3000,
 				duration: 500
 			};
+		},
+		onLoad() {
+			this.getdata()
 		},
 		onShow() {
 			var that = this;
@@ -134,6 +139,79 @@
 			console.log('上拉')
 		},
 		methods: {
+			getimg(img){
+				return service.getimg(img)
+			},
+			getdata(){
+				///api/info/list
+				var that =this
+				var data = {
+					keyword:'banner,'
+				}
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/info/list'
+				uni.showLoading({
+					title: '正在获取数据'
+				})
+				service.get(jkurl, data,
+					function(res) {
+						
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							console.log(datas)
+							that.datas = datas
+				
+				
+						} else {
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+			},
+			jumpurl(e){
+				var that = this
+				
+				if (that.btnkg == 1) {
+					return
+				} else {
+					that.btnkg = 1
+					setTimeout(function() {
+						that.btnkg = 0
+					}, 1000)
+				}
+				
+				var datas = e.currentTarget.dataset
+				window.location.href = datas.url
+			},
 			jump(e) {
 				var that = this
 
@@ -146,20 +224,7 @@
 					}, 1000)
 				}
 
-				var datas = e.currentTarget.dataset
-				if (datas.login) {
-					if (!that.hasLogin) {
-						uni.navigateTo({
-							url: '../login/login',
-						});
-						return
-					}
-				}
-				console.log(e.currentTarget.dataset.url)
-				console.log(datas.url)
-				uni.navigateTo({
-					url: e.currentTarget.dataset.url,
-				});
+				service.jump(e)
 			},
 		}
 	}

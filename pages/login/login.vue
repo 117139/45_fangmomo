@@ -22,14 +22,14 @@
 			<!-- <text>|</text> -->
 			<navigator url="../pwd/pwd">忘记密码</navigator>
 		</view>
-		<view class="oauth-row" v-if="hasProvider" v-bind:style="{top: positionTop + 'px'}">
+		<!-- <view class="oauth-row" v-if="hasProvider" v-bind:style="{top: positionTop + 'px'}">
 			<view class="oauth-image" v-for="provider in providerList" :key="provider.value">
 				<image :src="provider.image" @tap="oauth(provider.value)"></image>
-				<!-- #ifdef MP-WEIXIN -->
-				<button v-if="!isDevtools" open-type="getUserInfo" @getuserinfo="getUserInfo"></button>
-				<!-- #endif -->
+				!-- #ifdef MP-WEIXIN --
+				!-- <button v-if="!isDevtools" open-type="getUserInfo" @getuserinfo="getUserInfo"></button> --
+				!-- #endif --
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -57,7 +57,7 @@
 		},
 		computed: mapState(['forcedLogin']),
 		methods: {
-			...mapMutations(['login']),
+			...mapMutations(['login','logindata']),
 			initProvider() {
 				const filters = ['weixin', 'qq', 'sinaweibo'];
 				uni.getProvider({
@@ -97,26 +97,26 @@
 					return
 				}
 				
-				if (that.password.length < 6) {
+				if (!that.password) {
 					uni.showToast({
 						icon: 'none',
-						title: '密码最短为 6 个字符'
+						title: '请输入密码'
 					});
 					return;
 				}
 				
 				const data = {
-					account: that.account,
+					phone: that.account,
 					password: that.password
 				}
-				var jkurl=''
-				that.login(that.account);
-				setTimeout(() => {
-					uni.reLaunch({
-						url: '../main/main'
-					})
-				},1000)
-				return
+				var jkurl='/api/login/login'
+				// that.login(that.account);
+				// setTimeout(() => {
+				// 	uni.reLaunch({
+				// 		url: '../main/main'
+				// 	})
+				// },1000)
+				// return
 				service.post(jkurl, data,
 					function(res) {
 						that.btnkg=0
@@ -126,8 +126,9 @@
 								icon: 'none',
 								title: '登录成功'
 							})
-							that.login(res.data.real_name);
-							uni.setStorageSync('loginmsg', res.data.data)
+							that.login(res.data.data.nickname);
+							that.logindata(res.data.data)
+							uni.setStorageSync('loginmsg', JSON.stringify(res.data.data))
 							uni.setStorageSync('phone', that.account)
 							var phone=uni.getStorageSync('phone')
 							console.log(phone)

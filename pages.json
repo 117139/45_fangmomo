@@ -116,7 +116,17 @@
 				"navigationBarTitleText": ""
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/xiaoqu/xiaoqu",
+            "style" : {
+							"navigationBarTitleText": "小区选择"
+						}
+        }
+        ,{
+            "path" : "pages/city/city",
+            "style" : {}
+        }
+    ],
 	"tabBar": {
 		"color": "#7a7e83",
 		"selectedColor": "#0faeff",
