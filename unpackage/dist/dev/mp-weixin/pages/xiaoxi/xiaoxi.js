@@ -184,8 +184,11 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       return style;
     } }),
 
-  onLoad: function onLoad() {var _this = this;
+  onLoad: function onLoad() {
     this.retry();
+
+  },
+  onShow: function onShow() {var _this = this;
     if (!this.hasLogin) {
       uni.showModal({
         title: '未登录',

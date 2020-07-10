@@ -54,6 +54,9 @@
 		},
 		onLoad() {
 			this.retry()
+			
+		},
+		onShow() {
 			if (!this.hasLogin) {
 				uni.showModal({
 					title: '未登录',
