@@ -8,20 +8,32 @@ const store = new Vuex.Store({
 		/**
 		 * 是否需要强制登录
 		 */
-		forcedLogin: false,
+		forcedLogin: true,
 		hasLogin: false,
 		platform:'',
 		userName: "游客",
-		loginDatas:''
+		loginDatas:'',
+		company:'',
+		uid:'',
+		phone:'',
+		token:'',
 	},
 	mutations: {
 		login(state, userName) {
 			state.userName = userName || '新用户';
 			state.hasLogin = true;
+			console.log(userName)
+			console.log(state.userName)
 		},
 		logindata(state, logindata) {
 			state.loginDatas = logindata || '';
-			state.hasLogin = true;
+			Vue.set(state,'loginDatas',logindata)
+			// state.company=logindata.company
+			// state.uid= logindata.id
+			// state.phone= logindata.phone
+			// state.token= logindata.token
+			console.log(logindata)
+			console.log(state.loginDatas)
 		},
 		setplatform(state, platform) {
 			state.platform = platform || 'android';

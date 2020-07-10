@@ -189,6 +189,7 @@
 		font-size: 18px;
 	}
 	.my_li_name{
+		width: 5em;
 		font-size: 18px;
 		color: #1a1a1a;
 	}

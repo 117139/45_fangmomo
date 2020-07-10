@@ -79,10 +79,12 @@
 		},
 		onLoad() {
 			this.getdata()
+			
+			
 		},
 		onShow() {
 			var that = this;
-			var time = getDate();
+			var time = new Date();
 			var year = time.getFullYear();
 			var month = time.getMonth() + 1;
 			var date = time.getDate();
@@ -104,6 +106,30 @@
 			} else {
 				that.time_zz = "中午好"
 			}
+			/*if (!this.hasLogin) {
+				uni.showModal({
+					title: '未登录',
+					content: '您未登录，需要登录后才能继续',
+					
+					showCancel: !this.forcedLogin,
+					success: (res) => {
+						if (res.confirm) {
+							
+							if (this.forcedLogin) {
+								uni.reLaunch({
+									url: '../login/login'
+								});
+							} else {
+								uni.navigateTo({
+									url: '../login/login'
+								});
+							}
+						}
+					}
+				});
+			}else{
+				
+			}*/
 		},
 		computed: {
 			...mapState(['hasLogin', 'forcedLogin', 'userName']),
@@ -259,7 +285,7 @@
 		display: flex;
 		align-items: stretch;
 		justify-content: center;
-		padding: 0 32upx 16px;
+		padding: 12upx 32upx 16px;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;

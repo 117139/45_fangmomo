@@ -11,9 +11,13 @@
 				<view class="my_li_msg">
 					<view class="my_li_name">头像</view>
 					<view class="dis_flex aic">
-						<image v-if="!tximg" class="user_tx" :src="getimg(loginDatas.avatar)" mode="aspectFill"></image>
+						<!-- <image v-if="!tximg" class="user_tx" :src="getimg(loginDatas.avatar)" mode="aspectFill"></image> -->
 						<!-- <image v-if="tximg" class="user_tx" :src="imgurl+tximg" mode="aspectFill"></image> -->
-						<image v-if="tximg" class="user_tx" :src="tximg" mode="aspectFill"></image>
+						<!-- <image v-if="tximg" class="user_tx" :src="tximg" mode="aspectFill"></image> -->
+						<avatar stretch="short" 
+						       selWidth="400upx" selHeight="400upx" @upload="myUpload" :avatarSrc="tximg?getimg(tximg):getimg(loginDatas.avatar)"
+						       avatarStyle="width: 100upx; height: 100upx; border-radius: 100%;">
+						   </avatar>
 						<text class="iconfont iconnext"></text>
 					</view>
 				</view>
@@ -27,7 +31,7 @@
 			<view class="my_li" @tap="jump"  data-url="../my_name/my_name" data-login='true' :data-haslogin='hasLogin'>
 				<view class="my_li_msg">
 					<view class="my_li_name">称呼</view>
-					<view>{{userName}}<text class="iconfont iconnext"></text></view>
+					<view>{{loginDatas.nickname}}<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
 			<view class="my_li" @tap="jump"  data-url="../my_tel/my_tel" data-login='true' :data-haslogin='hasLogin'>
@@ -42,6 +46,7 @@
 					<view>修改密码<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
+			 
 		</view>
 		<view class="btn-row">
 			
@@ -51,6 +56,7 @@
 </template>
 
 <script>
+	import avatar from "../../components/yq-avatar/yq-avatar.vue";
 	import service from '../../service.js';
 	import {
 		mapState,
@@ -66,6 +72,10 @@
 				tximg:'',
 			};
 		},
+		onLoad() {
+			var that =this
+			
+		},
 		
 		onShow() {
 			if(!this.hasLogin){
@@ -73,6 +83,9 @@
 					url:'../main/main'
 				})
 			}
+		},
+		components: {
+				avatar
 		},
 		computed: {
 			...mapState(['hasLogin', 'forcedLogin','userName','loginDatas']),
@@ -85,9 +98,85 @@
 			}
 		},
 		methods: {
-			...mapMutations(['logout']),
+			...mapMutations(['login','logout','logindata']),
 			getimg(img){
 				return service.getimg(img)
+			},
+			myUpload(rsp) {
+				var that =this
+					var tximg = rsp.path; //更新头像方式一
+					uni.uploadFile({
+						url: service.IPurl+'/api/upload', //仅为示例，非真实的接口地址
+						filePath:tximg,
+						name: 'file',
+						formData: {
+							token: that.loginDatas.token
+						},
+						success: (uploadFileRes) => {
+							console.log(uploadFileRes.data);
+							var ndata = JSON.parse(uploadFileRes.data)
+							if(ndata.code==1){
+								that.tximg= ndata.data
+								that.set_tel()
+							}
+						}
+					});
+					//rsp.avatar.imgSrc = rsp.path; //更新头像方式二
+			},
+			set_tel(){
+				var that =this
+				
+				const data = {
+					avatar: that.tximg,
+					token: that.loginDatas.token,
+				}
+				var jkurl='/api/my/update'
+				service.post(jkurl, data,
+					function(res) {
+						
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							uni.showToast({
+								icon:'none',
+								title: '操作成功'
+							});
+							that.dblogin()
+				
+				
+						} else {
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
 			},
 			uptx() {
 				var that = this
@@ -101,15 +190,12 @@
 						var tximg = res.tempFilePaths[0]
 						var tximg_h5 = res.tempFiles[0]
 						that.tximg=tximg
+						return
 						uni.uploadFile({
 							url: service.IPurl+'/api/upload', //仅为示例，非真实的接口地址
-							files:{
-								name:'file[]',
-								file:tximg_h5,
-								url:tximg
-							},
+							
 							filePath:tximg,
-							name: 'file[]',
+							name: 'file',
 							formData: {
 								token: that.loginDatas.token
 							},
@@ -125,10 +211,65 @@
 				});
 			},
 			
-			bindLogin() {
-				uni.navigateTo({
-					url: '../login/login',
-				});
+			dblogin(){
+				var that =this
+				if(!uni.getStorageSync('phone')){
+					uni.navigateTo({
+						url:'pages/main/main'
+					})
+					return
+				}
+				var account=uni.getStorageSync('phone')
+				var password=uni.getStorageSync('password')
+				console.log(account)
+				const data = {
+					phone: account,
+					password: password
+				}
+				var jkurl='/api/login/login'
+				
+				service.post(jkurl, data,
+					function(res) {
+						that.btnkg=0
+						if (res.data.code == 1) {
+				
+							that.login(res.data.data.nickname);
+							that.logindata(res.data.data)
+							
+							uni.setStorageSync('loginmsg', JSON.stringify(res.data.data))
+							uni.setStorageSync('phone', account)
+							
+							uni.setStorageSync('password', password)
+							
+						} else {
+							if (res.data.msg) {
+							  uni.showToast({
+							    icon: 'none',
+							    title: res.data.msg
+							  })
+							} else {
+							  uni.showToast({
+							    icon: 'none',
+							    title: '操作失败'
+							  })
+							}
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
 			},
 			jump(e) {
 				var that = this
@@ -148,13 +289,21 @@
 			bindLogout() {
 				this.logout();
 				uni.setStorageSync('phone','')
+				
+				uni.removeStorageSync('phone')
+				uni.showToast({
+					icon:'none',
+					title:'正在退出'
+				})
 				/**
 				 * 如果需要强制登录跳转回登录页面
 				 */
 				// if (this.forcedLogin) {
-					uni.reLaunch({
-						url: '../main/main',
-					});
+					setTimeout(()=>{
+						uni.reLaunch({
+							url: '../main/main',
+						});
+					},1000)
 				// }
 			}
 		}

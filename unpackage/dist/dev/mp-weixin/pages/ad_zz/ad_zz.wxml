@@ -1,0 +1,1 @@
+<view class="content_wrap"><cu-custom class="cu-custom" vue-id="46affb86-1" bgColor="bg-white" isBack="{{true}}" bind:__l="__l" vue-slots="{{['backText','content']}}"><view slot="backText"></view><view slot="content">广告招租</view></cu-custom><view class="xieyi_main"><rich-text nodes="{{datas.body}}"></rich-text></view></view>

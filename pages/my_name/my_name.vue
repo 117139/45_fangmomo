@@ -11,13 +11,13 @@
 				<radio-group @change="radioChange" v-model="sex">
 					<label class="uni-list-cell uni-list-cell-pd" >
 						<view>
-							<radio value="先生" checked="true" style="transform:scale(0.7)"/>
+							<radio value="先生" :checked="sex=='先生'?true:false" style="transform:scale(0.7)"/>
 						</view>
 						<view>先生</view>
 					</label>
 					<label class="uni-list-cell uni-list-cell-pd" >
 						<view>
-							<radio value="女士"  style="transform:scale(0.7)"/>
+							<radio value="女士" :checked="sex=='女士'?true:false" style="transform:scale(0.7)"/>
 						</view>
 						<view>女士</view>
 					</label>
@@ -43,7 +43,7 @@
 		data() {
 			return {
 				uname: '',
-				sex:1,
+				sex:'先生',
 			}
 		},
 		onShow() {
@@ -53,6 +53,12 @@
 					url:'../main/main'
 				})
 			}
+			var str=this.userName;//截取后4位
+			var sex=str.substring(str.length-2)
+			console.log(sex)
+			this.sex=sex
+			var uname=str.substring(0,str.length-2);
+			this.uname=uname
 		},
 		components: {
 			
@@ -63,6 +69,7 @@
 			
 		},
 		methods: {
+			...mapMutations(['login','logout','logindata']),
 			radioChange: function(evt) {
 					console.log(evt.target.value)
 					this.sex=evt.target.value
@@ -82,7 +89,7 @@
 				
 				
 				const data = {
-					uname: that.uname+that.sex,
+					nickname: that.uname+that.sex,
 					token: that.loginDatas.token,
 				}
 				var jkurl='/api/my/update'
@@ -100,6 +107,7 @@
 								icon:'none',
 								title: '操作成功'
 							});
+							that.dblogin()
 							setTimeout(function (){
 								uni.navigateBack({
 									delta: 1
@@ -138,7 +146,66 @@
 				)
 				
 				
-			}
+			},
+			dblogin(){
+				var that =this
+				if(!uni.getStorageSync('phone')){
+					uni.navigateTo({
+						url:'pages/main/main'
+					})
+					return
+				}
+				var account=uni.getStorageSync('phone')
+				var password=uni.getStorageSync('password')
+				console.log(account)
+				const data = {
+					phone: account,
+					password: password
+				}
+				var jkurl='/api/login/login'
+				
+				service.post(jkurl, data,
+					function(res) {
+						that.btnkg=0
+						if (res.data.code == 1) {
+				
+							that.login(res.data.data.nickname);
+							that.logindata(res.data.data)
+							uni.setStorageSync('loginmsg', JSON.stringify(res.data.data))
+							uni.setStorageSync('phone', account)
+							
+							uni.setStorageSync('password', password)
+							
+						} else {
+							if (res.data.msg) {
+							  uni.showToast({
+							    icon: 'none',
+							    title: res.data.msg
+							  })
+							} else {
+							  uni.showToast({
+							    icon: 'none',
+							    title: '操作失败'
+							  })
+							}
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+			},
 		}
 	}
 </script>

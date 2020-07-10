@@ -1,46 +1,41 @@
 <template>
 	<view class="content_wrap" :style="style0">
-		<uni-view class="cu-bar fixed bg-white" :style="style">
-			<uni-view class="action">
-				<text class="iconfont iconicon-test" @tap="back_fuc"><span></span></text>
-			</uni-view>
+		<cu-custom bgColor="bg-white" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content" >房源列表</block>
+		</cu-custom>
+		<view class="xq_box_k" :style="style1">
 			<view class="ss_box">
-				<!-- <view class="ss_type"  @tap="showModal" data-target="Modal">
-					<text>{{ss_list[jg_cur]}}</text>
-					<text class="iconfont iconnext-copy xz_icon"></text>
-					
+				<view class="ss_int" @tap="back_sousuo">{{qy_search}}</view>
+				<!-- <m-input class="ss_int" type="text" clearable readonly v-model="qy_search" @input='search_qy' placeholder="输入小区或商圈"></m-input> -->
+			</view>
+			<view class="xq_box">
+				
+				<view v-if="xz_type==1" class="xz_li xz_li1" @tap="hideModal">
+					<text class="oh1">{{qy_cur==-1?'区域':qy_arr[qy_cur]}}{{qy_cur==-1?'':qy_arr2[qy_cur2]}}{{qy_cur==-1?'':qy_arr3[qy_cur3]}}</text><text class="iconfont iconnext-copy-copy xz_icon"></text>
 				</view>
-				<view class="ss_sg"></view> -->
-				<m-input class="ss_int" type="text" clearable v-model="qy_search" @input='search_qy' placeholder="输入小区或商圈"></m-input>
-				<!-- <input class="ss_int" type="text" placeholder="输入小区或商圈" @input='search_qy' v-model="qy_search"></input> -->
-			</view>
-		</uni-view>
-		<view class="xq_box" :style="style1">
-			
-			<view v-if="xz_type==1" class="xz_li xz_li1" @tap="hideModal">
-				<text class="oh1">{{qy_cur==-1?'区域':qy_arr[qy_cur]}}{{qy_cur==-1?'':qy_arr2[qy_cur2]}}{{qy_cur==-1?'':qy_arr3[qy_cur3]}}</text><text class="iconfont iconnext-copy-copy xz_icon"></text>
-			</view>
-			<view v-else class="xz_li" @tap="showModal" data-type="1" data-target="Modal">
-				<text  class="oh1">{{qy_cur==-1?'区域':qy_arr[qy_cur]}}{{qy_cur==-1?'':qy_arr2[qy_cur2]}}{{qy_cur==-1?'':qy_arr3[qy_cur3]}}</text><text class="iconfont iconnext-copy xz_icon"></text>
-			</view>
-			
-			<view v-if="xz_type==2" class="xz_li xz_li1" @tap="hideModal">
-				<text class="oh1">{{xz_jiage}}</text><text class="iconfont iconnext-copy-copy xz_icon"></text>
-			</view>
-			<view  v-else class="xz_li" @tap="showModal" data-type="2" data-target="Modal">
-				<text class="oh1">{{xz_jiage}}</text><text class="iconfont iconnext-copy xz_icon"></text>
-			</view>
-			<view  v-if="xz_type==3" class="xz_li xz_li1" @tap="hideModal">
-				<text class="oh1">{{xz_mianji}}</text><text class="iconfont iconnext-copy xz_icon"></text>
-			</view>
-			<view  v-else class="xz_li" @tap="showModal" data-type="3" data-target="Modal">
-				<text class="oh1">{{xz_mianji}}</text><text class="iconfont iconnext-copy xz_icon"></text>
-			</view>
-			<view v-if="xz_type==4" class="xz_li xz_li1" @tap="hideModal">
-				<text>更多</text><text class="iconfont iconnext-copy-copy xz_icon"></text>
-			</view>
-			<view v-else class="xz_li" @tap="showModal" data-type="4" data-target="Modal">
-				<text>更多</text><text class="iconfont iconnext-copy xz_icon"></text>
+				<view v-else class="xz_li" @tap="showModal" data-type="1" data-target="Modal">
+					<text  class="oh1">{{qy_cur==-1?'区域':qy_arr[qy_cur]}}{{qy_cur==-1?'':qy_arr2[qy_cur2]}}{{qy_cur==-1?'':qy_arr3[qy_cur3]}}</text><text class="iconfont iconnext-copy xz_icon"></text>
+				</view>
+				
+				<view v-if="xz_type==2" class="xz_li xz_li1" @tap="hideModal">
+					<text class="oh1">{{xz_jiage}}</text><text class="iconfont iconnext-copy-copy xz_icon"></text>
+				</view>
+				<view  v-else class="xz_li" @tap="showModal" data-type="2" data-target="Modal">
+					<text class="oh1">{{xz_jiage}}</text><text class="iconfont iconnext-copy xz_icon"></text>
+				</view>
+				<view  v-if="xz_type==3" class="xz_li xz_li1" @tap="hideModal">
+					<text class="oh1">{{xz_mianji}}</text><text class="iconfont iconnext-copy xz_icon"></text>
+				</view>
+				<view  v-else class="xz_li" @tap="showModal" data-type="3" data-target="Modal">
+					<text class="oh1">{{xz_mianji}}</text><text class="iconfont iconnext-copy xz_icon"></text>
+				</view>
+				<view v-if="xz_type==4" class="xz_li xz_li1" @tap="hideModal">
+					<text>更多</text><text class="iconfont iconnext-copy-copy xz_icon"></text>
+				</view>
+				<view v-else class="xz_li" @tap="showModal" data-type="4" data-target="Modal">
+					<text>更多</text><text class="iconfont iconnext-copy xz_icon"></text>
+				</view>
 			</view>
 		</view>
 		
@@ -227,7 +222,6 @@
 					'岭秀首府',
 					'彩虹未来城'
 				],
-				qy_search:'',
 				qy_cur:-1,
 				qy_cur2:-1,
 				qy_cur3:-1,
@@ -273,6 +267,11 @@
 				zx_cur:-1,
 			}
 		},
+		onLoad(option) {
+			if(option.qy_search){
+				this.qy_search=option.qy_search
+			}
+		},
 		computed: {
 			...mapState(['hasLogin', 'forcedLogin', 'userName']),
 			style0() {
@@ -300,7 +299,7 @@
 			style2() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
-				var padd_top = CustomBar+40
+				var padd_top = CustomBar+80
 				var style = `top:${padd_top}px;`;
 			
 				return style
@@ -340,8 +339,10 @@
 			console.log('上拉')
 		},
 		methods: {
-			back_fuc() {
-				uni.navigateBack()
+			back_sousuo() {
+				uni.navigateTo({
+					url:'../search/search?qy_search='+this.qy_search
+				})
 			},
 			call_tel(e) {
 				uni.makePhoneCall({
@@ -419,28 +420,6 @@
 					console.log(that.lx_cur,that.zx_cur)
 				}
 				that.modalName=null
-			},
-			// 区域搜索
-			search_qy(e){
-				var that=this
-				console.log(that.qy_search)
-				clearInterval(inputt)
-						inputt = setTimeout(function () {
-								var kw = that.qy_search
-								console.log(kw.length)
-								if (kw.length > 0){
-									var news=[]
-									for(var i=0;i<that.qy_arr3.length;i++){
-										var str=that.qy_arr3[i]
-										if(str.indexOf(kw) != -1){
-											news.push(that.qy_arr3[i])
-										}
-									}
-									that.qy_show=news
-								}else{
-									that.qy_show=that.qy_arr3
-								}
-						},400)
 			},
 			jg_xz(e){
 				var datas = e.currentTarget.dataset
@@ -523,6 +502,15 @@
 		z-index: 99999;
 	}
 	/* tk */
+	.xq_box_k{
+		width: 100%;
+		background: #fff;
+		position: fixed;
+		z-index: 9999;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	.xq_box {
 		width: 100%;
 		height: 40px;
@@ -530,8 +518,8 @@
 		border-bottom: 1px solid #DDDDDD;
 		display: flex;
 		align-items: stretch;
-		position: fixed;
-		top: 0;
+		/* position: fixed;
+		top: 0; */
 		z-index: 9999;
 	}
 	
@@ -549,8 +537,8 @@
 		color: #999;
 	}
 	.ss_box {
-		width: 616upx;
-		height: 38px;
+		width: 686upx;
+		height: 40px;
 		background: rgba(235, 239, 242, 1);
 		border-radius: 38px;
 		padding: 0 32upx;
@@ -856,11 +844,15 @@
 		margin-top: 10upx;
 		margin-right: 10upx;
 		font-size: 20upx;
-		line-height: 20upx;
+		line-height: 40upx;
+		height: 40upx;
 		color: #666;
 		border: 1px solid #ddd;
-		padding: 13upx 10upx;
+		padding: 0 10upx;
 		border-radius: 6upx;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 		display: flex;
 		align-items: center;
 		justify-content: center;

@@ -1,0 +1,10 @@
+
+.cu-custom{
+		border-bottom: 1px solid #DBDBDB;
+}
+.xieyi_main{
+		 width: 100%;
+		 padding: 10px;
+		 box-sizing: border-box;
+}
+

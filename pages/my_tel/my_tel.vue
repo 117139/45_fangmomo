@@ -185,6 +185,7 @@
 							});
 							that.logout()
 							uni.setStorageSync('phone','')
+							uni.removeStorageSync('phone')
 							console.log(datas)
 							setTimeout(()=>{
 								uni.reLaunch({

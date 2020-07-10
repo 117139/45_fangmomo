@@ -6,11 +6,11 @@
 		</cu-custom>
 		<view class="xx_list">
 			<view class="xx_li" >
-				<view class="xx_title">疫下如何--房地产行业非常时期大数据洞察洞察洞察洞察洞察</view>
+				<view class="xx_title">{{datas.title}}</view>
 				<view class="xx_time">
-					<image src="../../static/img/xiaoxi/xx_time.png" mode=""></image>2020-05-31
+					<image src="../../static/img/xiaoxi/xx_time.png" mode=""></image>{{datas.create_time}}
 				</view>
-				<view class="xx_inr">
+				<view class="xx_inr" v-html="datas.data">
 					春节本是阖家团圆、温馨惬意的节日，一场突如其来的疫情打乱了原本的节奏在此危急关头，购房者们心态如何？楼市将如何发展？报告为您.
 					<image src="../../static/img/ztimg_23.jpg" mode=""></image>
 				</view>
@@ -30,6 +30,8 @@
 		data() {
 			return {
 				btnkg: 0,
+				id:'',
+				datas:'',
 				StatusBar: this.StatusBar,
 				CustomBar: this.CustomBar
 			};
@@ -52,14 +54,85 @@
 				return style
 			}
 		},
+		onLoad(option) {
+			this.id=option.id
+			this.retry()
+		},
 		onPullDownRefresh(){
 			console.log('下拉')
-			uni.startPullDownRefresh();
+			this.retry()
 		},
 		onReachBottom(){
 			console.log('上拉')
 		},
 		methods: {
+			retry(){
+				this.getdata()
+			},
+			getdata(){
+				///api/info/list
+				var that =this
+				var data = {
+					id:that.id
+				}
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/info/notificationsShow'
+				if(that.btnkg==1){
+					return
+				}else{
+					that.btnkg=1
+				}
+				uni.showLoading({
+					title: '正在获取数据'
+				})
+				service.post(jkurl, data,
+					function(res) {
+						
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							console.log(datas)
+						
+								that.datas = datas
+							
+							
+						that.btnkg=0
+				
+						} else {
+							that.btnkg=0
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+			},
 			jump(e) {
 				var that = this
 				
@@ -72,20 +145,7 @@
 					}, 1000)
 				}
 				
-				var datas=e.currentTarget.dataset
-				if(datas.login){
-					if(!that.hasLogin){
-						uni.navigateTo({
-							url: '../login/login',
-						});
-						return
-					}
-				}
-				console.log(e.currentTarget.dataset.url)
-				console.log(datas.url)
-				uni.navigateTo({
-					url: e.currentTarget.dataset.url,
-				});
+				service.jump(e)
 			},
 		}
 	}
@@ -145,7 +205,7 @@
 		margin-right: 5px;
 	}
 	.xx_inr{
-		font-size: 20upx;
+		font-size: 28upx;
 		color: #1a1a1a;
 		width: 100%;
 	}

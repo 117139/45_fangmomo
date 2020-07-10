@@ -15,8 +15,8 @@
 			<view class="city_tit">已开通城市</view>
 			<view  class="ssjg_list">
 				<view v-if="qy_search.length>0&&qy_show.length==0" class="zawnu">暂无数据</view>
-				<view class="ssjg_li" v-for="(item,index) in qy_show" @tap="selec" :data-item="item">
-					{{item}}
+				<view class="ssjg_li" v-for="(item,index) in qy_show" @tap="selec" :data-idx="index">
+					{{item.title}}
 				</view>
 			</view>
 		</view>
@@ -141,6 +141,12 @@
 				return style
 			},
 		},
+		onLoad(option) {
+			var that =this
+			// uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
+			that.qy_arr3=JSON.parse(uni.getStorageSync('city_storage'))
+			that.qy_show=JSON.parse(uni.getStorageSync('city_storage'))
+		},
 		onPullDownRefresh() {
 			console.log('下拉')
 			uni.startPullDownRefresh();
@@ -153,8 +159,10 @@
 				uni.navigateBack()
 			},
 			selec(e){
-				console.log(e.currentTarget.dataset.item)
-				uni.setStorageSync('cityitem',JSON.stringify(e.currentTarget.dataset.item))
+				 var that =this
+				console.log(e.currentTarget.dataset.idx)
+				var idx=e.currentTarget.dataset.idx
+				uni.setStorageSync('cityitem',JSON.stringify(that.qy_show[idx]))
 				wx.navigateBack({
 				  //返回
 				  delta: 1

@@ -41,7 +41,7 @@
 		</view> -->
 		<view :style="style1" class="ssjg_list" v-if="qy_search.length>0">
 			<view v-if="qy_search.length>0&&qy_show.length==0" class="zawnu">暂无数据</view>
-			<view class="ssjg_li" v-for="(item,index) in qy_show" @tap="jump" data-url="../search_jg/search">
+			<view class="ssjg_li" v-for="(item,index) in qy_show" @tap="jump" :data-url="'../search_jg/search?qy_search='+item">
 				<view class="ssjg_li_name">{{item}}</view>
 				<view class="ssjg_li_add">宜兴-城中</view>
 			</view>
@@ -103,6 +103,11 @@
 				qy_show: [],
 				jg_cur: 0
 			}
+		},
+		onLoad(option) {
+			// if(option.qy_search){
+			// 	this.qy_search=option.qy_search
+			// }
 		},
 		computed: {
 			...mapState(['hasLogin', 'forcedLogin', 'userName']),
@@ -201,7 +206,7 @@
 				}
 				console.log(e.currentTarget.dataset.url)
 				console.log(datas.url)
-				uni.navigateTo({
+				uni.redirectTo({
 					url: e.currentTarget.dataset.url,
 				});
 			},

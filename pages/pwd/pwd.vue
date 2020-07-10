@@ -40,6 +40,7 @@
 				account: '',
 				code:'',
 				password: '',
+				verification_key:'',
 				yzm_type: 0,
 				yztime: 60,
 			}
@@ -67,7 +68,7 @@
 				// that.codetime()
 				// that.btnkg= 0
 				// return
-				var jkurl = '/api/login/register'
+				var jkurl = '/api/login/changePwd'
 				var data = {
 					phone: that.account
 				}
@@ -80,6 +81,7 @@
 								icon: 'none',
 								title: '发送成功'
 							})
+							that.verification_key=res.data.data.key
 							that.codetime()
 			
 						} else {
@@ -155,18 +157,63 @@
 				}
 
 				const data = {
-					account: this.account,
-					password: this.password,
-					code: this.code
+					phone: that.account,
+					password: that.password,
+					verification_key: that.verification_key,
+					verification_code: that.code
 				}
-				service.addUser(data);
-				uni.showToast({
-					title: '操作成功'
-				});
+				var jkurl='/api/login/changePwd'
+				service.post(jkurl, data,
+					function(res) {
+						
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							uni.showToast({
+								title: '操作成功'
+							});
+							
+							setTimeout(()=>{
+								uni.navigateBack({
+									delta: 1
+								});
+							},1000)
 				
-				uni.navigateBack({
-					delta: 1
-				});
+				
+						} else {
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+				
 			}
 		}
 	}

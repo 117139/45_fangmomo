@@ -23,42 +23,187 @@
 <script>
 	import service from '../../service.js';
 	import mInput from '../../components/m-input.vue'
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				gongsi: '',
+				gongsi: '1',
 			}
 		},
 		components: {
 			mInput
 		},
+		onLoad() {
+			var that =this
+			if (!that.hasLogin) {
+				uni.showModal({
+					title: '未登录',
+					content: '您未登录，需要登录后才能继续',
+					/**
+					 * 如果需要强制登录，不显示取消按钮
+					 */
+					showCancel: !this.forcedLogin,
+					success: (res) => {
+						if (res.confirm) {
+							/**
+							 * 如果需要强制登录，使用reLaunch方式
+							 */
+							if (this.forcedLogin) {
+								uni.reLaunch({
+									url: '../login/login'
+								});
+							} else {
+								uni.navigateTo({
+									url: '../login/login'
+								});
+							}
+						}
+					}
+				});
+			}else{
+				that.gongsi=that.loginDatas.company
+				console.log(that.loginDatas.company)
+			}
+		},
+		computed: {
+			...mapState(['hasLogin', 'forcedLogin','loginDatas']),
+		},
 		methods: {
-			
+			...mapMutations(['login','logout','logindata']),
 			set_tel(){
 				var that =this
 				
 				if (!that.gongsi) {
 					uni.showToast({
 						icon: 'none',
-						title: '请输入公司'
+						title: '请输入公司名'
 					});
 					return;
 				}
 				
+				
+				
 				const data = {
-					gongsi: this.gongsi,
+					company: that.gongsi,
+					token: that.loginDatas.token,
 				}
+				var jkurl='/api/my/update'
+				service.post(jkurl, data,
+					function(res) {
+						
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							uni.showToast({
+								icon:'none',
+								title: '操作成功'
+							});
+							that.dblogin()
+							setTimeout(function (){
+								uni.navigateBack({
+									delta: 1
+								});
+							},1000)
 				
-				uni.showToast({
-					title: '操作成功'
-				});
 				
-				setTimeout(function (){
-					uni.navigateBack({
-						delta: 1
-					});
-				},1000)
-			}
+						} else {
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+				
+				
+			},
+			dblogin(){
+				var that =this
+				if(!uni.getStorageSync('phone')){
+					uni.navigateTo({
+						url:'pages/main/main'
+					})
+					return
+				}
+				var account=uni.getStorageSync('phone')
+				var password=uni.getStorageSync('password')
+				console.log(account)
+				const data = {
+					phone: account,
+					password: password
+				}
+				var jkurl='/api/login/login'
+				
+				service.post(jkurl, data,
+					function(res) {
+						that.btnkg=0
+						if (res.data.code == 1) {
+				
+							that.login(res.data.data.nickname);
+							that.logindata(res.data.data)
+							uni.setStorageSync('loginmsg', JSON.stringify(res.data.data))
+							uni.setStorageSync('phone', account)
+							
+							uni.setStorageSync('password', password)
+							
+						} else {
+							if (res.data.msg) {
+							  uni.showToast({
+							    icon: 'none',
+							    title: res.data.msg
+							  })
+							} else {
+							  uni.showToast({
+							    icon: 'none',
+							    title: '操作失败'
+							  })
+							}
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+			},
 		}
 	}
 </script>
