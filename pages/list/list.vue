@@ -34,7 +34,7 @@
 		</view>
 		<view class="data_list">
 			<view class="data_li" v-for="(item,index) in data_list">
-				<view class="li_msg" @tap="jump" data-url="../details/details">
+				<view class="li_msg" @tap="jump" :data-url="'../details/details?id='+item.id">
 					<view class="li_tit">
 						<view class="li_name">御景华庭<image src="../../static/img/index/list_img.png" mode=""></image></view>
 						<view>今天 10:20</view>
@@ -144,7 +144,42 @@
 				btnkg:0,
 				modalName: null,
 				data_list:[
-					1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+					{
+						id:119
+					},
+					{
+						id:121
+					},
+					{
+						id:119
+					},
+					{
+						id:121
+					},
+					{
+						id:119
+					},
+					{
+						id:121
+					},
+					{
+						id:119
+					},
+					{
+						id:121
+					},
+					{
+						id:119
+					},
+					{
+						id:121
+					},
+					{
+						id:119
+					},
+					{
+						id:121
+					},
 				],
 				xz_type:0,
 				type: '',

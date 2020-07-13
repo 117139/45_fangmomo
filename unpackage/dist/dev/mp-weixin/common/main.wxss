@@ -5202,7 +5202,7 @@ button.primary {
 .cu-bar .content{
 	font-weight: bold;
 }
-.zawnu{
+.zanwu{
 	width: 100%;
 	height: 100px;
 	display: -webkit-box;
@@ -5222,5 +5222,8 @@ button.primary {
 }
 .xieyi_main ._img{
 		 max-width: 100%!important;
+}
+.cf00{
+	color: #f00;
 }
 

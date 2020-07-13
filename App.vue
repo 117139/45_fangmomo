@@ -315,7 +315,7 @@
 	.cu-bar .content{
 		font-weight: bold;
 	}
-	.zawnu{
+	.zanwu{
 		width: 100%;
 		height: 100px;
 		display: flex;
@@ -330,5 +330,8 @@
 	}
 	.xieyi_main img{
 			 max-width: 100%!important;
+	}
+	.cf00{
+		color: #f00;
 	}
 </style>

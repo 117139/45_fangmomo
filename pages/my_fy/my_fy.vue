@@ -5,6 +5,7 @@
 			<block slot="content">我的房源</block>
 			<block slot="right" @tap="pl_fuc">批量处理</block>
 		</cu-custom> -->
+		<view v-if="datas.length==0" class="zanwu">暂无数据</view>
 		<view v-if="pltype==1" class="cu-bar fixed bg-white" :style="style">
 			<view class="action">
 				<text class="cuIcon-back iconfont iconicon-test" @tap="back_fuc"><span></span></text>
@@ -19,19 +20,21 @@
 			<view class="content1" style="top: 0px;">我的房源</view>
 			<view class="nav_right" @tap="sc_all">全部</view>
 		</view>
-		<van-swipe-cell v-if="pltype==1" id="swipe-cell" right-width=" 200 " :async-close="true" @close="onClose" v-for="(item,index) in data_list">
+		<van-swipe-cell v-if="pltype==1" id="swipe-cell" right-width=" 200 " :async-close="true" @close="onClose" v-for="(item,index) in datas">
 			<van-cell-group>
 				<view class="data_li">
-					<view class="li_msg" @tap="jump" data-url="../details/details">
+					<view class="li_msg" @tap="jump"  :data-url="'../details/details?id='+item.id">
 						<view class="li_tit">
-							<view class="li_name">御景华庭<image src="../../static/img/index/list_img.png" mode=""></image>
+							<view class="li_name">{{item.estates?item.estates.title:''}}<image v-if="item.img==1"
+								src="../../static/img/index/list_img.png" mode=""></image>
 							</view>
-							<view>今天 10:20</view>
+							<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
+							<view v-else>{{gettime(item.create_time).time}}</view>
 						</view>
 						<view class="li_bq">
-							<view>200㎡</view>
-							<view>简装</view>
-							<view>满二</view>
+							<view v-if="item.proportion">{{getmj(item.proportion)}}</view>
+							<view v-if="item.fitments">{{item.fitments.title}}</view>
+							<view v-if="item.premisesPermits">{{item.premisesPermits.title}}</view>
 						</view>
 						<!-- <view class="li_fbr">
 							<text>宜兴真厉害房产中介 </text>
@@ -39,35 +42,37 @@
 						</view> -->
 					</view>
 					<view class="li_msg_r">
-						<view class="li_pri"><text>210</text>万</view>
+						<view class="li_pri"><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
 						<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
 					</view>
 
 				</view>
 			</van-cell-group>
 			<view slot="right" class="van-swipe-cell__right">
-				<view  @tap="jump" data-url="../fabu_set/fabu" class="van-swipe-cell__right1" style="background:rgba(87,107,149,.2);">
+				<view  @tap="jump" :data-url="'../fabu_set/fabu?id='+item.id" class="van-swipe-cell__right1" style="background:rgba(87,107,149,.2);">
 					<text class="iconfont iconzu"></text>
 					<text>编辑</text>
 				</view>
-				<view @tap="sc_d_fuc" class="van-swipe-cell__right1" style="background:rgba(230,67,64,.2);color: #E64340;">
+				<view @tap="sc_d_fuc" :data-id="item.id" class="van-swipe-cell__right1" style="background:rgba(230,67,64,.2);color: #E64340;">
 					<text class="iconfont iconshanchu"></text>
 					<text>删除</text>
 				</view>
 			</view>
 
 		</van-swipe-cell>
-		<view class="data_li " v-if="pltype!=1" v-for="(item,index) in data_list">
-			<view class="li_msg" @tap="jump" data-url="../details/details">
+		<view class="data_li " v-if="pltype!=1" v-for="(item,index) in datas">
+			<view class="li_msg" @tap="jump"  :data-url="'../details/details?id='+item.id">
 				<view class="li_tit">
-					<view class="li_name">御景华庭<image src="../../static/img/index/list_img.png" mode=""></image>
+					<view class="li_name">{{item.estates?item.estates.title:''}}<image v-if="item.img==1"
+						src="../../static/img/index/list_img.png" mode=""></image>
 					</view>
-					<view>今天 10:20</view>
+					<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
+					<view v-else>{{gettime(item.create_time).time}}</view>
 				</view>
 				<view class="li_bq">
-					<view>200㎡</view>
-					<view>简装</view>
-					<view>满二</view>
+					<view v-if="item.proportion">{{getmj(item.proportion)}}</view>
+					<view v-if="item.fitments">{{item.fitments.title}}</view>
+					<view v-if="item.premisesPermits">{{item.premisesPermits.title}}</view>
 				</view>
 				<!-- <view class="li_fbr">
 					<text>宜兴真厉害房产中介 </text>
@@ -75,7 +80,7 @@
 				</view> -->
 			</view>
 			<view class="li_msg_r">
-				<view class="li_pri"><text>210</text>万</view>
+				<view class="li_pri"><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
 				<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
 			</view>
 			<view class="li_msg__right1" :class="{'cur':item.active}" @tap="togglePay(item,$event)">
@@ -112,23 +117,14 @@
 				btnkg: 0,
 				modalName: null,
 				alltype:false,
-				data_list: [
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-				],
+				page:1,
+				pagesize:20,
+				datas: [],
 
 			}
 		},
 		computed: {
-			...mapState(['hasLogin', 'forcedLogin', 'userName']),
+			...mapState(['hasLogin', 'forcedLogin', 'userName','loginDatas']),
 			style0() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
@@ -152,7 +148,110 @@
 				return style
 			},
 		},
+		onLoad() {
+			this.getdata()
+		},
+		/**
+		 * 页面相关事件处理函数--监听用户下拉动作
+		 */
+		onPullDownRefresh: function () {
+			this.page=1
+		  this.getdata()
+		},
+		
+		/**
+		 * 页面上拉触底事件的处理函数
+		 */
+		onReachBottom: function () {
+			this.getdata()
+		},
 		methods: {
+			getpri(pri){
+				return service.getpri1(pri)
+			},
+			getmj(mj){
+				return service.getmj(mj)
+			},
+			getdw(pri){
+				return service.getdw(pri)
+			},
+			gettime(time){
+				return service.gettime(time)
+			},
+			getdata(){
+				// /api/my/myCollect
+				var that =this
+				var data = {
+					token:that.loginDatas.token,
+					page:that.page,
+					per_page:that.pagesize
+				}
+				var jkurl = '/api/my/issue'
+				console.log(that.btnkg)
+				if(that.btnkg==1){
+					return
+				}else{
+					that.btnkg=1
+				}
+				service.post(jkurl, data,
+					function(res) {
+						
+						// if (res.data.code == 1) {
+						if (res.data.code == 1) {
+							
+							var datas = res.data.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							if(that.page==1){
+								that.datas=datas
+								that.page++
+								that.btnkg=0
+							}else{
+								that.btnkg=0
+								if(datas.length==0){
+									uni.showToast({
+										icon:'none',
+										title:'暂无更多数据'
+									})
+									reutrn
+								}
+								that.datas=that.datas.concat(datas)
+								that.page++
+							}
+							
+								
+								
+				
+						} else {
+							that.btnkg=0
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						
+							uni.showToast({
+								icon: 'none',
+								title: '获取数据失败'
+							})
+					
+					}
+				)
+			},
+			
 			back_fuc() {
 				uni.navigateBack()
 			},
@@ -185,29 +284,137 @@
 				that.alltype=!that.alltype
 			},
 			sc_fuc(){
-				console.log(this.data_list)
-				var datas=this.data_list
+				var that =this
+				console.log(this.datas)
+				var datas=this.datas
 				var arr=[]
 				for(var i=0;i<datas.length;i++){
 					if(datas[i].active){
-						arr.push(i)
+						arr.push(datas[i].id)
 					}
 				}
 				Dialog.confirm({
 					message: '确定要删除这些房源吗？',
 				}).then(() => {
 					console.log('close');
+					var data = {
+						ids:arr.join(','),
+						token:that.loginDatas.token,
+					}
+					console.log(data)
+					// return
+					//selectSaraylDetailByUserCard
+					var jkurl = '/api/my/issueDelete'
+					
+					
+					service.post(jkurl, data,
+						function(res) {
+							
+							// if (res.data.code == 1) {
+							if (res.data.code == 1) {
+								
+								
+								
+									
+									uni.showToast({
+										icon:'none',
+										title:'操作成功'
+									})
+									that.page=1
+									that.getdata()
+									that.btnkg=0
+					
+							} else {
+								that.btnkg=0
+								if (res.data.msg) {
+									uni.showToast({
+										icon: 'none',
+										title: res.data.msg
+									})
+								} else {
+									uni.showToast({
+										icon: 'none',
+										title: '操作失败'
+									})
+								}
+							}
+						},
+						function(err) {
+							that.btnkg=0
+							
+								uni.showToast({
+									icon: 'none',
+									title: '获取数据失败'
+								})
+						
+						}
+					)
+					
 				});
 				console.log(arr)
 			},
-			sc_d_fuc(){
-				
+			sc_d_fuc(e){
+				var that =this
 				Dialog.confirm({
 					message: '确定删除该房源吗？',
 				}).then(() => {
+					console.log(e.currentTarget.dataset.id)
 					console.log('close');
+					var datas=e.currentTarget.dataset
+					var data = {
+						ids:datas.id,
+						token:that.loginDatas.token,
+					}
+					console.log(data)
+					// return
+					//selectSaraylDetailByUserCard
+					var jkurl = '/api/my/issueDelete'
+					
+					
+					service.post(jkurl, data,
+						function(res) {
+							
+							// if (res.data.code == 1) {
+							if (res.data.code == 1) {
+								
+								
+								
+									
+									uni.showToast({
+										icon:'none',
+										title:'操作成功'
+									})
+									that.page=1
+									that.getdata()
+									that.btnkg=0
+					
+							} else {
+								that.btnkg=0
+								if (res.data.msg) {
+									uni.showToast({
+										icon: 'none',
+										title: res.data.msg
+									})
+								} else {
+									uni.showToast({
+										icon: 'none',
+										title: '操作失败'
+									})
+								}
+							}
+						},
+						function(err) {
+							that.btnkg=0
+							
+								uni.showToast({
+									icon: 'none',
+									title: '获取数据失败'
+								})
+						
+						}
+					)
 				});
-				console.log(arr)
+				// console.log(arr)
 			},
 			onClose({
 				detail
@@ -253,7 +460,7 @@
 			pl_fuc() {
 				console.log(1)
 				this.pltype = !this.pltype
-				var datas=this.data_list
+				var datas=this.datas
 				var arr=[]
 				for(var i=0;i<datas.length;i++){
 					Vue.set(datas[i], 'active', false);

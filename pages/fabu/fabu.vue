@@ -23,7 +23,7 @@
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
 			</view> -->
 			<!-- <picker  v-if="fb_type==0||fb_type==1" @change="bindPickerChange" range-key="title" data-type="b" :value="indexb" :range="arrayb"> -->
-				<view v-if="fb_type==1||fb_type==2" class="fb_li" @tap="jump" data-url="/pages/xiaoqu/xiaoqu">
+				<view v-if="fb_type==1||fb_type==2" class="fb_li" @tap="jump" :data-url="'/pages/xiaoqu/xiaoqu?type=1&id='+cityitem.id">
 					<view>小区名称</view>
 					<view>{{xq_name?xq_name:'请输入'}}</view>
 					<text class="iconfont iconnext"></text>
@@ -33,24 +33,22 @@
 				<view>商铺名称</view>
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
 			</view> -->
-			<picker  v-if="fb_type==2" @change="bindPickerChange" range-key="title" data-type="b1" :value="indexb1" :range="arrayb1">
-				<view class="fb_li">
-					<view>商铺名称</view>
-					<view>{{arrayb1[indexb1]}}</view>
-					<text class="iconfont iconnext"></text>
-				</view>
-			</picker>
+			
+			<view v-if="fb_type==3" class="fb_li" @tap="jump" :data-url="'/pages/xiaoqu/xiaoqu?type=3&id='+cityitem.id">
+				<view>商铺名称</view>
+				<view>{{xq_name?xq_name:'请输入'}}</view>
+				<text class="iconfont iconnext"></text>
+			</view>
 			<!-- <view class="fb_li" v-if="fb_type==3">
 				<view>楼盘名称</view>
 				<input type="text" placeholder="请输入" v-model="xq_name"></input>
 			</view> -->
-			<picker  v-if="fb_type==4" @change="bindPickerChange" range-key="title" data-type="b2" :value="indexb2" :range="arrayb2">
-				<view class="fb_li">
-					<view>楼盘名称</view>
-					<view>{{arrayb2[indexb2]}}</view>
-					<text class="iconfont iconnext"></text>
-				</view>
-			</picker>
+			
+			<view v-if="fb_type==4" class="fb_li" @tap="jump" :data-url="'/pages/xiaoqu/xiaoqu?type=4&id='+cityitem.id">
+				<view>商铺名称</view>
+				<view>{{xq_name?xq_name:'请输入'}}</view>
+				<text class="iconfont iconnext"></text>
+			</view>
 			<view class="fb_li">
 				<view>是否独家</view>
 				<switch :checked="dujia==1?true:false" @change='dujia_cg' color="#3171F5"  />
@@ -100,19 +98,19 @@
 				</view>
 			</picker>
 			<!-- 楼层 -->
-			<picker v-if="fb_type!=3" @change="bindPickerChange" range-key="title" data-type="9" :value="index9" :range="array9">
+			<!-- <picker v-if="fb_type!=3" @change="bindPickerChange" range-key="title" data-type="9" :value="index9" :range="array9">
 				<view v-if="fb_type!=3" class="fb_li">
 					<view>楼层</view>
 					<view>{{array9[index9].title}}</view>
 					<text class="iconfont">层</text>
 					<text class="iconfont iconnext"></text>
 				</view>
-			</picker>
-			<!-- <view v-if="fb_type!=3" class="fb_li">
+			</picker> -->
+			<view v-if="fb_type!=3" class="fb_li">
 				<view>楼层</view>
 				<input type="number" placeholder="请输入" v-model="louceng"></input>
 				<text class="iconfont">层</text>
-			</view> -->
+			</view>
 			<!-- 房本 -->
 			<picker v-if="fb_type!=2" @change="bindPickerChange" range-key="title" data-type="4" :value="index4" :range="array4">
 				<view class="fb_li">
@@ -130,7 +128,7 @@
 				</view>
 			</picker>
 			<!-- 车库 -->
-			<picker v-if="fb_type==1" @change="bindPickerChange" range-key="title" data-type="6" :value="index6" :range="array6">
+			<picker v-if="fb_type==1" @change="bindPickerChange"  data-type="6" :value="index6" :range="array6">
 				<view class="fb_li">
 					<view>车库</view>
 					<view>{{array6[index6]}}</view>
@@ -246,6 +244,7 @@
 		// 	simpleAddress
 		// },
 		onLoad() {
+			this.getcity()
 			this.getcateList()
 			
 		},
@@ -258,18 +257,18 @@
 				that.city_name=that.cityitem.title
 				console.log(that.cityitem.title)
 				console.log(that.cityitem)
+				that.getDis(that.cityitem.id)
 				uni.setStorageSync('cityitem','')
 				uni.setStorageSync('xqitem','')
-				uni.setStorageSync('xq_storage',JSON.stringify(that.cityitem.child))
-				that.xqitem=that.cityitem.child[0]?that.cityitem.child[0]:[]
-				that.xq_name=that.xqitem.title?that.xqitem.title:''
+				
 			}
 			//xqitem
 		  if(uni.getStorageSync('xqitem')){
 				that.xqitem=JSON.parse(uni.getStorageSync('xqitem'))
-				that.xq_name=that.xqitem
 				console.log(that.xqitem)
-				uni.setStorageSync('xqitem','')
+				that.xq_name=that.xqitem.title
+				console.log(that.xq_name)
+				// uni.setStorageSync('xqitem','')
 			}
 		},
 		computed: {
@@ -313,6 +312,130 @@
 			dujia_cg(e){
 				this.dujia=e.target.value ? 1:0
 			},
+			getcity(){
+				var that =this
+				var data = {
+					type:that.fb_type
+				}
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/info/issueGetCity'
+				
+				
+				service.post(jkurl, data,
+					function(res) {
+						
+						// if (res.data.code == 1) {
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							console.log(datas)
+						
+								// that.datas = datas
+								
+								
+								that.arrayb=datas
+								that.cityitem=that.arrayb[0]
+								that.city_name=that.arrayb[0].title
+								uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
+								that.getDis(datas[0].id)
+								// that.xqitem=that.arrayb[0].child[0]
+								// that.xq_name=that.arrayb[0].child[0].title
+								// uni.setStorageSync('xq_storage',JSON.stringify(that.arrayb[0].child))
+								
+								that.btnkg=0
+				
+						} else {
+							that.btnkg=0
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						
+							uni.showToast({
+								icon: 'none',
+								title: '获取数据失败'
+							})
+					
+					}
+				)
+			},
+			getDis(id){
+				var that =this
+				var data = {
+					type:that.fb_type,
+					id:id
+				}
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/info/issueGetDis'
+				
+				
+				service.post(jkurl, data,
+					function(res) {
+						
+						// if (res.data.code == 1) {
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							console.log(datas)
+						
+								// that.datas = datas
+								
+								
+									// that.arrayb=datas
+									// that.cityitem=that.arrayb[0]
+									// that.city_name=that.arrayb[0].title
+									// uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
+									that.xqitem=datas[0].child[0].child[0]
+									that.xq_name=datas[0].child[0].child[0].title
+									uni.setStorageSync('xq_storage',JSON.stringify(datas))
+								
+								that.btnkg=0
+				
+						} else {
+							that.btnkg=0
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						
+							uni.showToast({
+								icon: 'none',
+								title: '获取数据失败'
+							})
+					
+					}
+				)
+			},
 			getcateList(){
 				///api/info/list
 				var that =this
@@ -320,7 +443,7 @@
 					type:that.fb_type
 				}
 				//selectSaraylDetailByUserCard
-				var jkurl = '/api/info/cateList'
+				var jkurl = '/api/info/getCityDis'
 				
 				
 				service.post(jkurl, data,
@@ -338,15 +461,15 @@
 						
 								that.datas = datas
 								
-								if(datas.dis){ //所在城市
-									that.arrayb=datas.dis
-									that.cityitem=that.arrayb[0]
-									that.city_name=that.arrayb[0].title
-									uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
-									that.xqitem=that.arrayb[0].child[0]
-									that.xq_name=that.arrayb[0].child[0].title
-									uni.setStorageSync('xq_storage',JSON.stringify(that.arrayb[0].child))
-								}
+								// if(datas.dis){ //所在城市
+								// 	that.arrayb=datas.dis
+								// 	that.cityitem=that.arrayb[0]
+								// 	that.city_name=that.arrayb[0].title
+								// 	uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
+								// 	that.xqitem=that.arrayb[0].child[0]
+								// 	that.xq_name=that.arrayb[0].child[0].title
+								// 	uni.setStorageSync('xq_storage',JSON.stringify(that.arrayb[0].child))
+								// }
 								if(datas.jishou){ //几手
 									that.array=datas.jishou
 								}
@@ -540,6 +663,7 @@
 					return
 				}
 				this.fb_type = num
+				this.getcity()
 				this.getcateList()
 				console.log(this.fb_type)
 			},
@@ -553,13 +677,13 @@
 						})
 						return
 					}
-					// if(!that.xq_name){
-					// 	uni.showToast({
-					// 		icon:'none',
-					// 		title:'请输入小区名称'
-					// 	})
-					// 	return
-					// }
+					if(!that.xq_name){
+						uni.showToast({
+							icon:'none',
+							title:'请选择小区'
+						})
+						return
+					}
 					if(!that.jiage){
 						uni.showToast({
 							icon:'none',
@@ -595,7 +719,7 @@
 					if(!that.xq_name){
 						uni.showToast({
 							icon:'none',
-							title:'请输入小区名称'
+							title:'请选择小区'
 						})
 						return
 					}
@@ -691,28 +815,35 @@
 						return
 					}
 				}
+				if(that.imgb.length==0){
+					uni.showToast({
+						icon:'none',
+						title:'请上传图片'
+					})
+					return
+				}
 				var value1={ //售房
 					token:that.loginDatas.token,
 					type:that.fb_type,
 					city_id:that.cityitem.id,                 //城市
-					district_id:'',
-					district_id:that.xq_name,                //小区（接口待修改）
+					district_id:that.xqitem.pid,
+					estate_id:that.xqitem.id,                //小区（接口待修改）
 					
 					
 					exclusive:that.dujia,                   //独家
 					jishou_id:that.array[that.index].id,  //几手
 					home_type_id:that.array1[that.index1].id,  //类型
-					price:that.jiage,                    //价格/租金
+					price:that.jiage*10000,                    //价格/租金
 					house_type_id:that.array2[that.index2].id,  //户型
 					proportion:that.mianji,                    //面积
 					orientation_id:that.array3[that.index3].id,  //朝向
 					
-					floor:that.louceng,                   //楼层
+					floor_id:that.louceng,                   //楼层
 					
 					premises_permit_id:that.array4[that.index4].id,  //房本
 					fitment_id:that.array5[that.index5].id,  //装修
-					carbarn:that.array6[that.index6].id,  //车库
-					img:that.imgb
+					carbarn:that.index6,  //车库
+					img:that.imgb.join(',')
 				}
 				
 				if(that.fb_type==2){//租房
@@ -720,24 +851,24 @@
 						token:that.loginDatas.token,
 						type:that.fb_type,
 						city_id:that.cityitem.id,                 //城市
-						district_id:'',
-						district_id:that.xq_name,                //小区（接口待修改）
+						district_id:that.xqitem.pid,
+						estate_id:that.xqitem.id,                //小区（接口待修改）
 						
 						
 						
 						exclusive:that.dujia,                   //独家
 						
-						floor:that.louceng,                   //楼层（字段名不对）
+						floor_id:that.louceng,                   //楼层（字段名不对）
 						
 						house_type_id:that.array2[that.index2].id,  //户型
 						proportion:that.mianji,                    //面积
 						orientation_id:that.array3[that.index3].id,  //朝向
-						price:that.jiage,                    //价格/租金
-						yajin:that.yajin,                    //押金
-						rent_out_type_id:that.array7[that.index7],      //出租方式
-						payment_id:that.array8[that.index8],      //付款方式
+						price:that.jiage*10000,                    //价格/租金
+						cash_pledge:that.yajin,                    //押金
+						rent_out_type_id:that.array7[that.index7].id,      //出租方式
+						payment_id:that.array8[that.index8].id,      //付款方式
 						fitment_id:that.array5[that.index5].id,  //装修
-						imgs:that.imgb
+						img:that.imgb.join(',')
 					}
 				}
 				if(that.fb_type==3){//商铺
@@ -745,8 +876,8 @@
 						token:that.loginDatas.token,
 						type:that.fb_type,
 						city_id:that.cityitem.id,                 //城市
-						district_id:'',
-						district_id:that.xq_name,                //小区（接口待修改）
+						district_id:that.xqitem.pid,
+						estate_id:that.xqitem.id,                //小区（接口待修改）
 						
 						
 						
@@ -756,7 +887,7 @@
 						proportion:that.mianji,                    //面积
 						fitment_id:that.array5[that.index5].id,  //装修
 						premises_permit_id:that.array4[that.index4].id,  //房本
-						imgs:that.imgb
+						img:that.imgb.join(',')
 					}
 				}
 				if(that.fb_type==4){//写字楼
@@ -764,27 +895,27 @@
 						token:that.loginDatas.token,
 						type:that.fb_type,
 						city_id:that.cityitem.id,                 //城市
-						district_id:'',
-						district_id:that.xq_name,                //小区（接口待修改）
+						district_id:that.xqitem.pid,
+						estate_id:that.xqitem.id,                //小区（接口待修改）
 						
 						
 						
 						exclusive:that.dujia,                   //独家
 						jishou_id:that.array[that.index].id,  //几手
-						price:that.jiage,                    //价格/租金
+						price:that.jiage*10000,                    //价格/租金
 						proportion:that.mianji,                    //面积
 						
-						floor:that.louceng,                   //楼层
+						floor_id:that.louceng,                   //楼层
 						
 						fitment_id:that.array5[that.index5].id,  //装修
 						premises_permit_id:that.array4[that.index4].id,  //房本
-						imgs:that.imgb
+						img:that.imgb.join(',')
 					}
 				}
 				console.log(that.fb_type)
 				console.log(value1)
-				var jkurl='/api/my/update'
-				service.post(jkurl, data,
+				var jkurl='/api/issue/save'
+				service.post(jkurl, value1,
 					function(res) {
 						
 						if (res.data.code == 1) {
@@ -798,8 +929,7 @@
 								icon:'none',
 								title: '操作成功'
 							});
-							that.dblogin()
-				
+							
 				
 						} else {
 							if (res.data.msg) {

@@ -12,10 +12,10 @@
 					<view>{{datas.Customer_service_wechat[0].body}}<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
-			<view class="my_li" @tap="call_tel"  data-tel="datas.Customer_service_wechat[1].body" data-login='true'>
+			<view class="my_li" @tap="call_tel"  data-tel="datas.Customer_service_phone[0].body" data-login='true'>
 				<view class="my_li_msg">
 					<view class="my_li_name">电话</view>
-					<view>{{datas.Customer_service_wechat[1].body}}<text class="iconfont iconnext"></text></view>
+					<view>{{datas.Customer_service_phone[0].body}}<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
 			
@@ -44,7 +44,7 @@
 				///api/info/list
 				var that =this
 				var data = {
-					keyword:'Customer_service_wechat,'
+					keyword:'Customer_service_wechat,Customer_service_phone'
 				}
 				
 				//selectSaraylDetailByUserCard

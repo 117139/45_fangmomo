@@ -336,7 +336,7 @@
 		margin-bottom: 19upx;
 	}
 	.indexli_text{
-		font-size: 24upx;
+		font-size: 28upx;
 		color: #1A1A1A;
 	}
 	.gj_tit{

@@ -2,22 +2,26 @@
 	<view class="content_wrap" >
 		<cu-custom bgColor="bg-white" :isBack="true">
 			<block slot="backText"></block>
-			<block slot="content" >小区选择</block>
+			<block slot="content" >{{fb_type==1?'小区选择':fb_type==3?'商铺选择':'楼盘选择'}}</block>
 		</cu-custom>
 		<view class="html_box">
 			<view class="ss_box1">
 				<view class="ss_box">
 					<image class="ss_icon" src="../../static/img/index/search.png" mode=""></image>
-					<m-input class="ss_int" type="text" clearable v-model="qy_search" @input='search_qy' placeholder="输入小区进行搜索"></m-input>
+					<m-input class="ss_int" type="text" clearable v-model="qy_search" @input='search_qy' placeholder="输入小区进行搜索"
+					 confirm-type="搜索" @confirm="getDis"></m-input>
 					<!-- <input class="ss_int" type="text" placeholder="输入小区" @input='search_qy' v-model="qy_search"></input> -->
 				</view>
 			</view>
 			<view  class="ssjg_list" >
-				<view v-if="qy_search.length>0&&qy_show.length==0" class="zawnu">暂无数据</view>
-				<view class="ssjg_li" v-for="(item,index) in qy_show" @tap="selec" :data-item="item">
-					<view class="ssjg_li_name">{{item}}</view>
-					<view class="ssjg_li_add">(宜兴-城南)</view>
+				<view v-if="qy_search.length>0&&datas.child.length==0" class="zanwu">暂无数据</view>
+				<view v-for="(item,idx) in datas.child">
+					<view class="ssjg_li" v-for="(item1,index1) in item.child" @tap="selec" :data-idx="idx" :data-idx1="index1">
+						<view class="ssjg_li_name">{{item1.title}}</view>
+						<view class="ssjg_li_add">({{datas.title}}-{{item.title}})</view>
+					</view>
 				</view>
+				
 			</view>
 		</view>
 		<!-- <view class="data_list" >
@@ -63,6 +67,8 @@
 		},
 		data() {
 			return {
+				fb_type:1,
+				cid:'',
 				btnkg: 0,
 				modalName: null,
 				qy_search: '',
@@ -72,47 +78,8 @@
 					'写字楼',
 					'租房',
 				],
-				data_list: [
-					1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-				],
-				qy_arr3: [
-					'万科九如城',
-					'万科九如城a',
-					'万科九如城a1',
-					'万科九如城a2',
-					'万科九如城4a3',
-					'万科九如城3a4',
-					'万科九如城2a5',
-					'万科九如城1a6',
-					'万科九如城a17',
-					'科九如城',
-					'九如城111',
-					'九如城222',
-					'九如城333',
-					'九如城444',
-					'九如城555',
-					'九如城666',
-					'科九如城',
-				],
-				qy_show: [
-					'万科九如城',
-					'万科九如城a',
-					'万科九如城a1',
-					'万科九如城a2',
-					'万科九如城4a3',
-					'万科九如城3a4',
-					'万科九如城2a5',
-					'万科九如城1a6',
-					'万科九如城a17',
-					'科九如城',
-					'九如城111',
-					'九如城222',
-					'九如城333',
-					'九如城444',
-					'九如城555',
-					'九如城666',
-					'科九如城',
-				],
+				datas: [],
+				
 				jg_cur: 0
 			}
 		},
@@ -141,6 +108,16 @@
 				return style
 			},
 		},
+		onLoad(option) {
+			if(option.type){
+				this.fb_type=option.type
+			}
+			if(option.id){
+				this.cid=option.id
+			}
+			this.getDis()
+			console.log(JSON.parse(uni.getStorageSync('xq_storage')))
+		},
 		onPullDownRefresh() {
 			console.log('下拉')
 			uni.startPullDownRefresh();
@@ -153,8 +130,11 @@
 				uni.navigateBack()
 			},
 			selec(e){
-				console.log(e.currentTarget.dataset.item)
-				uni.setStorageSync('xqitem',JSON.stringify(e.currentTarget.dataset.item))
+				var that =this
+				var cans=e.currentTarget.dataset
+				console.log(cans.idx)
+				uni.setStorageSync('xqitem',JSON.stringify(that.datas.child[cans.idx].child[cans.idx1]))
+				// return
 				wx.navigateBack({
 				  //返回
 				  delta: 1
@@ -185,18 +165,77 @@
 					var kw = that.qy_search
 					console.log(kw.length)
 					if (kw.length > 0) {
-						var news = []
-						for (var i = 0; i < that.qy_arr3.length; i++) {
-							var str = that.qy_arr3[i]
-							if (str.indexOf(kw) != -1) {
-								news.push(that.qy_arr3[i])
+						
+						
+							that.getDis()
+					
+					} else {
+						that.getDis()
+					}
+				}, 1400)
+			},
+			getDis(){
+				var that =this
+				var data = {
+					type:that.fb_type,
+					id:that.cid,
+					search:that.qy_search
+				}
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/info/issueGetDis'
+				
+				
+				service.post(jkurl, data,
+					function(res) {
+						
+						// if (res.data.code == 1) {
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							console.log(datas)
+						
+								that.datas = datas[0]
+								
+								
+									// that.arrayb=datas
+									// that.cityitem=that.arrayb[0]
+									// that.city_name=that.arrayb[0].title
+									// uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
+									// that.xqitem=datas[0].child[0].child[0]
+									// that.xq_name=datas[0].child[0].child[0].title
+									// uni.setStorageSync('xq_storage',JSON.stringify(datas))
+								
+								that.btnkg=0
+				
+						} else {
+							that.btnkg=0
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
 							}
 						}
-						that.qy_show = news
-					} else {
-						that.qy_show = that.qy_arr3
+					},
+					function(err) {
+						that.btnkg=0
+						
+							uni.showToast({
+								icon: 'none',
+								title: '获取数据失败'
+							})
+					
 					}
-				}, 400)
+				)
 			},
 			jump(e) {
 				var that = this
@@ -297,8 +336,8 @@
 		flex: 1;
 		min-width: 0;
 		font-size: 16px;
-		line-height: 16px;
-		height: 16px;
+		line-height: 18px;
+		height: 18px;
 		color: #1a1a1a;
 		display: flex;
 		padding-right: 0;

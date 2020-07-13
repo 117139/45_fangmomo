@@ -97,6 +97,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.__map(_vm.datas.img, function(item, index) {
+    var m0 = _vm.getimg(item)
+    return {
+      $orig: _vm.__get_orig(item),
+      m0: m0
+    }
+  })
+
+  var m1 = _vm.getpri(_vm.datas.price)
+  var m2 = _vm.getmj(_vm.datas.proportion)
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0,
+        m1: m1,
+        m2: m2
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -130,73 +150,117 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 8));
+
+var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+
+
+
 {
   data: function data() {
     return {
+      id: '',
+      btnkg: 0,
       title: '房源详情',
       current: 1,
       imgs: [
@@ -215,14 +279,158 @@ var _default =
 
 
   },
+  computed: _objectSpread({},
+  (0, _vuex.mapState)(['hasLogin', 'forcedLogin', 'userName', 'loginDatas'])),
+
+  onLoad: function onLoad(option) {
+    this.id = option.id;
+    console.log(this.id);
+    this.getdata();
+  },
   methods: {
+    getimg: function getimg(img) {
+      return _service.default.getimg(img);
+    },
+    getpri: function getpri(pri) {
+      return _service.default.getpri(pri);
+    },
+    getmj: function getmj(mj) {
+      return _service.default.getmj(mj);
+    },
+    getdata: function getdata() {
+      var that = this;
+      var data = {
+        id: that.id,
+        token: that.loginDatas.token };
+
+      //selectSaraylDetailByUserCard
+      var jkurl = '/api/issue/show';
+
+
+      _service.default.post(jkurl, data,
+      function (res) {
+
+        // if (res.data.code == 1) {
+        if (res.data.code == 1) {
+          var datas = res.data.data;
+          console.log(typeof datas);
+
+          if (typeof datas == 'string') {
+            datas = JSON.parse(datas);
+          }
+          console.log(datas);
+
+          that.datas = datas;
+
+
+
+
+          that.btnkg = 0;
+
+        } else {
+          that.btnkg = 0;
+          if (res.data.msg) {
+            uni.showToast({
+              icon: 'none',
+              title: res.data.msg });
+
+          } else {
+            uni.showToast({
+              icon: 'none',
+              title: '操作失败' });
+
+          }
+        }
+      },
+      function (err) {
+        that.btnkg = 0;
+
+        uni.showToast({
+          icon: 'none',
+          title: '获取数据失败' });
+
+
+      });
+
+    },
+    share_xq: function share_xq(e) {
+      console.log(e.currentTarget.dataset.id);
+      uni.share({
+        provider: "weixin",
+        scene: "WXSceneSession",
+        type: 1,
+        summary: "我正在使用HBuilderX开发uni-app，赶紧跟我一起来体验！",
+        success: function success(res) {
+          console.log("success:" + JSON.stringify(res));
+        },
+        fail: function fail(err) {
+          console.log("fail:" + JSON.stringify(err));
+        } });
+
+    },
     swi_change: function swi_change(e) {
       // console.log(e.detail.current)
       this.current = e.detail.current + 1;
     },
     shoucang: function shoucang() {
-      this.sc_type = !this.sc_type;
-      console.log(this.sc_type);
+      // this.sc_type=!this.sc_type
+      // console.log(this.sc_type)
+      ///api/my/collect
+      var that = this;
+      var data = {
+        id: that.id,
+        token: that.loginDatas.token };
+
+      //selectSaraylDetailByUserCard
+      var jkurl = '/api/my/collect';
+
+      if (that.btnkg == 1) {
+        return;
+      } else {
+        that.btnkg = 1;
+      }
+      _service.default.post(jkurl, data,
+      function (res) {
+
+        // if (res.data.code == 1) {
+        if (res.data.code == 1) {
+
+
+          that.getdata();
+
+          uni.showToast({
+            icon: 'none',
+            title: '操作成功' });
+
+
+
+          that.btnkg = 0;
+
+        } else {
+          that.btnkg = 0;
+          if (res.data.msg) {
+            uni.showToast({
+              icon: 'none',
+              title: res.data.msg });
+
+          } else {
+            uni.showToast({
+              icon: 'none',
+              title: '操作失败' });
+
+          }
+        }
+      },
+      function (err) {
+        that.btnkg = 0;
+
+        uni.showToast({
+          icon: 'none',
+          title: '获取数据失败' });
+
+
+      });
+
     },
     call_tel: function call_tel(e) {
       uni.makePhoneCall({

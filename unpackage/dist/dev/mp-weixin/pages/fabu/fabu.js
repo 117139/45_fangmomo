@@ -332,8 +332,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 8));
 
 var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
@@ -394,6 +392,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
   // 	simpleAddress
   // },
   onLoad: function onLoad() {
+    this.getcity();
     this.getcateList();
 
   },
@@ -406,18 +405,18 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       that.city_name = that.cityitem.title;
       console.log(that.cityitem.title);
       console.log(that.cityitem);
+      that.getDis(that.cityitem.id);
       uni.setStorageSync('cityitem', '');
       uni.setStorageSync('xqitem', '');
-      uni.setStorageSync('xq_storage', JSON.stringify(that.cityitem.child));
-      that.xqitem = that.cityitem.child[0] ? that.cityitem.child[0] : [];
-      that.xq_name = that.xqitem.title ? that.xqitem.title : '';
+
     }
     //xqitem
     if (uni.getStorageSync('xqitem')) {
       that.xqitem = JSON.parse(uni.getStorageSync('xqitem'));
-      that.xq_name = that.xqitem;
       console.log(that.xqitem);
-      uni.setStorageSync('xqitem', '');
+      that.xq_name = that.xqitem.title;
+      console.log(that.xq_name);
+      // uni.setStorageSync('xqitem','')
     }
   },
   computed: _objectSpread({},
@@ -461,6 +460,130 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
     dujia_cg: function dujia_cg(e) {
       this.dujia = e.target.value ? 1 : 0;
     },
+    getcity: function getcity() {
+      var that = this;
+      var data = {
+        type: that.fb_type };
+
+      //selectSaraylDetailByUserCard
+      var jkurl = '/api/info/issueGetCity';
+
+
+      _service.default.post(jkurl, data,
+      function (res) {
+
+        // if (res.data.code == 1) {
+        if (res.data.code == 1) {
+          var datas = res.data.data;
+          console.log(typeof datas);
+
+          if (typeof datas == 'string') {
+            datas = JSON.parse(datas);
+          }
+          console.log(datas);
+
+          // that.datas = datas
+
+
+          that.arrayb = datas;
+          that.cityitem = that.arrayb[0];
+          that.city_name = that.arrayb[0].title;
+          uni.setStorageSync('city_storage', JSON.stringify(that.arrayb));
+          that.getDis(datas[0].id);
+          // that.xqitem=that.arrayb[0].child[0]
+          // that.xq_name=that.arrayb[0].child[0].title
+          // uni.setStorageSync('xq_storage',JSON.stringify(that.arrayb[0].child))
+
+          that.btnkg = 0;
+
+        } else {
+          that.btnkg = 0;
+          if (res.data.msg) {
+            uni.showToast({
+              icon: 'none',
+              title: res.data.msg });
+
+          } else {
+            uni.showToast({
+              icon: 'none',
+              title: '操作失败' });
+
+          }
+        }
+      },
+      function (err) {
+        that.btnkg = 0;
+
+        uni.showToast({
+          icon: 'none',
+          title: '获取数据失败' });
+
+
+      });
+
+    },
+    getDis: function getDis(id) {
+      var that = this;
+      var data = {
+        type: that.fb_type,
+        id: id };
+
+      //selectSaraylDetailByUserCard
+      var jkurl = '/api/info/issueGetDis';
+
+
+      _service.default.post(jkurl, data,
+      function (res) {
+
+        // if (res.data.code == 1) {
+        if (res.data.code == 1) {
+          var datas = res.data.data;
+          console.log(typeof datas);
+
+          if (typeof datas == 'string') {
+            datas = JSON.parse(datas);
+          }
+          console.log(datas);
+
+          // that.datas = datas
+
+
+          // that.arrayb=datas
+          // that.cityitem=that.arrayb[0]
+          // that.city_name=that.arrayb[0].title
+          // uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
+          that.xqitem = datas[0].child[0].child[0];
+          that.xq_name = datas[0].child[0].child[0].title;
+          uni.setStorageSync('xq_storage', JSON.stringify(datas));
+
+          that.btnkg = 0;
+
+        } else {
+          that.btnkg = 0;
+          if (res.data.msg) {
+            uni.showToast({
+              icon: 'none',
+              title: res.data.msg });
+
+          } else {
+            uni.showToast({
+              icon: 'none',
+              title: '操作失败' });
+
+          }
+        }
+      },
+      function (err) {
+        that.btnkg = 0;
+
+        uni.showToast({
+          icon: 'none',
+          title: '获取数据失败' });
+
+
+      });
+
+    },
     getcateList: function getcateList() {
       ///api/info/list
       var that = this;
@@ -468,7 +591,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
         type: that.fb_type };
 
       //selectSaraylDetailByUserCard
-      var jkurl = '/api/info/cateList';
+      var jkurl = '/api/info/getCityDis';
 
 
       _service.default.post(jkurl, data,
@@ -486,15 +609,15 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
 
           that.datas = datas;
 
-          if (datas.dis) {//所在城市
-            that.arrayb = datas.dis;
-            that.cityitem = that.arrayb[0];
-            that.city_name = that.arrayb[0].title;
-            uni.setStorageSync('city_storage', JSON.stringify(that.arrayb));
-            that.xqitem = that.arrayb[0].child[0];
-            that.xq_name = that.arrayb[0].child[0].title;
-            uni.setStorageSync('xq_storage', JSON.stringify(that.arrayb[0].child));
-          }
+          // if(datas.dis){ //所在城市
+          // 	that.arrayb=datas.dis
+          // 	that.cityitem=that.arrayb[0]
+          // 	that.city_name=that.arrayb[0].title
+          // 	uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
+          // 	that.xqitem=that.arrayb[0].child[0]
+          // 	that.xq_name=that.arrayb[0].child[0].title
+          // 	uni.setStorageSync('xq_storage',JSON.stringify(that.arrayb[0].child))
+          // }
           if (datas.jishou) {//几手
             that.array = datas.jishou;
           }
@@ -688,10 +811,11 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
         return;
       }
       this.fb_type = num;
+      this.getcity();
       this.getcateList();
       console.log(this.fb_type);
     },
-    sub: function sub() {var _value;
+    sub: function sub() {
       var that = this;
       if (this.fb_type == 1) {
         if (!that.city_name) {
@@ -701,13 +825,13 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
 
           return;
         }
-        // if(!that.xq_name){
-        // 	uni.showToast({
-        // 		icon:'none',
-        // 		title:'请输入小区名称'
-        // 	})
-        // 	return
-        // }
+        if (!that.xq_name) {
+          uni.showToast({
+            icon: 'none',
+            title: '请选择小区' });
+
+          return;
+        }
         if (!that.jiage) {
           uni.showToast({
             icon: 'none',
@@ -743,7 +867,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
         if (!that.xq_name) {
           uni.showToast({
             icon: 'none',
-            title: '请输入小区名称' });
+            title: '请选择小区' });
 
           return;
         }
@@ -839,100 +963,107 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           return;
         }
       }
-      var value1 = (_value = { //售房
+      if (that.imgb.length == 0) {
+        uni.showToast({
+          icon: 'none',
+          title: '请上传图片' });
+
+        return;
+      }
+      var value1 = { //售房
         token: that.loginDatas.token,
         type: that.fb_type,
         city_id: that.cityitem.id, //城市
-        district_id: '' }, _defineProperty(_value, "district_id",
-      that.xq_name), _defineProperty(_value, "exclusive",
+        district_id: that.xqitem.pid,
+        estate_id: that.xqitem.id, //小区（接口待修改）
 
 
-      that.dujia), _defineProperty(_value, "jishou_id",
-      that.array[that.index].id), _defineProperty(_value, "home_type_id",
-      that.array1[that.index1].id), _defineProperty(_value, "price",
-      that.jiage), _defineProperty(_value, "house_type_id",
-      that.array2[that.index2].id), _defineProperty(_value, "proportion",
-      that.mianji), _defineProperty(_value, "orientation_id",
-      that.array3[that.index3].id), _defineProperty(_value, "floor",
+        exclusive: that.dujia, //独家
+        jishou_id: that.array[that.index].id, //几手
+        home_type_id: that.array1[that.index1].id, //类型
+        price: that.jiage * 10000, //价格/租金
+        house_type_id: that.array2[that.index2].id, //户型
+        proportion: that.mianji, //面积
+        orientation_id: that.array3[that.index3].id, //朝向
 
-      that.louceng), _defineProperty(_value, "premises_permit_id",
+        floor_id: that.louceng, //楼层
 
-      that.array4[that.index4].id), _defineProperty(_value, "fitment_id",
-      that.array5[that.index5].id), _defineProperty(_value, "carbarn",
-      that.array6[that.index6].id), _defineProperty(_value, "img",
-      that.imgb), _value);
+        premises_permit_id: that.array4[that.index4].id, //房本
+        fitment_id: that.array5[that.index5].id, //装修
+        carbarn: that.index6, //车库
+        img: that.imgb.join(',') };
 
 
-      if (that.fb_type == 2) {var _value2; //租房
-        value1 = (_value2 = {
+      if (that.fb_type == 2) {//租房
+        value1 = {
           token: that.loginDatas.token,
           type: that.fb_type,
           city_id: that.cityitem.id, //城市
-          district_id: '' }, _defineProperty(_value2, "district_id",
-        that.xq_name), _defineProperty(_value2, "exclusive",
+          district_id: that.xqitem.pid,
+          estate_id: that.xqitem.id, //小区（接口待修改）
 
 
 
-        that.dujia), _defineProperty(_value2, "floor",
+          exclusive: that.dujia, //独家
 
-        that.louceng), _defineProperty(_value2, "house_type_id",
+          floor_id: that.louceng, //楼层（字段名不对）
 
-        that.array2[that.index2].id), _defineProperty(_value2, "proportion",
-        that.mianji), _defineProperty(_value2, "orientation_id",
-        that.array3[that.index3].id), _defineProperty(_value2, "price",
-        that.jiage), _defineProperty(_value2, "yajin",
-        that.yajin), _defineProperty(_value2, "rent_out_type_id",
-        that.array7[that.index7]), _defineProperty(_value2, "payment_id",
-        that.array8[that.index8]), _defineProperty(_value2, "fitment_id",
-        that.array5[that.index5].id), _defineProperty(_value2, "imgs",
-        that.imgb), _value2);
+          house_type_id: that.array2[that.index2].id, //户型
+          proportion: that.mianji, //面积
+          orientation_id: that.array3[that.index3].id, //朝向
+          price: that.jiage * 10000, //价格/租金
+          cash_pledge: that.yajin, //押金
+          rent_out_type_id: that.array7[that.index7].id, //出租方式
+          payment_id: that.array8[that.index8].id, //付款方式
+          fitment_id: that.array5[that.index5].id, //装修
+          img: that.imgb.join(',') };
 
       }
-      if (that.fb_type == 3) {var _value3; //商铺
-        value1 = (_value3 = {
+      if (that.fb_type == 3) {//商铺
+        value1 = {
           token: that.loginDatas.token,
           type: that.fb_type,
           city_id: that.cityitem.id, //城市
-          district_id: '' }, _defineProperty(_value3, "district_id",
-        that.xq_name), _defineProperty(_value3, "exclusive",
+          district_id: that.xqitem.pid,
+          estate_id: that.xqitem.id, //小区（接口待修改）
 
 
 
-        that.dujia), _defineProperty(_value3, "jishou_id",
-        that.array[that.index].id), _defineProperty(_value3, "price",
-        that.jiage), _defineProperty(_value3, "proportion",
-        that.mianji), _defineProperty(_value3, "fitment_id",
-        that.array5[that.index5].id), _defineProperty(_value3, "premises_permit_id",
-        that.array4[that.index4].id), _defineProperty(_value3, "imgs",
-        that.imgb), _value3);
+          exclusive: that.dujia, //独家
+          jishou_id: that.array[that.index].id, //几手
+          price: that.jiage, //价格/租金  
+          proportion: that.mianji, //面积
+          fitment_id: that.array5[that.index5].id, //装修
+          premises_permit_id: that.array4[that.index4].id, //房本
+          img: that.imgb.join(',') };
 
       }
-      if (that.fb_type == 4) {var _value4; //写字楼
-        value1 = (_value4 = {
+      if (that.fb_type == 4) {//写字楼
+        value1 = {
           token: that.loginDatas.token,
           type: that.fb_type,
           city_id: that.cityitem.id, //城市
-          district_id: '' }, _defineProperty(_value4, "district_id",
-        that.xq_name), _defineProperty(_value4, "exclusive",
+          district_id: that.xqitem.pid,
+          estate_id: that.xqitem.id, //小区（接口待修改）
 
 
 
-        that.dujia), _defineProperty(_value4, "jishou_id",
-        that.array[that.index].id), _defineProperty(_value4, "price",
-        that.jiage), _defineProperty(_value4, "proportion",
-        that.mianji), _defineProperty(_value4, "floor",
+          exclusive: that.dujia, //独家
+          jishou_id: that.array[that.index].id, //几手
+          price: that.jiage * 10000, //价格/租金
+          proportion: that.mianji, //面积
 
-        that.louceng), _defineProperty(_value4, "fitment_id",
+          floor_id: that.louceng, //楼层
 
-        that.array5[that.index5].id), _defineProperty(_value4, "premises_permit_id",
-        that.array4[that.index4].id), _defineProperty(_value4, "imgs",
-        that.imgb), _value4);
+          fitment_id: that.array5[that.index5].id, //装修
+          premises_permit_id: that.array4[that.index4].id, //房本
+          img: that.imgb.join(',') };
 
       }
       console.log(that.fb_type);
       console.log(value1);
-      var jkurl = '/api/my/update';
-      _service.default.post(jkurl, data,
+      var jkurl = '/api/issue/save';
+      _service.default.post(jkurl, value1,
       function (res) {
 
         if (res.data.code == 1) {
@@ -946,7 +1077,6 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
             icon: 'none',
             title: '操作成功' });
 
-          that.dblogin();
 
 
         } else {

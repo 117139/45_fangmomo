@@ -183,7 +183,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
 //
 //
 var _default = { data: function data() {return { datas: '' };}, onLoad: function onLoad() {this.getdata();}, methods: { getdata: function getdata() {///api/info/list
-      var that = this;var data = { keyword: 'Customer_service_wechat,' }; //selectSaraylDetailByUserCard
+      var that = this;var data = { keyword: 'Customer_service_wechat,Customer_service_phone' }; //selectSaraylDetailByUserCard
       var jkurl = '/api/info/list';uni.showLoading({ title: '正在获取数据' });_service.default.get(jkurl, data,
       function (res) {
 

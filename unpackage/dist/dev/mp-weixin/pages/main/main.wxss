@@ -97,7 +97,7 @@
 	margin-bottom: 19rpx;
 }
 .indexli_text{
-	font-size: 24rpx;
+	font-size: 28rpx;
 	color: #1A1A1A;
 }
 .gj_tit{

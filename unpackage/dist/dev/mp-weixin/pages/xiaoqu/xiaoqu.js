@@ -182,6 +182,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 8));
 var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var mInput = function mInput() {__webpack_require__.e(/*! require.ensure | components/m-input */ "components/m-input").then((function () {return resolve(__webpack_require__(/*! ../../components/m-input.vue */ 252));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
@@ -195,6 +199,8 @@ var inputt;var _default =
 
   data: function data() {
     return {
+      fb_type: 1,
+      cid: '',
       btnkg: 0,
       modalName: null,
       qy_search: '',
@@ -204,46 +210,7 @@ var inputt;var _default =
       '写字楼',
       '租房'],
 
-      data_list: [
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-
-      qy_arr3: [
-      '万科九如城',
-      '万科九如城a',
-      '万科九如城a1',
-      '万科九如城a2',
-      '万科九如城4a3',
-      '万科九如城3a4',
-      '万科九如城2a5',
-      '万科九如城1a6',
-      '万科九如城a17',
-      '科九如城',
-      '九如城111',
-      '九如城222',
-      '九如城333',
-      '九如城444',
-      '九如城555',
-      '九如城666',
-      '科九如城'],
-
-      qy_show: [
-      '万科九如城',
-      '万科九如城a',
-      '万科九如城a1',
-      '万科九如城a2',
-      '万科九如城4a3',
-      '万科九如城3a4',
-      '万科九如城2a5',
-      '万科九如城1a6',
-      '万科九如城a17',
-      '科九如城',
-      '九如城111',
-      '九如城222',
-      '九如城333',
-      '九如城444',
-      '九如城555',
-      '九如城666',
-      '科九如城'],
+      datas: [],
 
       jg_cur: 0 };
 
@@ -273,6 +240,16 @@ var inputt;var _default =
       return style;
     } }),
 
+  onLoad: function onLoad(option) {
+    if (option.type) {
+      this.fb_type = option.type;
+    }
+    if (option.id) {
+      this.cid = option.id;
+    }
+    this.getDis();
+    console.log(JSON.parse(uni.getStorageSync('xq_storage')));
+  },
   onPullDownRefresh: function onPullDownRefresh() {
     console.log('下拉');
     uni.startPullDownRefresh();
@@ -285,8 +262,11 @@ var inputt;var _default =
       uni.navigateBack();
     },
     selec: function selec(e) {
-      console.log(e.currentTarget.dataset.item);
-      uni.setStorageSync('xqitem', JSON.stringify(e.currentTarget.dataset.item));
+      var that = this;
+      var cans = e.currentTarget.dataset;
+      console.log(cans.idx);
+      uni.setStorageSync('xqitem', JSON.stringify(that.datas.child[cans.idx].child[cans.idx1]));
+      // return
       wx.navigateBack({
         //返回
         delta: 1 });
@@ -317,18 +297,77 @@ var inputt;var _default =
         var kw = that.qy_search;
         console.log(kw.length);
         if (kw.length > 0) {
-          var news = [];
-          for (var i = 0; i < that.qy_arr3.length; i++) {
-            var str = that.qy_arr3[i];
-            if (str.indexOf(kw) != -1) {
-              news.push(that.qy_arr3[i]);
-            }
-          }
-          that.qy_show = news;
+
+
+          that.getDis();
+
         } else {
-          that.qy_show = that.qy_arr3;
+          that.getDis();
         }
-      }, 400);
+      }, 1400);
+    },
+    getDis: function getDis() {
+      var that = this;
+      var data = {
+        type: that.fb_type,
+        id: that.cid,
+        search: that.qy_search };
+
+      //selectSaraylDetailByUserCard
+      var jkurl = '/api/info/issueGetDis';
+
+
+      _service.default.post(jkurl, data,
+      function (res) {
+
+        // if (res.data.code == 1) {
+        if (res.data.code == 1) {
+          var datas = res.data.data;
+          console.log(typeof datas);
+
+          if (typeof datas == 'string') {
+            datas = JSON.parse(datas);
+          }
+          console.log(datas);
+
+          that.datas = datas[0];
+
+
+          // that.arrayb=datas
+          // that.cityitem=that.arrayb[0]
+          // that.city_name=that.arrayb[0].title
+          // uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
+          // that.xqitem=datas[0].child[0].child[0]
+          // that.xq_name=datas[0].child[0].child[0].title
+          // uni.setStorageSync('xq_storage',JSON.stringify(datas))
+
+          that.btnkg = 0;
+
+        } else {
+          that.btnkg = 0;
+          if (res.data.msg) {
+            uni.showToast({
+              icon: 'none',
+              title: res.data.msg });
+
+          } else {
+            uni.showToast({
+              icon: 'none',
+              title: '操作失败' });
+
+          }
+        }
+      },
+      function (err) {
+        that.btnkg = 0;
+
+        uni.showToast({
+          icon: 'none',
+          title: '获取数据失败' });
+
+
+      });
+
     },
     jump: function jump(e) {
       var that = this;

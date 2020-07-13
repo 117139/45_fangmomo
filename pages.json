@@ -86,7 +86,11 @@
 			"style": {}
 		}, {
 			"path": "pages/list/list",
-			"style": {}
+			"style": {
+				"style": {
+					"enablePullDownRefresh": true
+				}
+			}
 		}, {
 			"path": "pages/details/details",
 			"style": {}
@@ -95,7 +99,11 @@
 			"style": {}
 		}, {
 			"path": "pages/search/search",
-			"style": {}
+			"style": {
+				"style": {
+					"enablePullDownRefresh": true
+				}
+			}
 		}, {
 			"path": "pages/search_jg/search",
 			"style": {}
@@ -106,10 +114,15 @@
 		{
 			"path": "pages/jisuan_jg/jisuan_jg"
 		}, {
-			"path": "pages/my_sc/my_sc"
+			"path": "pages/my_sc/my_sc",
+			"style": {
+				"enablePullDownRefresh": true
+			}
 		}, {
 			"path": "pages/my_fy/my_fy",
-			"style": {}
+			"style": {
+				"enablePullDownRefresh": true
+			}
 		}, {
 			"path": "pages/fabu_set/fabu",
 			"style": {

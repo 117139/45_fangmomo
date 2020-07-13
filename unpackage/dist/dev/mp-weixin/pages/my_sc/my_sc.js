@@ -97,6 +97,41 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.__map(_vm.datas, function(item, index) {
+    var m0 = _vm.gettime(item.create_time)
+    var m1 = _vm.gettime(item.create_time)
+    var m2 = _vm.gettime(item.create_time)
+    var m3 = _vm.getmj(item.proportion)
+    var m4 = _vm.getpri(item.price)
+    var m5 = _vm.getdw(item.price)
+    return {
+      $orig: _vm.__get_orig(item),
+      m0: m0,
+      m1: m1,
+      m2: m2,
+      m3: m3,
+      m4: m4,
+      m5: m5
+    }
+  })
+
+  var l1 = _vm.__map(_vm.datas, function(item, index) {
+    var m6 = _vm.getmj(item.proportion)
+    return {
+      $orig: _vm.__get_orig(item),
+      m6: m6
+    }
+  })
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0,
+        l1: l1
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -225,6 +260,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
 var _dialog = _interopRequireDefault(__webpack_require__(/*! ../../wxcomponents/vant/dialog/dialog */ 212));
 var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 8));
@@ -240,23 +278,14 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       btnkg: 0,
       modalName: null,
       alltype: false,
-      data_list: [
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {}] };
-
+      page: 1,
+      pagesize: 20,
+      datas: [] };
 
 
   },
   computed: _objectSpread({},
-  (0, _vuex.mapState)(['hasLogin', 'forcedLogin', 'userName']), {
+  (0, _vuex.mapState)(['hasLogin', 'forcedLogin', 'userName', 'loginDatas']), {
     style0: function style0() {
       var StatusBar = this.StatusBar;
       var CustomBar = this.CustomBar;
@@ -280,7 +309,109 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       return style;
     } }),
 
+  onLoad: function onLoad() {
+    this.getdata();
+  },
+  /**
+      * 页面相关事件处理函数--监听用户下拉动作
+      */
+  onPullDownRefresh: function onPullDownRefresh() {
+    this.page = 1;
+    this.getdata();
+  },
+
+  /**
+      * 页面上拉触底事件的处理函数
+      */
+  onReachBottom: function onReachBottom() {
+    this.getdata();
+  },
   methods: {
+    getpri: function getpri(pri) {
+      return _service.default.getpri1(pri);
+    },
+    getmj: function getmj(mj) {
+      return _service.default.getmj(mj);
+    },
+    getdw: function getdw(pri) {
+      return _service.default.getdw(pri);
+    },
+    gettime: function gettime(time) {
+      return _service.default.gettime(time);
+    },
+    getdata: function getdata() {
+      // /api/my/myCollect
+      var that = this;
+      var data = {
+        token: that.loginDatas.token,
+        page: that.page,
+        per_page: that.pagesize };
+
+      var jkurl = '/api/my/myCollect';
+      console.log(that.btnkg);
+      if (that.btnkg == 1) {
+        return;
+      } else {
+        that.btnkg = 1;
+      }
+      _service.default.post(jkurl, data,
+      function (res) {
+
+        // if (res.data.code == 1) {
+        if (res.data.code == 1) {
+
+          var datas = res.data.data.data;
+          console.log(typeof datas);
+
+          if (typeof datas == 'string') {
+            datas = JSON.parse(datas);
+          }
+          if (that.page == 1) {
+            that.datas = datas;
+            that.page++;
+            that.btnkg = 0;
+          } else {
+            that.btnkg = 0;
+            if (datas.length == 0) {
+              uni.showToast({
+                icon: 'none',
+                title: '暂无更多数据' });
+
+              reutrn;
+            }
+            that.datas = that.datas.concat(datas);
+            that.page++;
+          }
+
+
+
+
+        } else {
+          that.btnkg = 0;
+          if (res.data.msg) {
+            uni.showToast({
+              icon: 'none',
+              title: res.data.msg });
+
+          } else {
+            uni.showToast({
+              icon: 'none',
+              title: '操作失败' });
+
+          }
+        }
+      },
+      function (err) {
+        that.btnkg = 0;
+
+        uni.showToast({
+          icon: 'none',
+          title: '获取数据失败' });
+
+
+      });
+
+    },
     back_fuc: function back_fuc() {
       uni.navigateBack();
     },
@@ -298,7 +429,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
     },
     sc_all: function sc_all() {
       var that = this;
-      var datas = that.data_list;
+      var datas = that.datas;
       var arr = [];
       for (var i = 0; i < datas.length; i++) {
         if (that.alltype == true) {
@@ -313,24 +444,78 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       that.alltype = !that.alltype;
     },
     sc_fuc: function sc_fuc() {
-      console.log(this.data_list);
-      var datas = this.data_list;
+      var that = this;
+      console.log(this.datas);
+      var datas = this.datas;
       var arr = [];
       for (var i = 0; i < datas.length; i++) {
         if (datas[i].active) {
-          arr.push(i);
+          arr.push(datas[i].id);
         }
       }
       _dialog.default.confirm({
         message: '确定要删除这些收藏吗？' }).
       then(function () {
+        var data = {
+          id: arr.join(','),
+          token: that.loginDatas.token };
+
+        console.log(data);
+        // return
+        //selectSaraylDetailByUserCard
+        var jkurl = '/api/my/collectDelete';
+
+
+        _service.default.post(jkurl, data,
+        function (res) {
+
+          // if (res.data.code == 1) {
+          if (res.data.code == 1) {
+
+
+
+
+            uni.showToast({
+              icon: 'none',
+              title: '操作成功' });
+
+            that.page = 1;
+            that.getdata();
+            that.btnkg = 0;
+
+          } else {
+            that.btnkg = 0;
+            if (res.data.msg) {
+              uni.showToast({
+                icon: 'none',
+                title: res.data.msg });
+
+            } else {
+              uni.showToast({
+                icon: 'none',
+                title: '操作失败' });
+
+            }
+          }
+        },
+        function (err) {
+          that.btnkg = 0;
+
+          uni.showToast({
+            icon: 'none',
+            title: '获取数据失败' });
+
+
+        });
+
         console.log('close');
       });
       console.log(arr);
     },
     onClose: function onClose(_ref)
 
-    {var detail = _ref.detail;var
+    {var detail = _ref.detail;
+      var that = this;var
 
       position =
 
@@ -345,6 +530,59 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
             message: '确定删除该收藏吗？' }).
           then(function () {
             console.log('close');
+            console.log(detail);
+            console.log(detail.instance.$slots.right[0].data.attrs.name);
+            var id = detail.instance.$slots.right[0].data.attrs.name;
+            var data = {
+              id: id,
+              token: that.loginDatas.token };
+
+            //selectSaraylDetailByUserCard
+            var jkurl = '/api/my/collect';
+
+
+            _service.default.post(jkurl, data,
+            function (res) {
+
+              // if (res.data.code == 1) {
+              if (res.data.code == 1) {
+
+
+
+
+                uni.showToast({
+                  icon: 'none',
+                  title: '操作成功' });
+
+                that.page = 1;
+                that.getdata();
+                that.btnkg = 0;
+
+              } else {
+                that.btnkg = 0;
+                if (res.data.msg) {
+                  uni.showToast({
+                    icon: 'none',
+                    title: res.data.msg });
+
+                } else {
+                  uni.showToast({
+                    icon: 'none',
+                    title: '操作失败' });
+
+                }
+              }
+            },
+            function (err) {
+              that.btnkg = 0;
+
+              uni.showToast({
+                icon: 'none',
+                title: '获取数据失败' });
+
+
+            });
+
             instance.close();
           });
           break;}
@@ -365,14 +603,12 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       var datas = e.currentTarget.dataset;
 
       console.log(datas.url);
-      uni.navigateTo({
-        url: e.currentTarget.dataset.url });
-
+      _service.default.jump(e);
     },
     pl_fuc: function pl_fuc() {
       console.log(1);
       this.pltype = !this.pltype;
-      var datas = this.data_list;
+      var datas = this.datas;
       var arr = [];
       for (var i = 0; i < datas.length; i++) {
         _vue.default.set(datas[i], 'active', false);

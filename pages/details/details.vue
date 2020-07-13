@@ -5,28 +5,29 @@
 			<block slot="content">{{title}}</block>
 		</cu-custom>
 		<view class="xq_banner">
-			<swiper class="xq_swiper" :autoplay="true" :interval="3000" :duration="1000" circular="true" @change="swi_change">
-				<swiper-item v-for="(item,index) in imgs">
+			<swiper class="xq_swiper" :autoplay="false" :interval="3000" :duration="1000" circular="true" @change="swi_change">
+				<swiper-item v-for="(item,index) in datas.img">
 					<!-- <view class="swiper-item"> -->
-						<image class="banner_img" :src="item" mode="aspectFill"></image>
+						<image class="banner_img" :src="getimg(item)" mode="aspectFill"></image>
+						<!-- <image class="banner_img" src="../../static/img/fang_img.jpg"></image> -->
 					<!-- </view> -->
 				</swiper-item>
 			</swiper>
-			<view class="xq_swi_index">{{current}}/{{imgs.length}}</view>
+			<view class="xq_swi_index">{{current}}/{{datas.img.length}}</view>
 		</view>
 		<view class="xq_box">
 			<view class="xq_tit">
-				<view class="xq_name">{{datas.name}}</view>
+				<view class="xq_name">{{datas.estates.title}}</view>
 				<view class="xq_cz">
-					<view class="cz_li" v-if="!sc_type" @tap="shoucang">
+					<view class="cz_li" v-if="!datas.collect" @tap="shoucang" :data-id="datas.id">
 						<text class="iconfont iconshoucang-copy"></text>
 						<text>收藏</text>
 					</view>
-					<view class="cz_li" v-if="sc_type" @tap="shoucang">
+					<view class="cz_li" v-if="datas.collect" @tap="shoucang" :data-id="datas.id">
 						<text class="iconfont iconredshoucang"></text>
 						<text>已收藏</text>
 					</view>
-					<view class="cz_li">
+					<view class="cz_li" @tap="share_xq" :data-id="datas.id">
 						<text class="iconfont iconfenxiang"></text>
 						<text>分享</text>
 					</view>
@@ -34,37 +35,80 @@
 			</view>
 			<view class="xq_pri">
 				<view class="xq_pri1">
-					<view class="xqp1">175.5万</view>
+					<view class="xqp1">{{getpri(datas.price)}}</view>
 					<view class="xqp2">售价</view>
+				</view>
+				<view  class="xq_pri_sg" v-if="datas.houseTypes"></view>
+				<view class="xq_pri1" v-if="datas.houseTypes">
+					<view class="xqp1">{{datas.houseTypes.title}}</view>
+					<view class="xqp2">户型</view>
 				</view>
 				<view  class="xq_pri_sg"></view>
 				<view class="xq_pri1">
-					<view class="xqp1">175.5万</view>
-					<view class="xqp2">售价</view>
+					<view class="xqp1">{{getmj(datas.proportion)}}</view>
+					<view class="xqp2">面积</view>
 				</view>
 			</view>
 			<view class="xq_msg">
-				<view class="xq_msg1"><text>独家：</text><text class="c1a">否</text></view>
-				<view class="xq_msg1"><text>房源：</text><text class="c1a">零手房</text></view>
-				<view class="xq_msg1"><text>房本：</text><text class="c1a">满二年</text></view>
-				<view class="xq_msg1"><text>装修：</text><text class="c1a">毛胚</text></view>
+				<!-- //rent_out_type -->
+				<view class="xq_msg1"  v-if="datas.rent_out_type">
+					<text>方式：</text><text class="c1a">{{datas.rent_out_type.title}}</text>
+				</view>
+				<view class="xq_msg1"  v-if="datas.payment">
+					<text>付款：</text><text class="c1a">{{datas.payment.title}}</text>
+				</view>
+				<view class="xq_msg1" >
+					<text>独家：</text><text class="c1a">{{datas.exclusive==1?'是':'否'}}</text>
+				</view>
+				<view class="xq_msg1" v-if="datas.jishou">
+					<text>房源：</text><text class="c1a">{{datas.jishou.title}}</text>
+				</view>
+				<view class="xq_msg1" v-if="datas.premisesPermits">
+					<text>房本：</text><text class="c1a">{{datas.premisesPermits.title}}</text>
+				</view>
+				<view class="xq_msg1" v-if="datas.orientations">
+					<text>朝向：</text><text class="c1a">{{datas.orientations.title}}</text>
+				</view>
+				<view class="xq_msg1" v-if="datas.floors">
+					<text>楼层：</text><text class="c1a">{{datas.floors.title+'层'}}</text>
+				</view>
+				<view class="xq_msg1" v-if="datas.cash_pledge">
+					<text>押金：</text><text class="c1a">{{datas.cash_pledge}}</text>
+				</view>
+				<view class="xq_msg1" v-if="datas.carbarn">
+					<text>车库：</text><text class="c1a">{{datas.carbarn.title}}</text>
+				</view>
+				<view class="xq_msg1" v-if="datas.homeTypes">
+					<text>类型：</text><text class="c1a">{{datas.homeTypes.title}}</text>
+				</view>
+				<view class="xq_msg1" v-if="datas.fitments">
+					<text>装修：</text><text class="c1a">{{datas.fitments.title}}</text>
+				</view>
 			</view>
 		</view>
 		<view class="xq_bottom">
 			<image class="call_tel" src="../../static/img/tx_m2.jpg" mode="aspectFill"></image>
 			<view class="call_msg">
-				<view class="call_name">陈女士</view>
-				<view class="call_dw">宜兴超级房产中介</view>
+				<view class="call_name">{{datas.users.nickname}}</view>
+				<view class="call_dw">{{datas.users.company}}</view>
 			</view>
-			<view class="call_btn" @tap="call_tel" data-tel="18300000000">联系TA</view>
+			<view class="call_btn" @tap="call_tel" :data-tel="datas.users.phone">联系TA</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import service from '../../service.js';
+	// import simpleAddress from '@/components/simple-address/simple-address.vue';
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
+				id:'',
+				btnkg:0,
 				title:'房源详情',
 				current:1,
 				imgs:[
@@ -83,14 +127,158 @@
 				}
 			}
 		},
+		computed: {
+			...mapState(['hasLogin', 'forcedLogin','userName','loginDatas']),
+		},
+		onLoad(option) {
+			this.id= option.id
+			console.log(this.id)
+			this.getdata()
+		},
 		methods: {
+			getimg(img){
+				return service.getimg(img)
+			},
+			getpri(pri){
+				return service.getpri(pri)
+			},
+			getmj(mj){
+				return service.getmj(mj)
+			},
+			getdata(){
+				var that =this
+				var data = {
+					id:that.id,
+					token:that.loginDatas.token,
+				}
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/issue/show'
+				
+				
+				service.post(jkurl, data,
+					function(res) {
+						
+						// if (res.data.code == 1) {
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							console.log(datas)
+						
+								 that.datas = datas
+								
+								
+								
+								
+								that.btnkg=0
+				
+						} else {
+							that.btnkg=0
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						
+							uni.showToast({
+								icon: 'none',
+								title: '获取数据失败'
+							})
+					
+					}
+				)
+			},
+			share_xq(e){
+				console.log(e.currentTarget.dataset.id)
+				uni.share({
+				    provider: "weixin",
+				    scene: "WXSceneSession",
+				    type: 1,
+				    summary: "我正在使用HBuilderX开发uni-app，赶紧跟我一起来体验！",
+				    success: function (res) {
+				        console.log("success:" + JSON.stringify(res));
+				    },
+				    fail: function (err) {
+				        console.log("fail:" + JSON.stringify(err));
+				    }
+				});
+			},
 			swi_change(e){
 				// console.log(e.detail.current)
 				this.current=e.detail.current+1
 			},
 			shoucang(){
-				this.sc_type=!this.sc_type
-				console.log(this.sc_type)
+				// this.sc_type=!this.sc_type
+				// console.log(this.sc_type)
+				///api/my/collect
+				var that =this
+				var data = {
+					id:that.id,
+					token:that.loginDatas.token,
+				}
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/my/collect'
+				
+				if(that.btnkg==1){
+					return
+				}else{
+					that.btnkg=1
+				}
+				service.post(jkurl, data,
+					function(res) {
+						
+						// if (res.data.code == 1) {
+						if (res.data.code == 1) {
+							
+							
+							that.getdata()
+								
+								uni.showToast({
+									icon:'none',
+									title:'操作成功'
+								})
+								
+								
+								that.btnkg=0
+				
+						} else {
+							that.btnkg=0
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						
+							uni.showToast({
+								icon: 'none',
+								title: '获取数据失败'
+							})
+					
+					}
+				)
 			},
 			call_tel(e){
 				uni.makePhoneCall({

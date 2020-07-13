@@ -240,7 +240,8 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
     return {
       btnkg: 0,
       StatusBar: this.StatusBar,
-      CustomBar: this.CustomBar };
+      CustomBar: this.CustomBar,
+      my_total: 0 };
 
   },
   computed: _objectSpread({},
@@ -261,6 +262,12 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       return style;
     } }),
 
+  onShow: function onShow() {
+    if (this.hasLogin) {
+      console.log('show');
+      this.getdata();
+    }
+  },
   methods: _objectSpread({},
   (0, _vuex.mapMutations)(['logout']), {
     getimg: function getimg(img) {
@@ -284,6 +291,70 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       }
 
       _service.default.jump(e);
+    },
+    getdata: function getdata() {
+      // /api/my/myCollect
+      var that = this;
+      var data = {
+        token: that.loginDatas.token,
+        page: 1,
+        per_page: 20 };
+
+      var jkurl = '/api/my/issue';
+      console.log(that.btnkg);
+      // if(that.btnkg==1){
+      // 	return
+      // }else{
+      // 	that.btnkg=1
+      // }
+      _service.default.post(jkurl, data,
+      function (res) {
+
+        // if (res.data.code == 1) {
+        if (res.data.code == 1) {
+
+          var datas = res.data.data;
+          console.log(typeof datas);
+
+          if (typeof datas == 'string') {
+            datas = JSON.parse(datas);
+          }
+
+          that.datas = datas;
+          console.log(datas);
+          that.my_total = datas.total;
+
+          that.btnkg = 0;
+
+
+
+
+
+        } else {
+          that.btnkg = 0;
+          if (res.data.msg) {
+            uni.showToast({
+              icon: 'none',
+              title: res.data.msg });
+
+          } else {
+            uni.showToast({
+              icon: 'none',
+              title: '操作失败' });
+
+          }
+        }
+      },
+      function (err) {
+        that.btnkg = 0;
+
+        uni.showToast({
+          icon: 'none',
+          title: '获取数据失败' });
+
+
+      });
+
     },
 
     bindLogout: function bindLogout() {

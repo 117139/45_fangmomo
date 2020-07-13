@@ -147,6 +147,88 @@ const getimg=function (img){
 	console.log(imgurl+img)
 	return imgurl+img
 }
+const getpri=function (pri){
+	if(!pri) return
+	if(pri>10000){
+	 return	pri/10000+'万'
+	}else{
+		return pri
+	}
+}
+const getpri1=function (pri){
+	if(!pri) return
+	if(pri>10000){
+	 return	pri/10000
+	}else{
+		return pri
+	}
+}
+const getdw=function (pri){
+	if(!pri) return
+	if(pri>10000){
+	 return	'万'
+	}else{
+		return ''
+	}
+}
+const getmj=function (mj){
+	if(!mj) return
+	return mj+'㎡'
+}
+const gettime=function (mj){
+	if(!mj) {
+		return {
+			time:'',
+			type:0
+		}
+	}
+	console.log(mj.indexOf('今天')!=-1)
+	if(mj.indexOf('今天')!=-1){
+		return {
+			type:2,
+			
+			time:mj
+		}
+	}
+	mj = mj.replace(/-/g,'/')
+	var ntime=new Date(mj)
+	console.log(ntime)
+	var n_year = ntime.getFullYear();
+	var n_month = ntime.getMonth() + 1;
+	var n_date = ntime.getDate();
+	var n_hour = ntime.getHours();
+	var n_minute = ntime.getMinutes();
+	
+	var time = new Date();
+	var year = time.getFullYear();
+	var month = time.getMonth() + 1;
+	var date = time.getDate();
+	var hour = time.getHours();
+	var minute = time.getMinutes();
+	if(n_year==year&&n_month==month&&n_date==date){
+		n_minute=n_minute<10? '0'+n_minute:n_minute
+		return {
+			type:2,
+			year:n_year,
+			month:n_month,
+			date:n_date,
+			hour:n_hour,
+			minute:n_minute,
+			time:'今天 '+n_hour+':'+n_minute
+		}
+	}else{
+		
+		return {
+			type:1,
+			year:n_year,
+			month:n_month,
+			date:n_date,
+			hour:n_hour,
+			minute:n_minute,
+			time:n_year+'-'+n_month+'-'+n_date
+		}
+	}
+}
 export default {
 	getUsers,
 	addUser,
@@ -156,5 +238,10 @@ export default {
 	imgurl,
 	call_tel,
 	jump,
-	getimg
+	getimg,
+	getpri,
+	getpri1,
+	getmj,
+	getdw,
+	gettime
 }

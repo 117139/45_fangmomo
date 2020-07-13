@@ -41,7 +41,7 @@
 				</view>
 				<view class="my_li_msg">
 					<view class="my_li_name">我的房源</view>
-					<view>已发布36个房源<text class="iconfont iconnext"></text></view>
+					<view>已发布{{my_total}}个房源<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
 			<view class="hx20"></view>
@@ -99,7 +99,8 @@
 			return {
 				btnkg:0,
 				StatusBar: this.StatusBar,
-				CustomBar: this.CustomBar
+				CustomBar: this.CustomBar,
+				my_total:0
 			};
 		},
 		computed: {
@@ -118,6 +119,12 @@
 				var style = `height:${CustomBar}px;padding-top:${StatusBar}px;`;
 				
 				return style
+			}
+		},
+		onShow() {
+			if(this.hasLogin){
+				console.log('show')
+				this.getdata()
 			}
 		},
 		methods: {
@@ -143,6 +150,70 @@
 				}
 				
 				service.jump(e)
+			},
+			getdata(){
+				// /api/my/myCollect
+				var that =this
+				var data = {
+					token:that.loginDatas.token,
+					page:1,
+					per_page:20
+				}
+				var jkurl = '/api/my/issue'
+				console.log(that.btnkg)
+				// if(that.btnkg==1){
+				// 	return
+				// }else{
+				// 	that.btnkg=1
+				// }
+				service.post(jkurl, data,
+					function(res) {
+						
+						// if (res.data.code == 1) {
+						if (res.data.code == 1) {
+							
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							
+								that.datas=datas
+								console.log(datas)
+								that.my_total=datas.total
+							
+								that.btnkg=0
+							
+							
+								
+								
+				
+						} else {
+							that.btnkg=0
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						
+							uni.showToast({
+								icon: 'none',
+								title: '获取数据失败'
+							})
+					
+					}
+				)
 			},
 			
 			bindLogout() {
