@@ -358,7 +358,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       var that = this;
       if (!uni.getStorageSync('phone')) {
         uni.navigateTo({
-          url: 'pages/main/main' });
+          url: 'pages/login/login' });
 
         return;
       }
@@ -444,7 +444,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       // if (this.forcedLogin) {
       setTimeout(function () {
         uni.reLaunch({
-          url: '../main/main' });
+          url: '../login/login' });
 
       }, 1000);
       // }

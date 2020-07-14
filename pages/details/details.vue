@@ -87,7 +87,7 @@
 			</view>
 		</view>
 		<view class="xq_bottom">
-			<image class="call_tel" src="../../static/img/tx_m2.jpg" mode="aspectFill"></image>
+			<image class="call_tel" :src="getimg(datas.users.avatar)" mode="aspectFill"></image>
 			<view class="call_msg">
 				<view class="call_name">{{datas.users.nickname}}</view>
 				<view class="call_dw">{{datas.users.company}}</view>

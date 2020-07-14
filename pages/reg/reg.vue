@@ -75,7 +75,7 @@
 				// that.codetime()
 				// that.btnkg= 0
 				// return
-				var jkurl = '/api/login/changePhone'
+				var jkurl = '/api/login/register'
 				var data = {
 					phone: that.account
 				}

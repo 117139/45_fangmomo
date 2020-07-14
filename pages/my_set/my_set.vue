@@ -7,7 +7,7 @@
 		
 		<view class="hx20"></view>
 		<view class="my_list">
-			<view class="my_li" @tap="uptx">
+			<view class="my_li" >
 				<view class="my_li_msg">
 					<view class="my_li_name">头像</view>
 					<view class="dis_flex aic">
@@ -215,7 +215,7 @@
 				var that =this
 				if(!uni.getStorageSync('phone')){
 					uni.navigateTo({
-						url:'pages/main/main'
+						url:'pages/login/login'
 					})
 					return
 				}
@@ -301,7 +301,7 @@
 				// if (this.forcedLogin) {
 					setTimeout(()=>{
 						uni.reLaunch({
-							url: '../main/main',
+							url: '../login/login',
 						});
 					},1000)
 				// }

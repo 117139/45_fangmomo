@@ -191,6 +191,8 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	height: 100%;
+	overflow-y: auto;
 }
 .sv1.data-v-09b2fe1f {
 	width: 25%;
@@ -340,7 +342,7 @@
 	        justify-content: space-between;
 }
 .li_msg.data-v-09b2fe1f {
-	width: 500rpx;
+	width: 480rpx;
 }
 .li_msg_r.data-v-09b2fe1f {
 	display: -webkit-box;

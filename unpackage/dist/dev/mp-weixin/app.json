@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/main/main",
     "pages/login/login",
+    "pages/main/main",
     "pages/reg/reg",
     "pages/pwd/pwd",
     "pages/user/user",
@@ -116,6 +116,5 @@
     "van-collapse-item": "/wxcomponents/vant/collapse-item/index",
     "van-picker": "/wxcomponents/vant/picker/index",
     "cu-custom": "/colorui/components/cu-custom"
-  },
-  "sitemapLocation": "sitemap34.json"
+  }
 }

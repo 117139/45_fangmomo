@@ -25,7 +25,7 @@
 				<view class="data_li">
 					<view class="li_msg" @tap="jump"  :data-url="'../details/details?id='+item.id">
 						<view class="li_tit">
-							<view class="li_name">{{item.estates?item.estates.title:''}}<image v-if="item.img==1"
+							<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image v-if="item.img==1"
 								src="../../static/img/index/list_img.png" mode=""></image>
 							</view>
 							<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
@@ -42,14 +42,15 @@
 						</view> -->
 					</view>
 					<view class="li_msg_r">
-						<view class="li_pri"><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
+						<view class="li_pri" v-if="item.type==2"><text>{{item.price}}</text></view>
+						<view class="li_pri" v-else><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
 						<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
 					</view>
 
 				</view>
 			</van-cell-group>
 			<view slot="right" class="van-swipe-cell__right">
-				<view  @tap="jump" :data-url="'../fabu_set/fabu?id='+item.id" class="van-swipe-cell__right1" style="background:rgba(87,107,149,.2);">
+				<view  @tap="jump" :data-url="'../fabu_set/fabu?id='+item.id+'&type='+item.type" class="van-swipe-cell__right1" style="background:rgba(87,107,149,.2);">
 					<text class="iconfont iconzu"></text>
 					<text>编辑</text>
 				</view>
@@ -60,10 +61,10 @@
 			</view>
 
 		</van-swipe-cell>
-		<view class="data_li " v-if="pltype!=1" v-for="(item,index) in datas">
+		<view class="data_li data_li_d" v-if="pltype!=1" v-for="(item,index) in datas">
 			<view class="li_msg" @tap="jump"  :data-url="'../details/details?id='+item.id">
 				<view class="li_tit">
-					<view class="li_name">{{item.estates?item.estates.title:''}}<image v-if="item.img==1"
+					<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image v-if="item.img==1"
 						src="../../static/img/index/list_img.png" mode=""></image>
 					</view>
 					<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
@@ -80,7 +81,8 @@
 				</view> -->
 			</view>
 			<view class="li_msg_r">
-				<view class="li_pri"><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
+				<!-- <view class="li_pri" v-if="item.type==2"><text>{{item.price}}</text></view> -->
+				<view class="li_pri" ><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
 				<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
 			</view>
 			<view class="li_msg__right1" :class="{'cur':item.active}" @tap="togglePay(item,$event)">
@@ -216,7 +218,7 @@
 										icon:'none',
 										title:'暂无更多数据'
 									})
-									reutrn
+									return
 								}
 								that.datas=that.datas.concat(datas)
 								that.page++
@@ -269,7 +271,7 @@
 			},
 			sc_all(){
 				var that=this
-				var datas=that.data_list
+				var datas=that.datas
 				var arr=[]
 				for(var i=0;i<datas.length;i++){
 					if(that.alltype==true){
@@ -554,13 +556,15 @@
 	}
 
 	.li_msg {
-		flex: 1;
-		padding-right: 20px;
+		width: 480upx;
+		padding-right: 10px;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 	}
-
+	.data_li_d .li_msg{
+		width: 400upx;
+	}
 	.li_msg_r {
 		display: flex;
 		flex-direction: column;
@@ -596,6 +600,7 @@
 	}
 
 	.li_name {
+		flex: 1;
 		color: #1A1A1A;
 		font-size: 32upx;
 	}

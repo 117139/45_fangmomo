@@ -13,7 +13,7 @@
 		 :autoplay="autoplay" :interval="interval" :duration="duration" circular='true'>
 				<swiper-item v-if="item.body" v-for="(item,idx) in datas.banner">
 						<image v-if="item.url" class="swi_img" :src="getimg(item.body)" mode="aspectFill"
-						 @tap="jumpurl" data-url="item.url"></image>
+						 @tap="jumpurl" :data-url="item.url"></image>
 						<image v-else class="swi_img" :src="getimg(item.body)" mode="aspectFill"
 						 @tap="jump" data-url="../ad_zz/ad_zz"></image>
 				</swiper-item>
@@ -31,15 +31,15 @@
 				<image class="indexli_img" src="../../static/img/index/indexbtn1.png" mode=""></image>
 				<text class="indexli_text">售房</text>
 			</view>
-			<view class="index_li" @tap="jump" data-url="../list/list?title=商铺&type=2">
+			<view class="index_li" @tap="jump" data-url="../list/list?title=商铺&type=3">
 				<image class="indexli_img" src="../../static/img/index/indexbtn2.png" mode=""></image>
 				<text class="indexli_text">商铺</text>
 			</view>
-			<view class="index_li" @tap="jump" data-url="../list/list?title=写字楼&type=3">
+			<view class="index_li" @tap="jump" data-url="../list/list?title=写字楼&type=4">
 				<image class="indexli_img" src="../../static/img/index/indexbtn3.png" mode=""></image>
 				<text class="indexli_text">写字楼</text>
 			</view>
-			<view class="index_li" @tap="jump" data-url="../list/list?title=租房&type=4">
+			<view class="index_li" @tap="jump" data-url="../list/list?title=租房&type=2">
 				<image class="indexli_img" src="../../static/img/index/indexbtn4.png" mode=""></image>
 				<text class="indexli_text">租房</text>
 			</view>
@@ -120,7 +120,7 @@
 									url: '../login/login'
 								});
 							} else {
-								uni.navigateTo({
+								uni.reLaunch({
 									url: '../login/login'
 								});
 							}

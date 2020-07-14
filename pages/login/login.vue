@@ -53,7 +53,12 @@
 				password: '',
 				positionTop: 0,
 				isDevtools: false,
+				SystemInfo:'',
 			}
+		},
+		onLoad(){
+			this.SystemInfo= uni.getSystemInfoSync()
+			console.log(this.SystemInfo.platform)
 		},
 		computed: mapState(['forcedLogin']),
 		methods: {
@@ -110,13 +115,7 @@
 					password: that.password
 				}
 				var jkurl='/api/login/login'
-				// that.login(that.account);
-				// setTimeout(() => {
-				// 	uni.reLaunch({
-				// 		url: '../main/main'
-				// 	})
-				// },1000)
-				// return
+				
 				service.post(jkurl, data,
 					function(res) {
 						that.btnkg=0
@@ -139,6 +138,13 @@
 								})
 							},1000)
 						} else {
+							if(res.data.code==2){
+								setTimeout(()=>{
+									uni.navigateTo({
+										url:'../my_pay/my_pay?token='+res.data.token
+									})
+								},1500)
+							}
 							if (res.data.msg) {
 							  uni.showToast({
 							    icon: 'none',

@@ -188,6 +188,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 8));
 var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var mInput = function mInput() {__webpack_require__.e(/*! require.ensure | components/m-input */ "components/m-input").then((function () {return resolve(__webpack_require__(/*! ../../components/m-input.vue */ 252));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
@@ -205,10 +213,22 @@ var inputt;var _default =
       modalName: null,
       qy_search: '',
       ss_list: [
-      '售房',
-      '商铺',
-      '写字楼',
-      '租房'],
+      {
+        name: '售房',
+        type: 1 },
+
+      {
+        name: '租房',
+        type: 2 },
+
+      {
+        name: '商铺',
+        type: 3 },
+
+      {
+        name: '写字楼',
+        type: 4 }],
+
 
       data_list: [
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -233,6 +253,9 @@ var inputt;var _default =
       '科九如城'],
 
       qy_show: [],
+      datas: [],
+      page: 1,
+      pagesize: 20,
       jg_cur: 0 };
 
   },
@@ -240,6 +263,7 @@ var inputt;var _default =
     // if(option.qy_search){
     // 	this.qy_search=option.qy_search
     // }
+
   },
   computed: _objectSpread({},
   (0, _vuex.mapState)(['hasLogin', 'forcedLogin', 'userName']), {
@@ -274,6 +298,81 @@ var inputt;var _default =
     console.log('上拉');
   },
   methods: {
+    getdata: function getdata() {
+      var that = this;
+      var data = {
+        type: that.ss_list[that.jg_cur].type,
+        page: that.page,
+        page_size: that.pagesize,
+        "search": that.qy_search,
+        type_name: 'w' };
+
+      var jkurl = '/api/issue/search';
+      console.log(that.btnkg);
+      if (that.btnkg == 1) {
+        return;
+      } else {
+        that.btnkg = 1;
+      }
+      _service.default.post(jkurl, data,
+      function (res) {
+
+        // if (res.data.code == 1) {
+        if (res.data.code == 1) {
+
+          var datas = res.data.data;
+          console.log(typeof datas);
+
+          if (typeof datas == 'string') {
+            datas = JSON.parse(datas);
+          }
+          /*if(that.page==1){*/
+          that.datas = datas;
+          console.log(that.datas);
+          // that.page++
+          that.btnkg = 0;
+          /*}else{
+                          	that.btnkg=0
+                          	if(datas.length==0){
+                          		uni.showToast({
+                          			icon:'none',
+                          			title:'暂无更多数据'
+                          		})
+                          		return
+                          	}
+                          	that.datas=that.datas.concat(datas)
+                          	that.page++
+                          }*/
+
+
+
+
+        } else {
+          that.btnkg = 0;
+          if (res.data.msg) {
+            uni.showToast({
+              icon: 'none',
+              title: res.data.msg });
+
+          } else {
+            uni.showToast({
+              icon: 'none',
+              title: '操作失败' });
+
+          }
+        }
+      },
+      function (err) {
+        that.btnkg = 0;
+
+        uni.showToast({
+          icon: 'none',
+          title: '获取数据失败' });
+
+
+      });
+
+    },
     back_fuc: function back_fuc() {
       uni.navigateBack();
     },
@@ -292,6 +391,7 @@ var inputt;var _default =
     cz_ufc: function cz_ufc(e) {
       var datas = e.currentTarget.dataset;
       this.jg_cur = datas.index;
+      this.getdata();
     },
     // 搜索
     search_qy: function search_qy(e) {
@@ -302,14 +402,16 @@ var inputt;var _default =
         var kw = that.qy_search;
         console.log(kw.length);
         if (kw.length > 0) {
-          var news = [];
-          for (var i = 0; i < that.qy_arr3.length; i++) {
-            var str = that.qy_arr3[i];
-            if (str.indexOf(kw) != -1) {
-              news.push(that.qy_arr3[i]);
-            }
-          }
-          that.qy_show = news;
+          that.page = 1;
+          that.getdata();
+          // var news = []
+          // for (var i = 0; i < that.qy_arr3.length; i++) {
+          // 	var str = that.qy_arr3[i]
+          // 	if (str.indexOf(kw) != -1) {
+          // 		news.push(that.qy_arr3[i])
+          // 	}
+          // }
+          // that.qy_show = news
         } else {
           that.qy_show = that.qy_arr3;
         }

@@ -115,7 +115,7 @@
 }
 .ssjg_list.data-v-48cda53a {
 	width: 100%;
-	padding: 20rpx 32rpx;
+	padding: 40rpx 32rpx 20rpx;
 	position: fixed;
 	top: 0;
 	bottom: 0;

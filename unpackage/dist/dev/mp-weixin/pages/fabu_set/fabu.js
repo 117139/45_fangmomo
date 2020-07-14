@@ -334,8 +334,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 8));
-
-var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var simpleAddress = function simpleAddress() {Promise.all(/*! require.ensure | components/simple-address/simple-address */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/simple-address/simple-address")]).then((function () {return resolve(__webpack_require__(/*! @/components/simple-address/simple-address.vue */ 269));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 
 
 
@@ -364,38 +363,35 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       indexb2: 0,
 
 
-      array: ['1手', '2手', '3手'],
+      array: [], //'1手', '2手', '3手'
       index: 0,
-      array1: ['类型1', '类型2', '类型3'],
+      array1: [], //'类型1', '类型2', '类型3'
       index1: 0,
       jiage: '', //价格/租金
-      array2: ['户型1', '户型2', '户型3'],
+      array2: [], //'户型1', '户型2', '户型3'
       index2: 0,
       mianji: '',
-      array3: ['朝向1', '朝向2', '朝向3'],
+      array3: [], //'朝向1', '朝向2', '朝向3'
       index3: 0,
       louceng: '',
-      array4: ['类型11', '类型22', '类型33'],
+      array4: [], //'类型11', '类型22', '类型33'
       index4: 0,
-      array5: ['毛坯房', '简装', '精装'],
+      array5: [], //'毛坯房', '简装', '精装'
       index5: 0,
-      array6: ['有', '无'],
+      array6: [], //'有', '无' 车库
       index6: 0,
       yajin: '',
-      array7: ['整租', '隔断'],
+      array7: [], //'整租', '隔断'
       index7: 0,
-      array8: ['月付', '季付', '年付'],
+      array8: [], //'月付', '季付', '年付'
       index8: 0,
-      array9: ['楼层', '楼层', '楼层'],
+      array9: [], //'楼层', '楼层', '楼层'
       index9: 0,
       imgb: [] };
 
   },
-  components: {
-    simpleAddress: simpleAddress },
-
   computed: _objectSpread({},
-  (0, _vuex.mapState)(['hasLogin', 'forcedLogin']), {
+  (0, _vuex.mapState)(['hasLogin', 'forcedLogin', 'loginDatas']), {
     style0: function style0() {
       var StatusBar = this.StatusBar;
       var CustomBar = this.CustomBar;
@@ -421,8 +417,12 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
     } }),
 
   onLoad: function onLoad(option) {
-    this.id = option.id;
-    this.getdata();
+    if (option.id) {
+      this.id = option.id;
+      this.fb_type = option.type;
+      this.getcateList();
+    }
+
 
   },
   onShow: function onShow() {
@@ -487,8 +487,113 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
 
           that.datas = datas;
           that.fb_type = datas.type;
-          this.getcity();
-          this.getcateList();
+          //城市 小区
+          that.xqitem = datas.estates;
+          that.xq_name = datas.estates.title;
+          that.$set(that.xqitem, 'pid', datas.district_id);
+          that.getcity(datas.city_id);
+          //独家
+          that.dujia = datas.exclusive; //独家
+          /*for(var i=0;i<datas.length;i++){
+          	console.log(cityid)
+          	if(cityid==datas[i].id){
+          		console.log(i)
+          		that.cityitem=datas[i]
+          		that.city_name=datas[i].title
+          		that.getDis(datas[i].id)
+          	}
+          }*/
+          if (datas.jishou_id) {
+            for (var i in that.array) {
+              console.log(datas.jishou_id);
+              if (datas.jishou_id == that.array[i].id) {
+                that.index = i; //几手
+              }
+            }
+          }
+
+          if (datas.home_type_id) {
+            for (var i = 0; i < that.array1.length; i++) {
+              console.log(datas.home_type_id);
+              if (datas.home_type_id == that.array1[i].id) {
+                that.index1 = i; //类型
+              }
+            }
+          }
+          if (datas.type == 2) {
+            that.jiage = datas.price; //价格/租金
+          } else {
+            that.jiage = datas.price / 10000; //价格/租金
+          }
+
+          if (datas.house_type_id) {
+            // for(var i in that.array2){
+            for (var i = 0; i < that.array2.length; i++) {
+              console.log(datas.house_type_id);
+              if (datas.house_type_id == that.array2[i].id) {
+                that.index2 == i; //户型
+              }
+            }
+          }
+
+          that.mianji = datas.proportion; //面积
+
+          if (datas.orientation_id) {
+            // for(var i in that.array3){
+            for (var i = 0; i < that.array3.length; i++) {
+              console.log(datas.orientation_id);
+              if (datas.orientation_id == that.array3[i].id) {
+                that.index3 == i; //朝向
+              }
+            }
+          }
+
+
+          that.louceng = datas.floor_id; //楼层
+
+          if (datas.premises_permit_id) {
+            // for(var i in that.array4){
+            for (var i = 0; i < that.array4.length; i++) {
+              console.log(datas.premises_permit_id);
+              if (datas.premises_permit_id == that.array4[i].id) {
+                that.index4 == i; //房本
+              }
+            }
+          }
+          if (datas.fitment_id) {
+            // for(var i in that.array5){
+            for (var i = 0; i < that.array5.length; i++) {
+              console.log(datas.fitment_id);
+              if (datas.fitment_id == that.array5[i].id) {
+                that.index5 == i; //装修
+              }
+            }
+          }
+          if (datas.cash_pledge) {
+            that.yajin = datas.cash_pledge; //押金
+          }
+
+          if (datas.rent_out_type_id) {
+            // for(var i in that.array5){
+            for (var i = 0; i < that.array7.length; i++) {
+              console.log(datas.rent_out_type_id);
+              if (datas.rent_out_type_id == that.array7[i].id) {
+                that.index7 == i; //出租方式
+              }
+            }
+          }
+          if (datas.payment_id) {
+            // for(var i in that.array5){
+            for (var i = 0; i < that.array8.length; i++) {
+              console.log(datas.payment_id);
+              if (datas.payment_id == that.array8[i].id) {
+                that.index8 == i; //付款方式
+              }
+            }
+          }
+          that.index6 = datas.carbarn == 1 ? 1 : 2; //车库//车库
+          that.imgb = datas.img;
+          // that.getcateList()
 
 
 
@@ -521,7 +626,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
 
     },
 
-    getcity: function getcity() {
+    getcity: function getcity(cityid) {
       var that = this;
       var data = {
         type: that.fb_type };
@@ -547,10 +652,20 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
 
 
           that.arrayb = datas;
-          that.cityitem = that.arrayb[0];
-          that.city_name = that.arrayb[0].title;
-          uni.setStorageSync('city_storage', JSON.stringify(that.arrayb));
-          that.getDis(datas[0].id);
+          for (var i = 0; i < datas.length; i++) {
+            console.log(cityid);
+            if (cityid == datas[i].id) {
+              console.log(i);
+              that.cityitem = datas[i];
+              that.city_name = datas[i].title;
+              that.getDis(datas[i].id);
+              uni.setStorageSync('city_storage', JSON.stringify(that.arrayb));
+              return;
+            }
+          }
+
+
+
           // that.xqitem=that.arrayb[0].child[0]
           // that.xq_name=that.arrayb[0].child[0].title
           // uni.setStorageSync('xq_storage',JSON.stringify(that.arrayb[0].child))
@@ -612,10 +727,8 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           // that.arrayb=datas
           // that.cityitem=that.arrayb[0]
           // that.city_name=that.arrayb[0].title
-          // uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
-          that.xqitem = datas[0].child[0].child[0];
-          that.xq_name = datas[0].child[0].child[0].title;
-          uni.setStorageSync('xq_storage', JSON.stringify(datas));
+          uni.setStorageSync('city_storage', JSON.stringify(datas));
+
 
           that.btnkg = 0;
 
@@ -707,6 +820,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           if (datas.payment) {//付款方式
             that.array8 = datas.payment;
           }
+          that.getdata();
           that.btnkg = 0;
 
         } else {
@@ -1031,36 +1145,43 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
 
         return;
       }
-      var value1 = { //售房
-        token: that.loginDatas.token,
-        type: that.fb_type,
-        city_id: that.cityitem.id, //城市
-        district_id: that.xqitem.pid,
-        estate_id: that.xqitem.id, //小区（接口待修改）
-
-
-        exclusive: that.dujia, //独家
-        jishou_id: that.array[that.index].id, //几手
-        home_type_id: that.array1[that.index1].id, //类型
-        price: that.jiage * 10000, //价格/租金
-        house_type_id: that.array2[that.index2].id, //户型
-        proportion: that.mianji, //面积
-        orientation_id: that.array3[that.index3].id, //朝向
-
-        floor_id: that.louceng, //楼层
-
-        premises_permit_id: that.array4[that.index4].id, //房本
-        fitment_id: that.array5[that.index5].id, //装修
-        carbarn: that.index6, //车库
-        img: that.imgb.join(',') };
-
-
-      if (that.fb_type == 2) {//租房
-        value1 = {
+      var value1;
+      var dis_id = that.xqitem.path.split('-');
+      console.log(dis_id);
+      if (that.fb_type == 1) {
+        value1 = { //售房
+          id: that.id,
           token: that.loginDatas.token,
           type: that.fb_type,
           city_id: that.cityitem.id, //城市
-          district_id: that.xqitem.pid,
+          district_id: dis_id[3],
+          estate_id: that.xqitem.id, //小区（接口待修改）
+
+
+          exclusive: that.dujia, //独家
+          jishou_id: that.array[that.index].id, //几手
+          home_type_id: that.array1[that.index1].id, //类型
+          price: that.jiage * 10000, //价格/租金
+          house_type_id: that.array2[that.index2].id, //户型
+          proportion: that.mianji, //面积
+          orientation_id: that.array3[that.index3].id, //朝向
+
+          floor_id: that.louceng, //楼层
+
+          premises_permit_id: that.array4[that.index4].id, //房本
+          fitment_id: that.array5[that.index5].id, //装修
+          carbarn: that.index6 == 1 ? 1 : 2, //车库
+          img: that.imgb.join(',') };
+
+      }
+
+      if (that.fb_type == 2) {//租房
+        value1 = {
+          id: that.id,
+          token: that.loginDatas.token,
+          type: that.fb_type,
+          city_id: that.cityitem.id, //城市
+          district_id: dis_id[3],
           estate_id: that.xqitem.id, //小区（接口待修改）
 
 
@@ -1072,7 +1193,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           house_type_id: that.array2[that.index2].id, //户型
           proportion: that.mianji, //面积
           orientation_id: that.array3[that.index3].id, //朝向
-          price: that.jiage * 10000, //价格/租金
+          price: that.jiage, //价格/租金
           cash_pledge: that.yajin, //押金
           rent_out_type_id: that.array7[that.index7].id, //出租方式
           payment_id: that.array8[that.index8].id, //付款方式
@@ -1082,17 +1203,18 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       }
       if (that.fb_type == 3) {//商铺
         value1 = {
+          id: that.id,
           token: that.loginDatas.token,
           type: that.fb_type,
           city_id: that.cityitem.id, //城市
-          district_id: that.xqitem.pid,
+          district_id: dis_id[3],
           estate_id: that.xqitem.id, //小区（接口待修改）
 
 
 
           exclusive: that.dujia, //独家
           jishou_id: that.array[that.index].id, //几手
-          price: that.jiage, //价格/租金  
+          price: that.jiage * 10000, //价格/租金  
           proportion: that.mianji, //面积
           fitment_id: that.array5[that.index5].id, //装修
           premises_permit_id: that.array4[that.index4].id, //房本
@@ -1101,10 +1223,11 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       }
       if (that.fb_type == 4) {//写字楼
         value1 = {
+          id: that.id,
           token: that.loginDatas.token,
           type: that.fb_type,
           city_id: that.cityitem.id, //城市
-          district_id: that.xqitem.pid,
+          district_id: dis_id[3],
           estate_id: that.xqitem.id, //小区（接口待修改）
 
 
@@ -1138,7 +1261,9 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
             icon: 'none',
             title: '操作成功' });
 
-
+          setTimeout(function () {
+            uni.navigateBack();
+          }, 1000);
 
         } else {
           if (res.data.msg) {

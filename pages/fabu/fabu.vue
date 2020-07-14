@@ -185,7 +185,7 @@
 
 <script>
 	import service from '../../service.js';
-	// import simpleAddress from '@/components/simple-address/simple-address.vue';
+
 	import {
 		mapState,
 		mapMutations
@@ -205,37 +205,37 @@
 				xq_name: '', //小区名称
 				xqitem:'',
 				dujia:0,
-				arrayb: ['小区', '小区1', '小区2'],
+				arrayb: [],//'小区', '小区1', '小区2'
 				indexb: 0,
-				arrayb1: ['商铺', '商铺1', '商铺2'],
+				arrayb1: [],//'商铺', '商铺1', '商铺2'
 				indexb1: 0,
-				arrayb2: ['楼盘', '楼盘1', '楼盘2'],
+				arrayb2: [],//'楼盘', '楼盘1', '楼盘2'
 				indexb2: 0,
 				
 				
-				array: ['1手', '2手', '3手'],
+				array: [],//'1手', '2手', '3手'
 				index: 0,
-				array1: ['类型1', '类型2', '类型3'],
+				array1: [],//'类型1', '类型2', '类型3'
 				index1: 0,
 				jiage: '',   //价格/租金
-				array2: ['户型1', '户型2', '户型3'],
+				array2: [],//'户型1', '户型2', '户型3'
 				index2: 0,
 				mianji: '',
-				array3: ['朝向1', '朝向2', '朝向3'],
+				array3: [],//'朝向1', '朝向2', '朝向3'
 				index3: 0,
 				louceng: '',
-				array4: ['类型11', '类型22', '类型33'],
+				array4: [],//'类型11', '类型22', '类型33'
 				index4: 0,
-				array5: ['毛坯房', '简装', '精装'],
+				array5: [],//'毛坯房', '简装', '精装'
 				index5: 0,
 				array6: ['有', '无'],
 				index6: 0,
 				yajin:'',
-				array7: ['整租', '隔断'],
+				array7: [],//'整租', '隔断'
 				index7: 0,
-				array8: ['月付', '季付', '年付'],
+				array8: [],//'月付', '季付', '年付'
 				index8: 0,
-				array9: ['楼层', '楼层', '楼层'],
+				array9: [],//'楼层', '楼层', '楼层'
 				index9: 0,
 				imgb:[],
 			};
@@ -268,7 +268,7 @@
 				console.log(that.xqitem)
 				that.xq_name=that.xqitem.title
 				console.log(that.xq_name)
-				// uni.setStorageSync('xqitem','')
+				uni.setStorageSync('xqitem','')
 			}
 		},
 		computed: {
@@ -822,36 +822,41 @@
 					})
 					return
 				}
-				var value1={ //售房
-					token:that.loginDatas.token,
-					type:that.fb_type,
-					city_id:that.cityitem.id,                 //城市
-					district_id:that.xqitem.pid,
-					estate_id:that.xqitem.id,                //小区（接口待修改）
-					
-					
-					exclusive:that.dujia,                   //独家
-					jishou_id:that.array[that.index].id,  //几手
-					home_type_id:that.array1[that.index1].id,  //类型
-					price:that.jiage*10000,                    //价格/租金
-					house_type_id:that.array2[that.index2].id,  //户型
-					proportion:that.mianji,                    //面积
-					orientation_id:that.array3[that.index3].id,  //朝向
-					
-					floor_id:that.louceng,                   //楼层
-					
-					premises_permit_id:that.array4[that.index4].id,  //房本
-					fitment_id:that.array5[that.index5].id,  //装修
-					carbarn:that.index6,  //车库
-					img:that.imgb.join(',')
+				var value1
+				 var dis_id=that.xqitem.path.split('-')
+				 console.log(dis_id)
+				 // return
+				if(that.fb_type==1){
+					value1={ //售房
+						token:that.loginDatas.token,
+						type:that.fb_type,
+						city_id:that.cityitem.id,                 //城市
+						district_id:dis_id[3],
+						estate_id:that.xqitem.id,                //小区（接口待修改）
+						
+						
+						exclusive:that.dujia,                   //独家
+						jishou_id:that.array[that.index].id,  //几手
+						home_type_id:that.array1[that.index1].id,  //类型
+						price:that.jiage*10000,                    //价格/租金
+						house_type_id:that.array2[that.index2].id,  //户型
+						proportion:that.mianji,                    //面积
+						orientation_id:that.array3[that.index3].id,  //朝向
+						
+						floor_id:that.louceng,                   //楼层
+						
+						premises_permit_id:that.array4[that.index4].id,  //房本
+						fitment_id:that.array5[that.index5].id,  //装修
+						carbarn:that.index6==1?1:2,  //车库
+						img:that.imgb.join(',')
+					}
 				}
-				
 				if(that.fb_type==2){//租房
 					value1={
 						token:that.loginDatas.token,
 						type:that.fb_type,
 						city_id:that.cityitem.id,                 //城市
-						district_id:that.xqitem.pid,
+						district_id:dis_id[3],
 						estate_id:that.xqitem.id,                //小区（接口待修改）
 						
 						
@@ -863,7 +868,7 @@
 						house_type_id:that.array2[that.index2].id,  //户型
 						proportion:that.mianji,                    //面积
 						orientation_id:that.array3[that.index3].id,  //朝向
-						price:that.jiage*10000,                    //价格/租金
+						price:that.jiage,                    //价格/租金
 						cash_pledge:that.yajin,                    //押金
 						rent_out_type_id:that.array7[that.index7].id,      //出租方式
 						payment_id:that.array8[that.index8].id,      //付款方式
@@ -876,14 +881,14 @@
 						token:that.loginDatas.token,
 						type:that.fb_type,
 						city_id:that.cityitem.id,                 //城市
-						district_id:that.xqitem.pid,
+						district_id:dis_id[3],
 						estate_id:that.xqitem.id,                //小区（接口待修改）
 						
 						
 						
 						exclusive:that.dujia,                   //独家
 						jishou_id:that.array[that.index].id,  //几手
-						price:that.jiage,                    //价格/租金  
+						price:that.jiage*10000,                    //价格/租金  
 						proportion:that.mianji,                    //面积
 						fitment_id:that.array5[that.index5].id,  //装修
 						premises_permit_id:that.array4[that.index4].id,  //房本
@@ -895,7 +900,7 @@
 						token:that.loginDatas.token,
 						type:that.fb_type,
 						city_id:that.cityitem.id,                 //城市
-						district_id:that.xqitem.pid,
+						district_id:dis_id[3],
 						estate_id:that.xqitem.id,                //小区（接口待修改）
 						
 						

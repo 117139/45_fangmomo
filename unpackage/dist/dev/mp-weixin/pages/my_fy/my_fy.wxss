@@ -105,11 +105,12 @@
 		        justify-content: space-between;
 }
 .li_msg.data-v-635a2a9e {
-		-webkit-box-flex: 1;
-		-webkit-flex: 1;
-		        flex: 1;
-		padding-right: 20px;
+		width: 480rpx;
+		padding-right: 10px;
 		box-sizing: border-box;
+}
+.data_li_d .li_msg.data-v-635a2a9e{
+		width: 400rpx;
 }
 .li_msg_r.data-v-635a2a9e {
 		display: -webkit-box;
@@ -153,6 +154,9 @@
 		color: #999;
 }
 .li_name.data-v-635a2a9e {
+		-webkit-box-flex: 1;
+		-webkit-flex: 1;
+		        flex: 1;
 		color: #1A1A1A;
 		font-size: 32rpx;
 }

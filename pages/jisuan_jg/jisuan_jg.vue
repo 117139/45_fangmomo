@@ -2,35 +2,35 @@
 	<view class="content_wrap" :style="style0">
 		<cu-custom bgColor="bg-white" :isBack="true" >
 			<block slot="backText"></block>
-			<block slot="content">商业贷款</block>
+			<block slot="content">计算结果</block>
 		</cu-custom>
 		<view class="fb_type" :style="style1">
 			<view :class="{'cur':fb_type==0}" @tap="fb_fuc(0)">等额本息</view>
-			<view :class="{'cur':fb_type==1}" @tap="fb_fuc(1)">等额本金</view>
+			<!-- <view :class="{'cur':fb_type==1}" @tap="fb_fuc(1)">等额本金</view> -->
 		</view>
 		<view class="fb_list">
 			<view class="jg_box">
 				<view class="jg_tit">每月应还</view>
-				<view class="jg_num"><text>2578.18</text>元</view>
+				<view class="jg_num"><text>{{mon_num}}</text>元</view>
 				<view class="num_list">
 					<view class="num_li">
 						<view class="num_name">贷款总额</view>
-						<view class="num_num">50万</view>
+						<view class="num_num">{{jiage}}万</view>
 					</view>
-					<view class="num_li">
+					<!-- <view class="num_li">
 						<view class="num_name">利息总额</view>
 						<view class="num_num">42.81</view>
-					</view>
+					</view> -->
 					<view class="num_li">
 						<view class="num_name">贷款年限</view>
-						<view class="num_num">30年</view>
+						<view class="num_num">{{mon}}年</view>
 					</view>
 				</view>
 			</view>
 			<view class="jg_tip">每月还款金额不变，其中还款的本金逐月递增，利息逐月递减。计算结果仅供参考。
 			</view>
 			
-			<view class="jg_table">
+			<!-- <view class="jg_table">
 				<view class="jg_tr">
 					<view class="jg_td">期数</view>
 					<view class="jg_td">月供总额</view>
@@ -45,7 +45,7 @@
 					<view class="jg_td">1937.5</view>
 					<view class="jg_td">4999359.32</view>
 				</view>
-			</view>
+			</view> -->
 			
 		</view>
 		
@@ -100,6 +100,11 @@
 
 				return style
 			},
+		},
+		onLoad(option) {
+			this.mon_num=option.mon_num
+			this.mon=option.mon
+			this.jiage=option.jiage
 		},
 		onPullDownRefresh() {
 			console.log('下拉')

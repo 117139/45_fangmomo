@@ -207,7 +207,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       // that.codetime()
       // that.btnkg= 0
       // return
-      var jkurl = '/api/login/changePhone';
+      var jkurl = '/api/login/register';
       var data = {
         phone: that.account };
 

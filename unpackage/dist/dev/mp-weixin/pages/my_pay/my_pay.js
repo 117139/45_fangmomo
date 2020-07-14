@@ -200,8 +200,132 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
 //
 //
 //
-var _default = { data: function data() {return { pay_type: 0 };}, computed: (0, _vuex.mapState)(['platform', 'hasLogin', 'userName']), onLoad: function onLoad() {// platform
-    uni.getSystemInfo({ success: function success(res) {console.log(res.platform);} });}, methods: { pay_fuc: function pay_fuc(num) {if (this.pay_type == num) {return;}this.pay_type = num;console.log(this.pay_type);}, pay: function pay() {uni.showToast({ title: '支付' });} } };exports.default = _default;
+var _default = { data: function data() {return { pay_type: 2, datas: '', token: '' };}, computed: (0, _vuex.mapState)(['platform', 'hasLogin', 'userName']), onLoad: function onLoad(option) {// platform
+    uni.getSystemInfo({ success: function success(res) {console.log(res.platform);} });if (option.token) {this.token = option.token;}this.getpay();}, methods: { getpay: function getpay() {var that = this;var data = { keyword: 'vip,applePay' }; //selectSaraylDetailByUserCard
+      var jkurl = '/api/info/list';uni.showLoading({ title: '正在获取数据' });
+
+      _service.default.get(jkurl, data,
+      function (res) {
+
+        if (res.data.code == 1) {
+          var datas = res.data.data;
+          console.log(typeof datas);
+
+          if (typeof datas == 'string') {
+            datas = JSON.parse(datas);
+          }
+          console.log(datas);
+          that.datas = datas;
+
+
+        } else {
+          if (res.data.msg) {
+            uni.showToast({
+              icon: 'none',
+              title: res.data.msg });
+
+          } else {
+            uni.showToast({
+              icon: 'none',
+              title: '操作失败' });
+
+          }
+        }
+      },
+      function (err) {
+
+        if (err.data.msg) {
+          uni.showToast({
+            icon: 'none',
+            title: err.data.msg });
+
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: '操作失败' });
+
+        }
+      });
+
+    },
+    pay_fuc: function pay_fuc(num) {
+      if (this.pay_type == num) {
+        return;
+      }
+      this.pay_type = num;
+      console.log(this.pay_type);
+    },
+    pay: function pay() {
+      var that = this;
+      var data = {
+        type: that.pay_type,
+        id: that.datas.vip[0].id,
+        token: that.token };
+
+
+      //selectSaraylDetailByUserCard
+      var jkurl = '/api/order/createOrder';
+      uni.showLoading({
+        title: '正在发起支付' });
+
+      _service.default.post(jkurl, data,
+      function (res) {
+
+        if (res.data.code == 1) {
+          var datas = res.data.data;
+          console.log(typeof datas);
+
+          if (typeof datas == 'string') {
+            datas = JSON.parse(datas);
+          }
+          console.log(datas);
+          // that.datas = datas
+          if (that.pay_type == 2) {
+            uni.requestPayment({
+              provider: 'alipay',
+              orderInfo: datas.datas, //微信、支付宝订单数据
+              success: function success(res) {
+                console.log('success:' + JSON.stringify(res));
+              },
+              fail: function fail(err) {
+                console.log('fail:' + JSON.stringify(err));
+              } });
+
+          }
+
+        } else {
+          if (res.data.msg) {
+            uni.showToast({
+              icon: 'none',
+              title: res.data.msg });
+
+          } else {
+            uni.showToast({
+              icon: 'none',
+              title: '操作失败' });
+
+          }
+        }
+      },
+      function (err) {
+
+        if (err.data.msg) {
+          uni.showToast({
+            icon: 'none',
+            title: err.data.msg });
+
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: '操作失败' });
+
+        }
+      });
+
+      uni.showToast({
+        title: '支付' });
+
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

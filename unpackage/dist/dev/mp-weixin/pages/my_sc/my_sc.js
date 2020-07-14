@@ -116,10 +116,20 @@ var render = function() {
   })
 
   var l1 = _vm.__map(_vm.datas, function(item, index) {
-    var m6 = _vm.getmj(item.proportion)
+    var m6 = _vm.gettime(item.create_time)
+    var m7 = _vm.gettime(item.create_time)
+    var m8 = _vm.gettime(item.create_time)
+    var m9 = _vm.getmj(item.proportion)
+    var m10 = _vm.getpri(item.price)
+    var m11 = _vm.getdw(item.price)
     return {
       $orig: _vm.__get_orig(item),
-      m6: m6
+      m6: m6,
+      m7: m7,
+      m8: m8,
+      m9: m9,
+      m10: m10,
+      m11: m11
     }
   })
 
@@ -166,6 +176,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
 
 
 
@@ -377,7 +390,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
                 icon: 'none',
                 title: '暂无更多数据' });
 
-              reutrn;
+              return;
             }
             that.datas = that.datas.concat(datas);
             that.page++;

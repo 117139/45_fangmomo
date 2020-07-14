@@ -279,6 +279,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
 var _dialog = _interopRequireDefault(__webpack_require__(/*! ../../wxcomponents/vant/dialog/dialog */ 212));
 var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 8));
@@ -393,7 +395,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
                 icon: 'none',
                 title: '暂无更多数据' });
 
-              reutrn;
+              return;
             }
             that.datas = that.datas.concat(datas);
             that.page++;
@@ -446,7 +448,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
     },
     sc_all: function sc_all() {
       var that = this;
-      var datas = that.data_list;
+      var datas = that.datas;
       var arr = [];
       for (var i = 0; i < datas.length; i++) {
         if (that.alltype == true) {

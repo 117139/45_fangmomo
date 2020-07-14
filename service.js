@@ -160,7 +160,7 @@ const getpri1=function (pri){
 	if(pri>10000){
 	 return	pri/10000
 	}else{
-		return pri
+		return pri*10/10
 	}
 }
 const getdw=function (pri){
@@ -182,7 +182,7 @@ const gettime=function (mj){
 			type:0
 		}
 	}
-	console.log(mj.indexOf('今天')!=-1)
+	// console.log(mj.indexOf('今天')!=-1)
 	if(mj.indexOf('今天')!=-1){
 		return {
 			type:2,
@@ -192,7 +192,7 @@ const gettime=function (mj){
 	}
 	mj = mj.replace(/-/g,'/')
 	var ntime=new Date(mj)
-	console.log(ntime)
+	// console.log(ntime)
 	var n_year = ntime.getFullYear();
 	var n_month = ntime.getMonth() + 1;
 	var n_date = ntime.getDate();

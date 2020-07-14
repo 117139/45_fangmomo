@@ -6,7 +6,7 @@
 			</uni-view>
 			<view class="ss_box">
 				<view class="ss_type" @tap="showModal" data-target="Modal">
-					<text>{{ss_list[jg_cur]}}</text>
+					<text>{{ss_list[jg_cur].name}}</text>
 					<text class="iconfont iconnext-copy xz_icon"></text>
 
 				</view>
@@ -39,17 +39,25 @@
 				</view>
 			</view>
 		</view> -->
-		<view :style="style1" class="ssjg_list" v-if="qy_search.length>0">
-			<view v-if="qy_search.length>0&&qy_show.length==0" class="zawnu">暂无数据</view>
-			<view class="ssjg_li" v-for="(item,index) in qy_show" @tap="jump" :data-url="'../search_jg/search?qy_search='+item">
-				<view class="ssjg_li_name">{{item}}</view>
-				<view class="ssjg_li_add">宜兴-城中</view>
-			</view>
+		<view :style="style1" class="ssjg_list" >
+			<view v-if="qy_search.length>0&&datas.length==0" class="zanwu">暂无数据</view>
+			<block  v-for="(item,index) in datas">
+				<block v-for="(item1,index1) in item.child">
+					
+					<block v-for="(item2,index2) in item1.child">
+						<view class="ssjg_li" @tap="jump" :data-url="'../search_jg/search?qy_search='+item2.title+'&type='+ss_list[jg_cur].type">
+							<view class="ssjg_li_name">{{item2.title}}</view>
+							<view class="ssjg_li_add">{{item.title}}-{{item1.title}}</view>
+						</view>
+					</block>
+				</block>
+			</block>
+			
 		</view>
 
 		<view class="cu-modal" :class="modalName=='Modal'?'show':''" @tap="hideModal">
 			<view class="to_my_box">
-				<view v-for="(item,index) in ss_list" :class="index==jg_cur ?'cur':''" @tap="cz_ufc" :data-index="index">{{item}}</view>
+				<view v-for="(item,index) in ss_list" :class="index==jg_cur ?'cur':''" @tap="cz_ufc" :data-index="index">{{item.name}}</view>
 			</view>
 		</view>
 	</view>
@@ -73,10 +81,22 @@
 				modalName: null,
 				qy_search: '',
 				ss_list: [
-					'售房',
-					'商铺',
-					'写字楼',
-					'租房',
+					{
+						name:'售房',
+						type:1
+					},
+					{
+						name:'租房',
+						type:2
+					},
+					{
+						name:'商铺',
+						type:3
+					},
+					{
+						name:'写字楼',
+						type:4
+					},
 				],
 				data_list: [
 					1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
@@ -101,6 +121,9 @@
 					'科九如城',
 				],
 				qy_show: [],
+				datas:[],
+				page:1,
+				pagesize:20,
 				jg_cur: 0
 			}
 		},
@@ -108,6 +131,7 @@
 			// if(option.qy_search){
 			// 	this.qy_search=option.qy_search
 			// }
+			
 		},
 		computed: {
 			...mapState(['hasLogin', 'forcedLogin', 'userName']),
@@ -142,6 +166,81 @@
 			console.log('上拉')
 		},
 		methods: {
+			getdata(){
+				var that =this
+				var data = {
+					type:that.ss_list[that.jg_cur].type,
+					page:that.page,
+					page_size:that.pagesize,
+					"search": that.qy_search,
+					type_name:'w'
+				}
+				var jkurl = '/api/issue/search'
+				console.log(that.btnkg)
+				if(that.btnkg==1){
+					return
+				}else{
+					that.btnkg=1
+				}
+				service.post(jkurl, data,
+					function(res) {
+						
+						// if (res.data.code == 1) {
+						if (res.data.code == 1) {
+							
+							var datas = res.data.data
+							console.log(typeof datas)
+							
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							/*if(that.page==1){*/
+								that.datas=datas
+								console.log(that.datas)
+								// that.page++
+								that.btnkg=0
+							/*}else{
+								that.btnkg=0
+								if(datas.length==0){
+									uni.showToast({
+										icon:'none',
+										title:'暂无更多数据'
+									})
+									return
+								}
+								that.datas=that.datas.concat(datas)
+								that.page++
+							}*/
+							
+								
+								
+				
+						} else {
+							that.btnkg=0
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						
+							uni.showToast({
+								icon: 'none',
+								title: '获取数据失败'
+							})
+					
+					}
+				)
+			},
 			back_fuc() {
 				uni.navigateBack()
 			},
@@ -160,6 +259,7 @@
 			cz_ufc(e) {
 				var datas = e.currentTarget.dataset
 				this.jg_cur = datas.index
+				this.getdata()
 			},
 			// 搜索
 			search_qy(e) {
@@ -170,14 +270,16 @@
 					var kw = that.qy_search
 					console.log(kw.length)
 					if (kw.length > 0) {
-						var news = []
-						for (var i = 0; i < that.qy_arr3.length; i++) {
-							var str = that.qy_arr3[i]
-							if (str.indexOf(kw) != -1) {
-								news.push(that.qy_arr3[i])
-							}
-						}
-						that.qy_show = news
+						that.page=1
+						that.getdata()
+						// var news = []
+						// for (var i = 0; i < that.qy_arr3.length; i++) {
+						// 	var str = that.qy_arr3[i]
+						// 	if (str.indexOf(kw) != -1) {
+						// 		news.push(that.qy_arr3[i])
+						// 	}
+						// }
+						// that.qy_show = news
 					} else {
 						that.qy_show = that.qy_arr3
 					}
@@ -324,7 +426,7 @@
 
 	.ssjg_list {
 		width: 100%;
-		padding: 20upx 32upx;
+		padding: 40upx 32upx 20upx;
 		position: fixed;
 		top: 0;
 		bottom: 0;

@@ -97,15 +97,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = (_vm.LPR * 1 + _vm.jidian * 0.01).toFixed(2)
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        g0: g0
-      }
-    }
-  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -269,21 +260,60 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       CustomBar: this.CustomBar,
       xq_name: '', //小区名称
       dujia: false,
-      array: ['按贷款总额', '按贷款总额1', '按贷款总额2'],
+      array: ['按贷款总额'],
       index: 0,
       jiage_z: '',
       jiage_g: '',
       jiage: '',
-      LPR: '',
-      array1: ['10年', '20年', '30年', '40年'],
+      LPR: '3.85',
+      array1: [
+      {
+        name: '10年',
+        num: 10 },
+
+      {
+        name: '20年',
+        num: 20 },
+
+      {
+        name: '30年',
+        num: 30 },
+
+      {
+        name: '40年',
+        num: 40 }],
+
+
       index1: 0,
-      array2: ['按最新LPR1', '按最新LPR2', '按最新LPR3'],
+      array2: ['按最新LPR'],
       index2: 0,
       jidian: '',
-      array3: ['10年', '20年', '30年', '40年'],
+      array3: [
+      {
+        name: '10年',
+        num: 10 },
+
+      {
+        name: '20年',
+        num: 20 },
+
+      {
+        name: '30年',
+        num: 30 },
+
+      {
+        name: '40年',
+        num: 40 }],
+
+
       index3: 0,
       louceng: '',
-      array4: ['最新基准利率(3.25%)11', '最新基准利率(3.25%)22', '最新基准利率(3.25%)33'],
+      array4: [
+      {
+        name: '最新基准利率(3.25%)',
+        lv: 3.25 }],
+
+
       index4: 0 };
 
 
@@ -316,6 +346,9 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       var style = "top:".concat(padd_top, "px;");
 
       return style;
+    },
+    sdlv: function sdlv() {
+      return (this.LPR * 1 + this.jidian * 0.01).toFixed(2);
     } }),
 
   onPullDownRefresh: function onPullDownRefresh() {
@@ -326,7 +359,56 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
     console.log('上拉');
   },
   methods: {
+    jisuan_fuc: function jisuan_fuc(e) {
+      if (this.fb_type == 1 || this.fb_type == 2) {
+        if (!this.jiage_g) {
+          uni.showToast({
+            icon: 'none',
+            title: '请输入公积金金额' });
 
+          return;
+        }
+      }
+      if (this.fb_type == 0 || this.fb_type == 1) {
+        if (!this.jiage) {
+          uni.showToast({
+            icon: 'none',
+            title: '请输入商贷金额' });
+
+          return;
+        }
+      }
+      //商贷
+      var arg_a = this.jiage * 10000;
+      var arg_m = this.array1[this.index1].num * 12;
+      var arg_b = this.sdlv / 12 / 100;
+      console.log(arg_a, arg_m, arg_b);
+      var arg0 = Math.pow(1 + arg_b, arg_m);
+      console.log(arg0);
+      var arg1 = arg_a * arg_b * arg0;
+      var arg2 = arg0 - 1;
+      console.log(arg1, arg2);
+      console.log(arg1 / arg2);
+      var mon_num = arg1 / arg2;
+      mon_num = mon_num.toFixed(2);
+      //公积金
+      var arg_a1 = this.jiage_g * 10000;
+      var arg_m1 = this.array3[this.index3].num * 12;
+      var arg_b1 = this.array4[this.index4].lv / 12 / 100;
+      var arg01 = Math.pow(1 + arg_b1, arg_m1);
+      console.log(arg01);
+      var arg11 = arg_a1 * arg_b1 * arg01;
+      var arg21 = arg0 - 1;
+      var mon_num1 = arg11 / arg21;
+      mon_num1 = mon_num1.toFixed(2);
+      console.log(mon_num1);
+      var mon_num2 = mon_num1 * 1 + mon_num * 1;
+      mon_num2 = mon_num2.toFixed(2);
+      var jiage_z = this.jiage + this.jiage_g;
+      uni.navigateTo({
+        url: '../jisuan_jg/jisuan_jg?mon_num=' + mon_num2 + '&mon=' + this.array1[this.index1].num + '&jiage=' + jiage_z });
+
+    },
     bindPickerChange: function bindPickerChange(e) {
       console.log('picker发送选择改变，携带值为', e.target.value);
       console.log(e);
@@ -363,216 +445,11 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
         return;
       }
       this.fb_type = num;
+      this.jiage_z = '';
+      this.jiage_g = '';
+      this.jiage = '';
+      this.jidian = "";
       console.log(this.fb_type);
-    },
-    sub: function sub() {
-      var that = this;
-      if (this.fb_type == 0) {
-        if (!that.pickerText) {
-          uni.showToast({
-            icon: 'none',
-            title: '请选择所在城市' });
-
-          return;
-        }
-        if (!that.xq_name) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入小区名称' });
-
-          return;
-        }
-        if (!that.jiage) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入价格' });
-
-          return;
-        }
-        if (!that.mianji) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入面积' });
-
-          return;
-        }
-        if (!that.louceng) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入楼层' });
-
-          return;
-        }
-
-      }
-
-      if (this.fb_type == 1) {
-        if (!that.pickerText) {
-          uni.showToast({
-            icon: 'none',
-            title: '请选择所在城市' });
-
-          return;
-        }
-        if (!that.xq_name) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入小区名称' });
-
-          return;
-        }
-        if (!that.mianji) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入面积' });
-
-          return;
-        }
-        if (!that.louceng) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入楼层' });
-
-          return;
-        }
-        if (!that.zujin) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入租金' });
-
-          return;
-        }
-        if (!that.yajin) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入押金' });
-
-          return;
-        }
-
-      }
-      if (this.fb_type == 2) {
-        if (!that.pickerText) {
-          uni.showToast({
-            icon: 'none',
-            title: '请选择所在城市' });
-
-          return;
-        }
-        if (!that.xq_name) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入商铺名称' });
-
-          return;
-        }
-        if (!that.jiage) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入价格' });
-
-          return;
-        }
-        if (!that.mianji) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入面积' });
-
-          return;
-        }
-      }
-      if (this.fb_type == 3) {
-        if (!that.pickerText) {
-          uni.showToast({
-            icon: 'none',
-            title: '请选择所在城市' });
-
-          return;
-        }
-        if (!that.xq_name) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入楼盘名称' });
-
-          return;
-        }
-        if (!that.jiage) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入价格' });
-
-          return;
-        }
-        if (!that.mianji) {
-          uni.showToast({
-            icon: 'none',
-            title: '请输入面积' });
-
-          return;
-        }
-      }
-      var value1 = {
-        city: that.pickerText,
-        xq_name: that.xq_name,
-        dujia: that.dujia,
-        jishou: that.array[that.index],
-        leixing: that.array1[that.index1],
-        jiage: that.jiage,
-        huxing: that.array2[that.index2],
-        mianji: that.mianji,
-        chaoxiang: that.array3[that.index3],
-        louceng: that.louceng,
-        fangben: that.array4[that.index4],
-        zhaungxiu: that.array5[that.index5],
-        cheke: that.array6[that.index6],
-        imgs: that.imgb };
-
-      if (that.fb_type == 1) {
-        value1 = {
-          city: that.pickerText,
-          xq_name: that.xq_name,
-          dujia: that.dujia,
-          louceng: that.louceng,
-          huxing: that.array2[that.index2],
-          mianji: that.mianji,
-          chaoxiang: that.array3[that.index3],
-          zujin: that.zujin,
-          yajin: that.yajin,
-          chuzu: that.array7[that.index7],
-          pay_type: that.array8[that.index8],
-          zhaungxiu: that.array5[that.index5],
-          imgs: that.imgb };
-
-      }
-      if (that.fb_type == 2) {//商铺
-        value1 = {
-          city: that.pickerText,
-          xq_name: that.xq_name,
-          dujia: that.dujia,
-          jishou: that.array[that.index],
-          jiage: that.jiage,
-          mianji: that.mianji,
-          zhaungxiu: that.array5[that.index5],
-          fangben: that.array4[that.index4],
-          imgs: that.imgb };
-
-      }
-      if (that.fb_type == 3) {//写字楼
-        value1 = {
-          city: that.pickerText,
-          xq_name: that.xq_name,
-          dujia: that.dujia,
-          jishou: that.array[that.index],
-          jiage: that.jiage,
-          mianji: that.mianji,
-          louceng: that.louceng,
-          zhaungxiu: that.array5[that.index5],
-          fangben: that.array4[that.index4],
-          imgs: that.imgb };
-
-      }
-      console.log(that.fb_type);
-      console.log(value1);
     },
     jump: function jump(e) {
       var that = this;

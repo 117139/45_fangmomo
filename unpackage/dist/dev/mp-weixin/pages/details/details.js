@@ -107,13 +107,15 @@ var render = function() {
 
   var m1 = _vm.getpri(_vm.datas.price)
   var m2 = _vm.getmj(_vm.datas.proportion)
+  var m3 = _vm.getimg(_vm.datas.users.avatar)
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         l0: l0,
         m1: m1,
-        m2: m2
+        m2: m2,
+        m3: m3
       }
     }
   )

@@ -233,6 +233,11 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       return style;
     } }),
 
+  onLoad: function onLoad(option) {
+    this.mon_num = option.mon_num;
+    this.mon = option.mon;
+    this.jiage = option.jiage;
+  },
   onPullDownRefresh: function onPullDownRefresh() {
     console.log('下拉');
     uni.startPullDownRefresh();

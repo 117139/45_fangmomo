@@ -25,7 +25,7 @@
 				<view class="data_li">
 					<view class="li_msg" @tap="jump" :data-url="'../details/details?id='+item.id">
 						<view class="li_tit">
-							<view class="li_name">{{item.estates?item.estates.title:''}}<image v-if="item.img==1" 
+							<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image v-if="item.img==1" 
 								src="../../static/img/index/list_img.png" mode=""></image>
 							</view>
 							<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
@@ -42,7 +42,8 @@
 						</view> -->
 					</view>
 					<view class="li_msg_r">
-						<view class="li_pri"><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
+						<view class="li_pri" v-if="item.type==2"><text>{{item.price}}</text></view>
+						<view class="li_pri" v-else><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
 						<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
 					</view>
 
@@ -59,9 +60,10 @@
 		<view class="data_li " v-if="pltype!=1" v-for="(item,index) in datas">
 			<view class="li_msg" @tap="jump" :data-url="'../details/details?id='+item.id">
 				<view class="li_tit">
-					<view class="li_name">{{item.estates?item.estates.title:''}}<image src="../../static/img/index/list_img.png" mode=""></image>
+					<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image src="../../static/img/index/list_img.png" mode=""></image>
 					</view>
-					<view>今天 10:20</view>
+					<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
+					<view v-else>{{gettime(item.create_time).time}}</view>
 				</view>
 				<view class="li_bq">
 					<view v-if="item.proportion">{{getmj(item.proportion)}}</view>
@@ -74,7 +76,8 @@
 				</view> -->
 			</view>
 			<view class="li_msg_r">
-				<view class="li_pri"><text>210</text>万</view>
+				<!-- <view class="li_pri" v-if="item.type==2"><text>{{item.price}}</text></view> -->
+				<view class="li_pri" ><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
 				<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
 			</view>
 			<view class="li_msg__right1" :class="{'cur':item.active}" @tap="togglePay(item,$event)">
@@ -210,7 +213,7 @@
 										icon:'none',
 										title:'暂无更多数据'
 									})
-									reutrn
+									return
 								}
 								that.datas=that.datas.concat(datas)
 								that.page++
@@ -531,7 +534,7 @@
 	}
 
 	.li_msg {
-		flex: 1;
+		width: 480upx;
 		padding-right: 20px;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
@@ -573,6 +576,7 @@
 	}
 
 	.li_name {
+		flex: 1;
 		color: #1A1A1A;
 		font-size: 32upx;
 	}
