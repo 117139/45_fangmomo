@@ -184,7 +184,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 
 	.wrap_main{
 		width: 100%;

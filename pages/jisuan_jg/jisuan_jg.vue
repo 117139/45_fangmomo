@@ -156,7 +156,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	
 	.content_wrap {
 		padding-top: 200upx;

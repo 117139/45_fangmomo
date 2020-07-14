@@ -1,8 +1,8 @@
 <template>
 	<view class="content_wrap">
-		<cu-custom bgColor="bg-white" :isBack="true">
+		<cu-custom bgColor="bg-white" :isBack="true" class="cu-custom">
 			<block slot="backText"></block>
-			<block slot="content">{{title}}</block>
+			<block slot="content" >房源详情</block>
 		</cu-custom>
 		<view class="xq_banner">
 			<swiper class="xq_swiper" :autoplay="false" :interval="3000" :duration="1000" circular="true" @change="swi_change">
@@ -289,7 +289,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.banner_img{
 		width: 100%;
 		height: 500upx;

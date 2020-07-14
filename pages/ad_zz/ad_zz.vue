@@ -87,7 +87,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 .cu-custom{
 		border-bottom: 1px solid #DBDBDB;
 	}

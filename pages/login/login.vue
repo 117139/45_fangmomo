@@ -239,7 +239,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.action-row {
 		display: flex;
 		flex-direction: row;
