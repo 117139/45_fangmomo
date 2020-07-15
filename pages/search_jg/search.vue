@@ -429,7 +429,8 @@
 			style0() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
-				var padd_top = CustomBar+40
+				// var padd_top = CustomBar+40
+				var padd_top = 80
 				var style = `padding-top:${padd_top}px;`;
 
 				return style
@@ -531,7 +532,7 @@
 		},
 		methods: {
 			retry(){
-				
+				this.xz_type=0
 				this.page=1
 				this.getdata()
 			},
@@ -901,6 +902,7 @@
 					that.jg_cur=-1
 					that.jg_start=''
 					that.jg_end=''
+					that.jg_cs=''
 					console.log(that.jg_start,that.jg_end,that.jg_cur)
 				}
 				if(that.xz_type==3){
@@ -908,6 +910,7 @@
 					that.mj_cur=-1
 					that.mj_start=''
 					that.mj_end=''
+					that.mj_cs=''
 					console.log(that.mj_start,that.mj_end,that.mj_cur)
 				}
 				if(that.xz_type==4){

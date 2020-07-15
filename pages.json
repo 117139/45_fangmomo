@@ -1,15 +1,16 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
-			"path": "pages/login/login",
+			"path": "pages/main/main",
 			"style": {
-				"navigationBarTitleText": "登录"
+				"navigationBarTitleText": "房嬷嬷",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
-			"path": "pages/main/main",
+			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "房嬷嬷"
+				"navigationBarTitleText": "登录"
 			}
 		},  {
 			"path": "pages/reg/reg",
@@ -88,26 +89,26 @@
 		}, {
 			"path": "pages/list/list",
 			"style": {
-				"style": {
-					"enablePullDownRefresh": true
-				}
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/details/details",
-			"style": {}
+			"style": {
+				"enablePullDownRefresh": true
+			}
 		}, {
 			"path": "pages/ad_zz/ad_zz",
 			"style": {}
 		}, {
 			"path": "pages/search/search",
 			"style": {
-				"style": {
-					"enablePullDownRefresh": true
-				}
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/search_jg/search",
-			"style": {}
+			"style": {
+				"enablePullDownRefresh": true
+			}
 		}, {
 			"path": "pages/jisuan/jisuan",
 			"style": {}
@@ -139,6 +140,12 @@
         ,{
             "path" : "pages/city/city",
             "style" : {}
+        }
+        ,{
+            "path" : "pages/Turl/Turl",
+            "style" : {
+							"titleNView":false
+						}
         }
     ],
 	"tabBar": {

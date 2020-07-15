@@ -1,11 +1,18 @@
 <template>
-	<view class="content_wrap">
-		<cu-custom bgColor="bg-white" :isBack="true" class="cu-custom">
+	<view class="content_wrap" :style="style0">
+		<!-- <cu-custom bgColor="bg-white" :isBack="true" class="cu-custom">
 			<block slot="backText"></block>
 			<block slot="content" >房源详情</block>
-		</cu-custom>
-		<view class="xq_banner">
-			<swiper class="xq_swiper" :autoplay="false" :interval="3000" :duration="1000" circular="true" @change="swi_change">
+		</cu-custom> -->
+		<view  class="cu-bar fixed bg-white" :style="style">
+			<view class="action" style="width: 2em;">
+				<text class="cuIcon-back iconfont iconicon-test" @tap="back_fuc"><span></span></text>
+			</view>
+			<view class="content1" style="">房源详情</view>
+			<view class="nav_right" style="width: 2em;"></view>
+		</view>
+		<view v-if="datas" class="xq_banner">
+			<swiper class="xq_swiper" :autoplay="false" :interval="3000" :duration="1000" :circular="true" @change="swi_change">
 				<swiper-item v-for="(item,index) in datas.img">
 					<!-- <view class="swiper-item"> -->
 						<image class="banner_img" :src="getimg(item)" mode="aspectFill"></image>
@@ -13,9 +20,9 @@
 					<!-- </view> -->
 				</swiper-item>
 			</swiper>
-			<view class="xq_swi_index">{{current}}/{{datas.img.length}}</view>
+			<view v-if="datas.img" class="xq_swi_index">{{current}}/{{datas.img.length}}</view>
 		</view>
-		<view class="xq_box">
+		<view v-if="datas" class="xq_box">
 			<view class="xq_tit">
 				<view class="xq_name">{{datas.estates.title}}</view>
 				<view class="xq_cz">
@@ -120,22 +127,40 @@
 					'../../static/img/fang_img5.jpg',
 				],
 				sc_type:0,
-				datas:{
-					name:'万科九如城',
-					name1:'万科九如城',
-					name2:'万科九如城',
-				}
+				datas:{}
 			}
 		},
 		computed: {
 			...mapState(['hasLogin', 'forcedLogin','userName','loginDatas']),
+			style0() {
+				var StatusBar = this.StatusBar;
+				var CustomBar = this.CustomBar;
+				var padd_top = CustomBar
+				var style = `padding-top:${padd_top}px;`;
+				
+				return style
+			},
+			style() {
+				var StatusBar = this.StatusBar;
+				var CustomBar = this.CustomBar;
+				var style = `height:${CustomBar}px;padding-top:${StatusBar}px;`;
+			
+				return style
+			},
 		},
 		onLoad(option) {
 			this.id= option.id
 			console.log(this.id)
 			this.getdata()
 		},
+		onPullDownRefresh() {
+			console.log('下拉')
+			this.getdata()
+		},
 		methods: {
+			back_fuc() {
+				uni.navigateBack()
+			},
 			getimg(img){
 				return service.getimg(img)
 			},

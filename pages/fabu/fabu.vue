@@ -390,12 +390,12 @@
 						// if (res.data.code == 1) {
 						if (res.data.code == 1) {
 							var datas = res.data.data
-							console.log(typeof datas)
+							// console.log(typeof datas)
 							
 							if (typeof datas == 'string') {
 								datas = JSON.parse(datas)
 							}
-							console.log(datas)
+							// console.log(datas)
 						
 								// that.datas = datas
 								
@@ -452,7 +452,7 @@
 						// if (res.data.code == 1) {
 						if (res.data.code == 1) {
 							var datas = res.data.data
-							console.log(typeof datas)
+							// console.log(typeof datas)
 							
 							if (typeof datas == 'string') {
 								datas = JSON.parse(datas)
@@ -934,7 +934,11 @@
 								icon:'none',
 								title: '操作成功'
 							});
-							
+							that.jiage=''
+							that.mianji=''
+							that.louceng=''
+							that.yajin=''
+							that.imgb=[]
 				
 						} else {
 							if (res.data.msg) {

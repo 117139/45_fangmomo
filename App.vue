@@ -61,9 +61,17 @@
 				dblogin(){
 					var that =this
 					if(!uni.getStorageSync('phone')){
-						uni.navigateTo({
-							url:'pages/main/main'
+						uni.showToast({
+						    icon: 'none',
+						    title: '请重新登录账号'
+						  })
+						
+						setTimeout(()=>{
+							uni.reLaunch({
+								url:'./pages/login/login'
+							},2000)
 						})
+						
 						return
 					}
 					var account=uni.getStorageSync('phone')
@@ -74,33 +82,25 @@
 						password: password
 					}
 					var jkurl='/api/login/login'
-					// that.login(that.account);
-					// setTimeout(() => {
-					// 	uni.reLaunch({
-					// 		url: '../main/main'
-					// 	})
-					// },1000)
-					// return
+					
 					service.post(jkurl, data,
 						function(res) {
 							that.btnkg=0
 							if (res.data.code == 1) {
-					
-								// uni.showToast({
-								// 	icon: 'none',
-								// 	title: '登录成功'
-								// })
 								that.login(res.data.data.nickname);
 								that.logindata(res.data.data)
 								uni.setStorageSync('loginmsg', JSON.stringify(res.data.data))
 								uni.setStorageSync('phone', account)
-								
+								var phone=uni.getStorageSync('phone')
+								console.log(phone)
 								uni.setStorageSync('password', password)
-								// setTimeout(() => {
-								// 	uni.reLaunch({
-								// 		url: '../main/main'
-								// 	})
-								// },1000)
+								
+									uni.switchTab({
+										url: './pages/main/main'
+									})
+								
+								
+								
 							} else {
 								if (res.data.msg) {
 								  uni.showToast({
@@ -149,8 +149,12 @@
 		min-height: 100%;
 		display: flex;
 		font-size: 16px;
+		
 	}
-
+	.content1{
+		font-weight: bold;
+		color: #666;
+	}
 	/* #ifdef MP-BAIDU */
 	page {
 		width: 100%;

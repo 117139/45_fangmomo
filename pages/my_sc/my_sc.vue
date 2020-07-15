@@ -6,7 +6,7 @@
 			<block slot="right" @tap="pl_fuc">批量处理</block>
 		</cu-custom> -->
 		<view v-if="pltype==1" class="cu-bar fixed bg-white" :style="style">
-			<view class="action">
+			<view class="action" style="width: 4em;">
 				<text class="cuIcon-back iconfont iconicon-test" @tap="back_fuc"><span></span></text>
 			</view>
 			<view class="content1" style="">我的收藏</view>
@@ -19,77 +19,74 @@
 			<view class="content1" style="">我的收藏</view>
 			<view class="nav_right" @tap="sc_all">全部</view>
 		</view>
-		<view v-if="datas.length==0" class="zanwu">暂无数据</view>
-		<van-swipe-cell v-if="pltype==1" id="swipe-cell" right-width=" 100 " :async-close="true" @close="onClose" v-for="(item,index) in datas">
-			<van-cell-group>
-				<view class="data_li">
-					<view class="li_msg" @tap="jump" :data-url="'../details/details?id='+item.id">
-						<view class="li_tit">
-							<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image v-if="item.img==1" 
-								src="../../static/img/index/list_img.png" mode=""></image>
+		<view>
+			<view v-if="datas.length==0" class="zanwu">暂无数据</view>
+			<uni-swipe-action v-if="pltype==1" style="width: 750upx;">
+			    <uni-swipe-action-item :options="options" @click="onClick($event,index,item.id,item)" @change="change" v-for="(item,index) in datas" :data-id='item.id'>
+						 <view class="data_li">
+							<view class="li_msg" @tap="jump" :data-url="'../details/details?id='+item.id">
+								<view class="li_tit">
+									<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image v-if="item.img==1" 
+										src="../../static/img/index/list_img.png" mode=""></image>
+									</view>
+									<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
+									<view v-else>{{gettime(item.create_time).time}}</view>
+								</view>
+								<view class="li_bq">
+									<view v-if="item.proportion">{{getmj(item.proportion)}}</view>
+									<view v-if="item.fitments">{{item.fitments.title}}</view>
+									<view v-if="item.premisesPermits">{{item.premisesPermits.title}}</view>
+								</view>
+								<!-- <view class="li_fbr">
+									<text>宜兴真厉害房产中介 </text>
+									<text> 陈女士</text>
+								</view> -->
 							</view>
-							<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
-							<view v-else>{{gettime(item.create_time).time}}</view>
+							<view class="li_msg_r">
+								<view class="li_pri" v-if="item.type==2"><text>{{item.price}}</text></view>
+								<view class="li_pri" v-else><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
+								<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
+							</view>
+									
+						 </view>
+					</uni-swipe-action-item>
+			</uni-swipe-action>
+			
+			
+			<view class="data_li " v-if="pltype!=1" v-for="(item,index) in datas">
+				<view class="li_msg" @tap="jump" :data-url="'../details/details?id='+item.id">
+					<view class="li_tit">
+						<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image src="../../static/img/index/list_img.png" mode=""></image>
 						</view>
-						<view class="li_bq">
-							<view v-if="item.proportion">{{getmj(item.proportion)}}</view>
-							<view v-if="item.fitments">{{item.fitments.title}}</view>
-							<view v-if="item.premisesPermits">{{item.premisesPermits.title}}</view>
-						</view>
-						<!-- <view class="li_fbr">
-							<text>宜兴真厉害房产中介 </text>
-							<text> 陈女士</text>
-						</view> -->
+						<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
+						<view v-else>{{gettime(item.create_time).time}}</view>
 					</view>
-					<view class="li_msg_r">
-						<view class="li_pri" v-if="item.type==2"><text>{{item.price}}</text></view>
-						<view class="li_pri" v-else><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
-						<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
+					<view class="li_bq">
+						<view v-if="item.proportion">{{getmj(item.proportion)}}</view>
+						<view v-if="item.fitments">{{item.fitments.title}}</view>
+						<view v-if="item.premisesPermits">{{item.premisesPermits.title}}</view>
 					</view>
-
+					<!-- <view class="li_fbr">
+						<text>宜兴真厉害房产中介 </text>
+						<text> 陈女士</text>
+					</view> -->
 				</view>
-			</van-cell-group>
-			<view slot="right" class="van-swipe-cell__right" :data-id='item.id' :name='item.id'>
-				<!-- 取消收藏 -->
-				<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
-				<text class="iconfont iconguanbi fz24"></text>
-				<text class="fz24">取消收藏</text>
-			</view>
-
-		</van-swipe-cell>
-		<view class="data_li " v-if="pltype!=1" v-for="(item,index) in datas">
-			<view class="li_msg" @tap="jump" :data-url="'../details/details?id='+item.id">
-				<view class="li_tit">
-					<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image src="../../static/img/index/list_img.png" mode=""></image>
+				<view class="li_msg_r">
+					<!-- <view class="li_pri" v-if="item.type==2"><text>{{item.price}}</text></view> -->
+					<view class="li_pri" ><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
+					<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
+				</view>
+				<view class="li_msg__right1" :class="{'cur':item.active}" @tap="togglePay(item,$event)">
+					<view class="xz_box">
+						<text class="iconfont icongougou"></text>
 					</view>
-					<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
-					<view v-else>{{gettime(item.create_time).time}}</view>
-				</view>
-				<view class="li_bq">
-					<view v-if="item.proportion">{{getmj(item.proportion)}}</view>
-					<view v-if="item.fitments">{{item.fitments.title}}</view>
-					<view v-if="item.premisesPermits">{{item.premisesPermits.title}}</view>
-				</view>
-				<!-- <view class="li_fbr">
-					<text>宜兴真厉害房产中介 </text>
-					<text> 陈女士</text>
-				</view> -->
-			</view>
-			<view class="li_msg_r">
-				<!-- <view class="li_pri" v-if="item.type==2"><text>{{item.price}}</text></view> -->
-				<view class="li_pri" ><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
-				<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
-			</view>
-			<view class="li_msg__right1" :class="{'cur':item.active}" @tap="togglePay(item,$event)">
-				<view class="xz_box">
-					<text class="iconfont icongougou"></text>
 				</view>
 			</view>
-		</view>
-		<view class="sc_box" v-if="pltype!=1">
-			<view class="sc_btn" @tap="sc_fuc">
-				<text class="iconfont iconguanbi"></text>
-				<text>取消收藏</text>
+			<view class="sc_box" v-if="pltype!=1">
+				<view class="sc_btn" @tap="sc_fuc">
+					<text class="iconfont iconguanbi"></text>
+					<text>取消收藏</text>
+				</view>
 			</view>
 		</view>
 		<view  class="sc_box1" v-if="pltype!=1"></view>
@@ -102,6 +99,9 @@
     import Vue from 'vue'
 	import Dialog from '../../wxcomponents/vant/dialog/dialog';
 	import service from '../../service.js';
+	import uniSwipeAction from '../../components/uni-swipe-action/uni-swipe-action.vue'
+	import uniSwipeActionItem from '../../components/uni-swipe-action-item/uni-swipe-action-item.vue'
+	
 	import {
 		mapState,
 		mapMutations
@@ -117,8 +117,19 @@
 				page:1,
 				pagesize:20,
 				datas: [],
-
+				options:[
+					{
+							text: '取消收藏',
+							style: {
+									backgroundColor: '#f44'
+							}
+					}
+				]
 			}
+		},
+		components: {
+		    uniSwipeAction,
+		    uniSwipeActionItem
 		},
 		computed: {
 			...mapState(['hasLogin', 'forcedLogin', 'userName','loginDatas']),
@@ -163,6 +174,19 @@
 			this.getdata()
 		},
 		methods: {
+			onClick(e,idx,id,item){
+				console.log(e)
+				console.log(idx)
+				// console.log('当前点击的是第'+e.index+'个按钮，点击内容是'+e.content.text)
+				if(e.index==0){
+					console.log(item)
+					this.del_fuc(id)
+				}
+				
+			},
+			change(open){
+				console.log('当前开启状态：'+ open)
+			},
 			getpri(pri){
 				return service.getpri1(pri)
 			},
@@ -423,6 +447,64 @@
 						});
 						break;
 				}
+			},
+			del_fuc(id){
+				var that =this
+				Dialog.confirm({
+					message: '确定删除该收藏吗？',
+				}).then(() => {
+					
+					var data = {
+						id:id,
+						token:that.loginDatas.token,
+					}
+					//selectSaraylDetailByUserCard
+					var jkurl = '/api/my/collect'
+					
+					
+					service.post(jkurl, data,
+						function(res) {
+							
+							// if (res.data.code == 1) {
+							if (res.data.code == 1) {
+								
+								
+								
+									
+									uni.showToast({
+										icon:'none',
+										title:'操作成功'
+									})
+									that.page=1
+									that.getdata()
+									that.btnkg=0
+					
+							} else {
+								that.btnkg=0
+								if (res.data.msg) {
+									uni.showToast({
+										icon: 'none',
+										title: res.data.msg
+									})
+								} else {
+									uni.showToast({
+										icon: 'none',
+										title: '操作失败'
+									})
+								}
+							}
+						},
+						function(err) {
+							that.btnkg=0
+							
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+						
+						}
+					)
+				});
 			},
 			jump(e) {
 				var that = this

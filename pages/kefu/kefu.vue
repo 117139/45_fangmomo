@@ -1,9 +1,16 @@
 <template>
-	<view class="content_wrap_f3">
-		<cu-custom bgColor="bg-white" :isBack="true">
+	<view class="content_wrap_f3" :style="style0">
+		<view  class="cu-bar fixed bg-white" :style="style">
+			<view class="action" style="width: 2em;">
+				<text class="cuIcon-back iconfont iconicon-test" @tap="back_fuc"><span></span></text>
+			</view>
+			<view class="content1" style="">联系客服</view>
+			<view class="nav_right" style="width: 2em;"></view>
+		</view>
+		<!-- <cu-custom bgColor="bg-white" :isBack="true">
 			<block slot="backText"></block>
 			<block slot="content">联系客服</block>
-		</cu-custom>
+		</cu-custom> -->
 		<view class="hx20"></view>
 		<view class="my_list">
 			<view class="my_li" @tap="jump"  data-url="" data-login='true'>
@@ -12,7 +19,7 @@
 					<view>{{datas.Customer_service_wechat[0].body}}<text class="iconfont iconnext"></text></view>
 				</view>
 			</view>
-			<view class="my_li" @tap="call_tel"  data-tel="datas.Customer_service_phone[0].body" data-login='true'>
+			<view class="my_li" @tap="call_tel"  :data-tel="datas.Customer_service_phone[0].body" data-login='true'>
 				<view class="my_li_msg">
 					<view class="my_li_name">电话</view>
 					<view>{{datas.Customer_service_phone[0].body}}<text class="iconfont iconnext"></text></view>
@@ -38,7 +45,28 @@
 		onLoad() {
 			this.getdata()
 		},
+		computed: {
+			...mapState(['hasLogin', 'forcedLogin','userName','loginDatas']),
+			style0() {
+				var StatusBar = this.StatusBar;
+				var CustomBar = this.CustomBar;
+				var padd_top = CustomBar
+				var style = `padding-top:${padd_top}px;`;
+				
+				return style
+			},
+			style() {
+				var StatusBar = this.StatusBar;
+				var CustomBar = this.CustomBar;
+				var style = `height:${CustomBar}px;padding-top:${StatusBar}px;`;
+			
+				return style
+			},
+		},
 		methods: {
+			back_fuc() {
+				uni.navigateBack()
+			},
 			getdata(){
 				
 				///api/info/list

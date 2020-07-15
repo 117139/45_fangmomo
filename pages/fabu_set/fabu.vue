@@ -1,9 +1,16 @@
 <template>
-	<view class="content_wrap_f3" >
-		<cu-custom bgColor="bg-white" :isBack="true" class="cu-custom">
+	<view class="content_wrap_f3"  :style="style0">
+		<view  class="cu-bar fixed bg-white" :style="style">
+			<view class="action" style="width: 2em;">
+				<text class="cuIcon-back iconfont iconicon-test" @tap="back_fuc"><span></span></text>
+			</view>
+			<view class="content1" style="">编辑</view>
+			<view class="nav_right" style="width: 2em;"></view>
+		</view>
+		<!-- <cu-custom bgColor="bg-white" :isBack="true" class="cu-custom">
 			<block slot="backText"></block>
 			<block slot="content">编辑</block>
-		</cu-custom>
+		</cu-custom> -->
 		<!-- <view class="fb_type" :style="style1">
 			<view :class="{'cur':fb_type==0}" @tap="fb_fuc(0)">售房</view>
 			<view :class="{'cur':fb_type==1}" @tap="fb_fuc(1)">租房</view>
@@ -247,16 +254,16 @@
 			style0() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
-				var padd_top = CustomBar + 40
+				var padd_top = CustomBar
 				var style = `padding-top:${padd_top}px;`;
-
+				
 				return style
 			},
 			style() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
 				var style = `height:${CustomBar}px;padding-top:${StatusBar}px;`;
-
+			
 				return style
 			},
 			style1() {
@@ -308,6 +315,9 @@
 			console.log('上拉')
 		},
 		methods: {
+			back_fuc() {
+				uni.navigateBack()
+			},
 			getimg(img){
 				return service.getimg(img)
 			},
@@ -342,7 +352,7 @@
 								 //城市 小区
 								 that.xqitem=datas.estates
 								 that.xq_name=datas.estates.title
-								 that.$set(that.xqitem,'pid',datas.district_id)
+								 that.$set(that.xqitem,'path','-31-93-'+datas.district_id+'-97-')
 									that.getcity(datas.city_id)
 									//独家
 									that.dujia=datas.exclusive                  //独家
@@ -357,7 +367,7 @@
 									}*/
 									if(datas.jishou_id){
 										for(var i in that.array){
-											console.log(datas.jishou_id)
+											//console.log(datas.jishou_id)
 											if(datas.jishou_id==that.array[i].id){
 												that.index=i  //几手
 											}
@@ -366,7 +376,7 @@
 									
 									if(datas.home_type_id){
 										for(var i=0;i<that.array1.length;i++){
-											console.log(datas.home_type_id)
+											//console.log(datas.home_type_id)
 											if(datas.home_type_id==that.array1[i].id){
 												that.index1=i  //类型
 											}
@@ -381,7 +391,7 @@
 									if(datas.house_type_id){
 										// for(var i in that.array2){
 										for(var i=0;i<that.array2.length;i++){
-											console.log(datas.house_type_id)
+											//console.log(datas.house_type_id)
 											if(datas.house_type_id==that.array2[i].id){
 												that.index2==i   //户型
 											}
@@ -393,7 +403,7 @@
 									if(datas.orientation_id){
 										// for(var i in that.array3){
 										for(var i=0;i<that.array3.length;i++){
-											console.log(datas.orientation_id)
+											//console.log(datas.orientation_id)
 											if(datas.orientation_id==that.array3[i].id){
 												that.index3==i     //朝向
 											}
@@ -406,7 +416,7 @@
 									if(datas.premises_permit_id){
 										// for(var i in that.array4){
 										for(var i=0;i<that.array4.length;i++){
-											console.log(datas.premises_permit_id)
+											//console.log(datas.premises_permit_id)
 											if(datas.premises_permit_id==that.array4[i].id){
 												that.index4==i     //房本
 											}
@@ -415,7 +425,7 @@
 									if(datas.fitment_id){
 										// for(var i in that.array5){
 										for(var i=0;i<that.array5.length;i++){
-											console.log(datas.fitment_id)
+											//console.log(datas.fitment_id)
 											if(datas.fitment_id==that.array5[i].id){
 												that.index5==i      //装修
 											}
@@ -428,7 +438,7 @@
 									if(datas.rent_out_type_id){
 										// for(var i in that.array5){
 										for(var i=0;i<that.array7.length;i++){
-											console.log(datas.rent_out_type_id)
+											//console.log(datas.rent_out_type_id)
 											if(datas.rent_out_type_id==that.array7[i].id){
 												that.index7==i      //出租方式
 											}
@@ -437,7 +447,7 @@
 									if(datas.payment_id){
 										// for(var i in that.array5){
 										for(var i=0;i<that.array8.length;i++){
-											console.log(datas.payment_id)
+											//console.log(datas.payment_id)
 											if(datas.payment_id==that.array8[i].id){
 												that.index8==i      //付款方式
 											}

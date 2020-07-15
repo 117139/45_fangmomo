@@ -12,8 +12,11 @@
 			indicator-color="rgba(255,255,255,.6)" indicator-active-color="rgba(255,255,255,1)"
 		 :autoplay="autoplay" :interval="interval" :duration="duration" circular='true'>
 				<swiper-item v-if="item.body" v-for="(item,idx) in datas.banner">
+						<!-- <image v-if="item.url" class="swi_img" :src="getimg(item.body)" mode="aspectFill"
+						 @tap="jumpurl" :data-url="item.url"></image> -->
 						<image v-if="item.url" class="swi_img" :src="getimg(item.body)" mode="aspectFill"
-						 @tap="jumpurl" :data-url="item.url"></image>
+						 @tap="jump" :data-url="'../Turl/Turl?url='+item.url"></image>
+						 <!-- /'../webview/webview?url='+datas.url -->
 						<image v-else class="swi_img" :src="getimg(item.body)" mode="aspectFill"
 						 @tap="jump" data-url="../ad_zz/ad_zz"></image>
 				</swiper-item>
@@ -78,6 +81,7 @@
 			};
 		},
 		onLoad() {
+			this.dblogin()
 			this.getdata()
 			
 			
@@ -159,12 +163,13 @@
 		},
 		onPullDownRefresh() {
 			console.log('下拉')
-			uni.startPullDownRefresh();
+			this.getdata()
 		},
 		onReachBottom() {
 			console.log('上拉')
 		},
 		methods: {
+			...mapMutations(['login','logindata','logout','setplatform']),
 			getimg(img){
 				return service.getimg(img)
 			},
@@ -234,9 +239,15 @@
 						that.btnkg = 0
 					}, 1000)
 				}
-				
 				var datas = e.currentTarget.dataset
-				window.location.href = datas.url
+				console.log('../webview/webview?url='+datas.url)
+				uni.navigateTo({
+					url:'../webview/webview'
+				})
+				uni.navigateTo({
+					url:'../webview/webview?url='+datas.url
+				})
+				// window.location.href = datas.url
 			},
 			jump(e) {
 				var that = this
@@ -252,6 +263,74 @@
 
 				service.jump(e)
 			},
+			dblogin(){
+				var that =this
+				if(!uni.getStorageSync('phone')){
+					uni.navigateTo({
+						url:'../login/login'
+					})
+					return
+				}
+				var account=uni.getStorageSync('phone')
+				var password=uni.getStorageSync('password')
+				console.log(account)
+				const data = {
+					phone: account,
+					password: password
+				}
+				var jkurl='/api/login/login'
+				
+				service.post(jkurl, data,
+					function(res) {
+						that.btnkg=0
+						if (res.data.code == 1) {
+							that.login(res.data.data.nickname);
+							that.logindata(res.data.data)
+							uni.setStorageSync('loginmsg', JSON.stringify(res.data.data))
+							uni.setStorageSync('phone', account)
+							var phone=uni.getStorageSync('phone')
+							console.log(phone)
+							uni.setStorageSync('password', password)
+							
+								
+							
+							
+						} else {
+							if (res.data.msg) {
+							  uni.showToast({
+							    icon: 'none',
+							    title: res.data.msg
+							  })
+							} else {
+							  uni.showToast({
+							    icon: 'none',
+							    title: '请重新登录账号'
+							  })
+							}
+							setTimeout(()=>{
+								uni.hideToast()
+								uni.reLaunch({
+									url:'../login/login'
+								})
+							},2000)
+						}
+					},
+					function(err) {
+						that.btnkg=0
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+			}
 		}
 	}
 </script>

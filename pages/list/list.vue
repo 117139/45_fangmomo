@@ -532,7 +532,7 @@
 		
 		methods: {
 			retry(){
-				
+				this.xz_type=0
 				this.page=1
 				this.getdata()
 			},
