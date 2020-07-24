@@ -183,7 +183,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 8));
-var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var mInput = function mInput() {__webpack_require__.e(/*! require.ensure | components/m-input */ "components/m-input").then((function () {return resolve(__webpack_require__(/*! ../../components/m-input.vue */ 252));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var mInput = function mInput() {__webpack_require__.e(/*! require.ensure | components/m-input */ "components/m-input").then((function () {return resolve(__webpack_require__(/*! ../../components/m-input.vue */ 258));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 
@@ -204,47 +204,9 @@ var inputt;var _default =
       '写字楼',
       '租房'],
 
-      data_list: [
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-
-      qy_arr3: [
-      '宜兴',
-      '宜兴a',
-      '宜兴a1',
-      '宜兴a2',
-      '宜兴4a3',
-      '宜兴3a4',
-      '宜兴2a5',
-      '宜兴1a6',
-      '宜兴a17',
-      '科九如城',
-      '宜兴111',
-      '宜兴222',
-      '宜兴333',
-      '宜兴444',
-      '宜兴555',
-      '宜兴666',
-      '科宜兴'],
-
-      qy_show: [
-      '宜兴',
-      '宜兴a',
-      '宜兴a1',
-      '宜兴a2',
-      '宜兴4a3',
-      '宜兴3a4',
-      '宜兴2a5',
-      '宜兴1a6',
-      '宜兴a17',
-      '科九如城',
-      '宜兴111',
-      '宜兴222',
-      '宜兴333',
-      '宜兴444',
-      '宜兴555',
-      '宜兴666',
-      '科宜兴'],
-
+      data_list: [],
+      qy_arr3: [],
+      qy_show: [],
       jg_cur: 0 };
 
   },
@@ -268,7 +230,7 @@ var inputt;var _default =
     style1: function style1() {
       var StatusBar = this.StatusBar;
       var CustomBar = this.CustomBar;
-      var style = "padding-top:".concat(CustomBar, "px;");
+      var style = "top:".concat(CustomBar, "px;");
 
       return style;
     } }),

@@ -222,12 +222,12 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
 
         if (res.data.code == 1) {
           var datas = res.data.data;
-          console.log(typeof datas);
+          // console.log(typeof datas)
 
           if (typeof datas == 'string') {
             datas = JSON.parse(datas);
           }
-          console.log(datas);
+          // console.log(datas)
 
           that.datas = datas;
 

@@ -214,7 +214,7 @@
 			dblogin(){
 				var that =this
 				if(!uni.getStorageSync('phone')){
-					uni.navigateTo({
+					uni.reLaunch({
 						url:'pages/login/login'
 					})
 					return

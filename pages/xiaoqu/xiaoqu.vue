@@ -5,7 +5,7 @@
 			<block slot="content" >{{fb_type==1?'小区选择':fb_type==3?'商铺选择':'楼盘选择'}}</block>
 		</cu-custom>
 		<view class="html_box">
-			<view class="ss_box1">
+			<view class="ss_box1"  :style="style1">
 				<view class="ss_box">
 					<image class="ss_icon" src="../../static/img/index/search.png" mode=""></image>
 					<m-input class="ss_int" type="text" clearable v-model="qy_search" @input='search_qy' placeholder="输入小区进行搜索"
@@ -90,21 +90,21 @@
 				var CustomBar = this.CustomBar;
 				var padd_top = CustomBar
 				var style = `padding-top:${padd_top}px;`;
-
+			
 				return style
 			},
 			style() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
 				var style = `height:${CustomBar}px;padding-top:${StatusBar}px;`;
-
+			
 				return style
 			},
 			style1() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
-				var style = `padding-top:${CustomBar}px;`;
-
+				var style = `top:${CustomBar}px;`;
+			
 				return style
 			},
 		},

@@ -7871,18 +7871,18 @@ exports.default = Dialog;
 
 /***/ }),
 
-/***/ 264:
+/***/ 270:
 /*!*********************************************************************************************!*\
   !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
   \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 265);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 271);
 
 /***/ }),
 
-/***/ 265:
+/***/ 271:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -7913,7 +7913,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 266);
+module.exports = __webpack_require__(/*! ./runtime */ 272);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -7930,7 +7930,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 266:
+/***/ 272:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -8662,7 +8662,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 274:
+/***/ 280:
 /*!***********************************************************************************!*\
   !*** E:/phpStudy/WWW/45_fangmomo/components/simple-address/city-data/province.js ***!
   \***********************************************************************************/
@@ -8816,7 +8816,7 @@ provinceData;exports.default = _default;
 
 /***/ }),
 
-/***/ 275:
+/***/ 281:
 /*!*******************************************************************************!*\
   !*** E:/phpStudy/WWW/45_fangmomo/components/simple-address/city-data/city.js ***!
   \*******************************************************************************/
@@ -10334,7 +10334,7 @@ cityData;exports.default = _default;
 
 /***/ }),
 
-/***/ 276:
+/***/ 282:
 /*!*******************************************************************************!*\
   !*** E:/phpStudy/WWW/45_fangmomo/components/simple-address/city-data/area.js ***!
   \*******************************************************************************/
@@ -22890,6 +22890,113 @@ var areaData = [
 
 
 areaData;exports.default = _default;
+
+/***/ }),
+
+/***/ 295:
+/*!*****************************************************************************!*\
+  !*** E:/phpStudy/WWW/45_fangmomo/components/uni-swipe-action-item/mpwxs.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  data: function data() {
+    return {
+      position: [],
+      button: [] };
+
+  },
+  computed: {
+    pos: function pos() {
+      return JSON.stringify(this.position);
+    },
+    btn: function btn() {
+      return JSON.stringify(this.button);
+    } },
+
+  watch: {
+    show: function show(newVal) {
+      if (this.autoClose) return;
+      var valueObj = this.position[0];
+      if (!valueObj) {
+        this.init();
+        return;
+      }
+      valueObj.show = newVal;
+      this.$set(this.position, 0, valueObj);
+    } },
+
+  created: function created() {
+    if (this.swipeaction.children !== undefined) {
+      this.swipeaction.children.push(this);
+    }
+  },
+  mounted: function mounted() {
+    this.init();
+
+  },
+  beforeDestroy: function beforeDestroy() {var _this = this;
+    this.swipeaction.children.forEach(function (item, index) {
+      if (item === _this) {
+        _this.swipeaction.children.splice(index, 1);
+      }
+    });
+  },
+  methods: {
+    init: function init() {var _this2 = this;
+
+      setTimeout(function () {
+        _this2.getSize();
+        _this2.getButtonSize();
+      }, 50);
+    },
+    closeSwipe: function closeSwipe(e) {
+      if (!this.autoClose) return;
+      this.swipeaction.closeOther(this);
+    },
+
+    change: function change(e) {
+      this.$emit('change', e.open);
+      var valueObj = this.position[0];
+      if (valueObj.show !== e.open) {
+        valueObj.show = e.open;
+        this.$set(this.position, 0, valueObj);
+      }
+    },
+    onClick: function onClick(index, item) {
+      this.$emit('click', {
+        content: item,
+        index: index });
+
+    },
+    appTouchStart: function appTouchStart() {},
+    appTouchEnd: function appTouchEnd() {},
+    getSize: function getSize() {var _this3 = this;
+      var views = uni.createSelectorQuery().in(this);
+      views.
+      selectAll('.selector-query-hock').
+      boundingClientRect(function (data) {
+        if (_this3.autoClose) {
+          data[0].show = false;
+        } else {
+          data[0].show = _this3.show;
+        }
+        _this3.position = data;
+      }).
+      exec();
+    },
+    getButtonSize: function getButtonSize() {var _this4 = this;
+      var views = uni.createSelectorQuery().in(this);
+      views.
+      selectAll('.button-hock').
+      boundingClientRect(function (data) {
+        _this4.button = data;
+      }).
+      exec();
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

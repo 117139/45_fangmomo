@@ -47,14 +47,14 @@
 						<view v-if="item.fitments">{{item.fitments.title}}</view>
 						<view v-if="item.premisesPermits">{{item.premisesPermits.title}}</view>
 					</view>
-					<view class="li_fbr">
+					<view v-if="item.users" class="li_fbr">
 						<text>{{item.users.company}} </text>
 						<text> {{item.users.nickname}}</text>
 					</view>
 				</view>
 				<view class="li_msg_r">
 					<view class="li_pri" ><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
-					<image @tap="call_tel" :data-tel="item.users.phone" class="list_tel" src="../../static/img/index/list_tel.png"></image>
+					<image v-if="item.users" @tap="call_tel" :data-tel="item.users.phone" class="list_tel" src="../../static/img/index/list_tel.png"></image>
 				</view>
 			</view>
 		</view>

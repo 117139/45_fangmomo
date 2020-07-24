@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/login/login",
     "pages/main/main",
+    "pages/login/login",
     "pages/reg/reg",
     "pages/pwd/pwd",
     "pages/user/user",
@@ -28,7 +28,8 @@
     "pages/my_fy/my_fy",
     "pages/fabu_set/fabu",
     "pages/xiaoqu/xiaoqu",
-    "pages/city/city"
+    "pages/city/city",
+    "pages/Turl/Turl"
   ],
   "subPackages": [],
   "window": {
@@ -39,7 +40,7 @@
   },
   "tabBar": {
     "color": "#7a7e83",
-    "selectedColor": "#0faeff",
+    "selectedColor": "#3171f5",
     "backgroundColor": "#ffffff",
     "list": [
       {
@@ -116,5 +117,6 @@
     "van-collapse-item": "/wxcomponents/vant/collapse-item/index",
     "van-picker": "/wxcomponents/vant/picker/index",
     "cu-custom": "/colorui/components/cu-custom"
-  }
+  },
+  "sitemapLocation": "sitemap91.json"
 }

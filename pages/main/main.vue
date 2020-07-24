@@ -34,6 +34,10 @@
 				<image class="indexli_img" src="../../static/img/index/indexbtn1.png" mode=""></image>
 				<text class="indexli_text">售房</text>
 			</view>
+			<view class="index_li" @tap="jump" data-url="../list/list?title=租房&type=2">
+				<image class="indexli_img" src="../../static/img/index/indexbtn4.png" mode=""></image>
+				<text class="indexli_text">租房</text>
+			</view>
 			<view class="index_li" @tap="jump" data-url="../list/list?title=商铺&type=3">
 				<image class="indexli_img" src="../../static/img/index/indexbtn2.png" mode=""></image>
 				<text class="indexli_text">商铺</text>
@@ -41,10 +45,6 @@
 			<view class="index_li" @tap="jump" data-url="../list/list?title=写字楼&type=4">
 				<image class="indexli_img" src="../../static/img/index/indexbtn3.png" mode=""></image>
 				<text class="indexli_text">写字楼</text>
-			</view>
-			<view class="index_li" @tap="jump" data-url="../list/list?title=租房&type=2">
-				<image class="indexli_img" src="../../static/img/index/indexbtn4.png" mode=""></image>
-				<text class="indexli_text">租房</text>
 			</view>
 		</view>
 		<view class="gj_tit">房屋工具</view>
@@ -266,7 +266,7 @@
 			dblogin(){
 				var that =this
 				if(!uni.getStorageSync('phone')){
-					uni.navigateTo({
+					uni.reLaunch({
 						url:'../login/login'
 					})
 					return

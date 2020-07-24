@@ -61,16 +61,16 @@
 				dblogin(){
 					var that =this
 					if(!uni.getStorageSync('phone')){
-						uni.showToast({
-						    icon: 'none',
-						    title: '请重新登录账号'
-						  })
+						// uni.showToast({
+						//     icon: 'none',
+						//     title: '请重新登录账号'
+						//   })
 						
-						setTimeout(()=>{
-							uni.reLaunch({
-								url:'./pages/login/login'
-							},2000)
-						})
+						// setTimeout(()=>{
+						// 	uni.reLaunch({
+						// 		url:'./pages/login/login'
+						// 	},2000)
+						// })
 						
 						return
 					}
@@ -95,9 +95,9 @@
 								console.log(phone)
 								uni.setStorageSync('password', password)
 								
-									uni.switchTab({
-										url: './pages/main/main'
-									})
+									// uni.switchTab({
+									// 	url: './pages/main/main'
+									// })
 								
 								
 								

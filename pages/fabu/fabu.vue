@@ -25,28 +25,28 @@
 			<!-- <picker  v-if="fb_type==0||fb_type==1" @change="bindPickerChange" range-key="title" data-type="b" :value="indexb" :range="arrayb"> -->
 				<view v-if="fb_type==1||fb_type==2" class="fb_li" @tap="jump" :data-url="'/pages/xiaoqu/xiaoqu?type=1&id='+cityitem.id">
 					<view>小区名称</view>
-					<view>{{xq_name?xq_name:'请输入'}}</view>
+					<view>{{xq_name?xq_name:'请选择'}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			<!-- </picker> -->
 			<!-- <view class="fb_li" v-if="fb_type==2">
 				<view>商铺名称</view>
-				<input type="text" placeholder="请输入" v-model="xq_name"></input>
+				<input type="text" placeholder="请选择" v-model="xq_name"></input>
 			</view> -->
 			
 			<view v-if="fb_type==3" class="fb_li" @tap="jump" :data-url="'/pages/xiaoqu/xiaoqu?type=3&id='+cityitem.id">
 				<view>商铺名称</view>
-				<view>{{xq_name?xq_name:'请输入'}}</view>
+				<view>{{xq_name?xq_name:'请选择'}}</view>
 				<text class="iconfont iconnext"></text>
 			</view>
 			<!-- <view class="fb_li" v-if="fb_type==3">
 				<view>楼盘名称</view>
-				<input type="text" placeholder="请输入" v-model="xq_name"></input>
+				<input type="text" placeholder="请选择" v-model="xq_name"></input>
 			</view> -->
 			
 			<view v-if="fb_type==4" class="fb_li" @tap="jump" :data-url="'/pages/xiaoqu/xiaoqu?type=4&id='+cityitem.id">
-				<view>商铺名称</view>
-				<view>{{xq_name?xq_name:'请输入'}}</view>
+				<view>楼盘名称</view>
+				<view>{{xq_name?xq_name:'请选择'}}</view>
 				<text class="iconfont iconnext"></text>
 			</view>
 			<view class="fb_li">
@@ -257,10 +257,13 @@
 				that.city_name=that.cityitem.title
 				console.log(that.cityitem.title)
 				console.log(that.cityitem)
-				that.getDis(that.cityitem.id)
+				// that.getDis(that.cityitem.id)
 				uni.setStorageSync('cityitem','')
 				uni.setStorageSync('xqitem','')
-				
+				uni.removeStorage('cityitem')
+				uni.removeStorage('xqitem')
+				that.xq_name= ''//小区名称
+				that.xqitem=''
 			}
 			//xqitem
 		  if(uni.getStorageSync('xqitem')){
@@ -269,6 +272,7 @@
 				that.xq_name=that.xqitem.title
 				console.log(that.xq_name)
 				uni.setStorageSync('xqitem','')
+				uni.removeStorage('xqitem')
 			}
 		},
 		computed: {
@@ -341,7 +345,7 @@
 								that.cityitem=that.arrayb[0]
 								that.city_name=that.arrayb[0].title
 								uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
-								that.getDis(datas[0].id)
+								// that.getDis(datas[0].id)
 								// that.xqitem=that.arrayb[0].child[0]
 								// that.xq_name=that.arrayb[0].child[0].title
 								// uni.setStorageSync('xq_storage',JSON.stringify(that.arrayb[0].child))
@@ -663,6 +667,8 @@
 					return
 				}
 				this.fb_type = num
+				this.xq_name=''
+				this.xqitem=''
 				this.getcity()
 				this.getcateList()
 				console.log(this.fb_type)
@@ -815,13 +821,13 @@
 						return
 					}
 				}
-				if(that.imgb.length==0){
-					uni.showToast({
-						icon:'none',
-						title:'请上传图片'
-					})
-					return
-				}
+				// if(that.imgb.length==0){
+				// 	uni.showToast({
+				// 		icon:'none',
+				// 		title:'请上传图片'
+				// 	})
+				// 	return
+				// }
 				var value1
 				 var dis_id=that.xqitem.path.split('-')
 				 console.log(dis_id)

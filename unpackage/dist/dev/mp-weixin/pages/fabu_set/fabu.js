@@ -333,6 +333,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
 var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 8));
 var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 
@@ -395,7 +402,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
     style0: function style0() {
       var StatusBar = this.StatusBar;
       var CustomBar = this.CustomBar;
-      var padd_top = CustomBar + 40;
+      var padd_top = CustomBar;
       var style = "padding-top:".concat(padd_top, "px;");
 
       return style;
@@ -433,11 +440,14 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       that.cityitem = JSON.parse(uni.getStorageSync('cityitem'));
       that.city_name = that.cityitem.title;
       console.log(that.cityitem.title);
-      console.log(that.cityitem);
-      that.getDis(that.cityitem.id);
+      // console.log(that.cityitem)
+      // that.getDis(that.cityitem.id)
       uni.setStorageSync('cityitem', '');
       uni.setStorageSync('xqitem', '');
-
+      uni.removeStorage('cityitem');
+      uni.removeStorage('xqitem');
+      that.xq_name = ''; //小区名称
+      that.xqitem = '';
     }
     //xqitem
     if (uni.getStorageSync('xqitem')) {
@@ -445,7 +455,8 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       console.log(that.xqitem);
       that.xq_name = that.xqitem.title;
       console.log(that.xq_name);
-      // uni.setStorageSync('xqitem','')
+      uni.setStorageSync('xqitem', '');
+      uni.removeStorage('xqitem');
     }
   },
   onPullDownRefresh: function onPullDownRefresh() {
@@ -456,6 +467,9 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
     console.log('上拉');
   },
   methods: {
+    back_fuc: function back_fuc() {
+      uni.navigateBack();
+    },
     getimg: function getimg(img) {
       return _service.default.getimg(img);
     },
@@ -490,7 +504,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           //城市 小区
           that.xqitem = datas.estates;
           that.xq_name = datas.estates.title;
-          that.$set(that.xqitem, 'pid', datas.district_id);
+          that.$set(that.xqitem, 'path', '-31-93-' + datas.district_id + '-97-');
           that.getcity(datas.city_id);
           //独家
           that.dujia = datas.exclusive; //独家
@@ -505,7 +519,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           }*/
           if (datas.jishou_id) {
             for (var i in that.array) {
-              console.log(datas.jishou_id);
+              //console.log(datas.jishou_id)
               if (datas.jishou_id == that.array[i].id) {
                 that.index = i; //几手
               }
@@ -514,7 +528,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
 
           if (datas.home_type_id) {
             for (var i = 0; i < that.array1.length; i++) {
-              console.log(datas.home_type_id);
+              //console.log(datas.home_type_id)
               if (datas.home_type_id == that.array1[i].id) {
                 that.index1 = i; //类型
               }
@@ -529,7 +543,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           if (datas.house_type_id) {
             // for(var i in that.array2){
             for (var i = 0; i < that.array2.length; i++) {
-              console.log(datas.house_type_id);
+              //console.log(datas.house_type_id)
               if (datas.house_type_id == that.array2[i].id) {
                 that.index2 == i; //户型
               }
@@ -541,7 +555,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           if (datas.orientation_id) {
             // for(var i in that.array3){
             for (var i = 0; i < that.array3.length; i++) {
-              console.log(datas.orientation_id);
+              //console.log(datas.orientation_id)
               if (datas.orientation_id == that.array3[i].id) {
                 that.index3 == i; //朝向
               }
@@ -554,7 +568,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           if (datas.premises_permit_id) {
             // for(var i in that.array4){
             for (var i = 0; i < that.array4.length; i++) {
-              console.log(datas.premises_permit_id);
+              //console.log(datas.premises_permit_id)
               if (datas.premises_permit_id == that.array4[i].id) {
                 that.index4 == i; //房本
               }
@@ -563,7 +577,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           if (datas.fitment_id) {
             // for(var i in that.array5){
             for (var i = 0; i < that.array5.length; i++) {
-              console.log(datas.fitment_id);
+              //console.log(datas.fitment_id)
               if (datas.fitment_id == that.array5[i].id) {
                 that.index5 == i; //装修
               }
@@ -576,7 +590,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           if (datas.rent_out_type_id) {
             // for(var i in that.array5){
             for (var i = 0; i < that.array7.length; i++) {
-              console.log(datas.rent_out_type_id);
+              //console.log(datas.rent_out_type_id)
               if (datas.rent_out_type_id == that.array7[i].id) {
                 that.index7 == i; //出租方式
               }
@@ -585,7 +599,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           if (datas.payment_id) {
             // for(var i in that.array5){
             for (var i = 0; i < that.array8.length; i++) {
-              console.log(datas.payment_id);
+              //console.log(datas.payment_id)
               if (datas.payment_id == that.array8[i].id) {
                 that.index8 == i; //付款方式
               }
@@ -658,7 +672,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
               console.log(i);
               that.cityitem = datas[i];
               that.city_name = datas[i].title;
-              that.getDis(datas[i].id);
+              // that.getDis(datas[i].id)
               uni.setStorageSync('city_storage', JSON.stringify(that.arrayb));
               return;
             }
@@ -1138,13 +1152,13 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           return;
         }
       }
-      if (that.imgb.length == 0) {
-        uni.showToast({
-          icon: 'none',
-          title: '请上传图片' });
-
-        return;
-      }
+      // if(that.imgb.length==0){
+      // 	uni.showToast({
+      // 		icon:'none',
+      // 		title:'请上传图片'
+      // 	})
+      // 	return
+      // }
       var value1;
       var dis_id = that.xqitem.path.split('-');
       console.log(dis_id);

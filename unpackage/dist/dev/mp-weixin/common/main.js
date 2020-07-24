@@ -10,7 +10,7 @@
 /* WEBPACK VAR INJECTION */(function(createApp) {__webpack_require__(/*! uni-pages */ 4);var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
 var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 5));
 
-var _store = _interopRequireDefault(__webpack_require__(/*! ./store */ 13));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var cuCustom = function cuCustom() {__webpack_require__.e(/*! require.ensure | colorui/components/cu-custom */ "colorui/components/cu-custom").then((function () {return resolve(__webpack_require__(/*! ./colorui/components/cu-custom.vue */ 247));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+var _store = _interopRequireDefault(__webpack_require__(/*! ./store */ 13));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var cuCustom = function cuCustom() {__webpack_require__.e(/*! require.ensure | colorui/components/cu-custom */ "colorui/components/cu-custom").then((function () {return resolve(__webpack_require__(/*! ./colorui/components/cu-custom.vue */ 253));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 _vue.default.component('cu-custom', cuCustom);
 
@@ -157,8 +157,16 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
     dblogin: function dblogin() {
       var that = this;
       if (!uni.getStorageSync('phone')) {
-        uni.navigateTo({
-          url: 'pages/main/main' });
+        // uni.showToast({
+        //     icon: 'none',
+        //     title: '请重新登录账号'
+        //   })
+
+        // setTimeout(()=>{
+        // 	uni.reLaunch({
+        // 		url:'./pages/login/login'
+        // 	},2000)
+        // })
 
         return;
       }
@@ -170,33 +178,25 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
         password: password };
 
       var jkurl = '/api/login/login';
-      // that.login(that.account);
-      // setTimeout(() => {
-      // 	uni.reLaunch({
-      // 		url: '../main/main'
-      // 	})
-      // },1000)
-      // return
+
       _service.default.post(jkurl, data,
       function (res) {
         that.btnkg = 0;
         if (res.data.code == 1) {
-
-          // uni.showToast({
-          // 	icon: 'none',
-          // 	title: '登录成功'
-          // })
           that.login(res.data.data.nickname);
           that.logindata(res.data.data);
           uni.setStorageSync('loginmsg', JSON.stringify(res.data.data));
           uni.setStorageSync('phone', account);
-
+          var phone = uni.getStorageSync('phone');
+          console.log(phone);
           uni.setStorageSync('password', password);
-          // setTimeout(() => {
-          // 	uni.reLaunch({
-          // 		url: '../main/main'
-          // 	})
-          // },1000)
+
+          // uni.switchTab({
+          // 	url: './pages/main/main'
+          // })
+
+
+
         } else {
           if (res.data.msg) {
             uni.showToast({

@@ -1,7 +1,5 @@
 {
-  "style": {
-    "enablePullDownRefresh": true
-  },
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "m-input": "/components/m-input"
   }

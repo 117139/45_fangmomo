@@ -292,11 +292,14 @@
 				that.cityitem=JSON.parse(uni.getStorageSync('cityitem'))
 				that.city_name=that.cityitem.title
 				console.log(that.cityitem.title)
-				console.log(that.cityitem)
-				that.getDis(that.cityitem.id)
+				// console.log(that.cityitem)
+				// that.getDis(that.cityitem.id)
 				uni.setStorageSync('cityitem','')
 				uni.setStorageSync('xqitem','')
-				
+				uni.removeStorage('cityitem')
+				uni.removeStorage('xqitem')
+				that.xq_name= ''//小区名称
+				that.xqitem=''
 			}
 			//xqitem
 		  if(uni.getStorageSync('xqitem')){
@@ -304,7 +307,8 @@
 				console.log(that.xqitem)
 				that.xq_name=that.xqitem.title
 				console.log(that.xq_name)
-				// uni.setStorageSync('xqitem','')
+				uni.setStorageSync('xqitem','')
+				uni.removeStorage('xqitem')
 			}
 		},
 		onPullDownRefresh() {
@@ -520,7 +524,7 @@
 										console.log(i)
 										that.cityitem=datas[i]
 										that.city_name=datas[i].title
-										that.getDis(datas[i].id)
+										// that.getDis(datas[i].id)
 										uni.setStorageSync('city_storage',JSON.stringify(that.arrayb))
 										return
 									}
@@ -1000,13 +1004,13 @@
 						return
 					}
 				}
-				if(that.imgb.length==0){
-					uni.showToast({
-						icon:'none',
-						title:'请上传图片'
-					})
-					return
-				}
+				// if(that.imgb.length==0){
+				// 	uni.showToast({
+				// 		icon:'none',
+				// 		title:'请上传图片'
+				// 	})
+				// 	return
+				// }
 				var value1
 				var dis_id=that.xqitem.path.split('-')
 				console.log(dis_id)

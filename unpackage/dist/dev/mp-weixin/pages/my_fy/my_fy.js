@@ -92,7 +92,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var components
+var components = {
+  uniSwipeAction: function() {
+    return __webpack_require__.e(/*! import() | components/uni-swipe-action/uni-swipe-action */ "components/uni-swipe-action/uni-swipe-action").then(__webpack_require__.bind(null, /*! @/components/uni-swipe-action/uni-swipe-action.vue */ 285))
+  },
+  uniSwipeActionItem: function() {
+    return Promise.all(/*! import() | components/uni-swipe-action-item/uni-swipe-action-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-swipe-action-item/uni-swipe-action-item")]).then(__webpack_require__.bind(null, /*! @/components/uni-swipe-action-item/uni-swipe-action-item.vue */ 290))
+  }
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -272,19 +279,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
 var _dialog = _interopRequireDefault(__webpack_require__(/*! ../../wxcomponents/vant/dialog/dialog */ 212));
 var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 8));
-var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+
+
+
+var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var uniSwipeAction = function uniSwipeAction() {__webpack_require__.e(/*! require.ensure | components/uni-swipe-action/uni-swipe-action */ "components/uni-swipe-action/uni-swipe-action").then((function () {return resolve(__webpack_require__(/*! ../../components/uni-swipe-action/uni-swipe-action.vue */ 285));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniSwipeActionItem = function uniSwipeActionItem() {Promise.all(/*! require.ensure | components/uni-swipe-action-item/uni-swipe-action-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-swipe-action-item/uni-swipe-action-item")]).then((function () {return resolve(__webpack_require__(/*! ../../components/uni-swipe-action-item/uni-swipe-action-item.vue */ 290));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -298,10 +299,28 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       alltype: false,
       page: 1,
       pagesize: 20,
-      datas: [] };
+      datas: [],
+      options: [
+      {
+        text: '编辑',
+        style: {
+          color: '#3171F5',
+          backgroundColor: 'rgba(87,107,149,.2)' } },
+
+      {
+        text: '删除',
+        style: {
+          color: '#E64340',
+          backgroundColor: 'rgba(230,67,64,.2)' } }] };
+
+
 
 
   },
+  components: {
+    uniSwipeAction: uniSwipeAction,
+    uniSwipeActionItem: uniSwipeActionItem },
+
   computed: _objectSpread({},
   (0, _vuex.mapState)(['hasLogin', 'forcedLogin', 'userName', 'loginDatas']), {
     style0: function style0() {
@@ -345,6 +364,23 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
     this.getdata();
   },
   methods: {
+    onClick: function onClick(e, idx, id, item) {
+      console.log(e);
+      console.log(idx);
+      // console.log('当前点击的是第'+e.index+'个按钮，点击内容是'+e.content.text)
+      if (e.index == 0) {
+        console.log(item);
+        uni.navigateTo({
+          url: '../fabu_set/fabu?id=' + id + '&type=' + item.type });
+
+      }
+      if (e.index == 1) {
+        this.sc_d_fuc(id);
+      }
+    },
+    change: function change(open) {
+      console.log('当前开启状态：' + open);
+    },
     getpri: function getpri(pri) {
       return _service.default.getpri1(pri);
     },
@@ -532,16 +568,18 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       });
       console.log(arr);
     },
-    sc_d_fuc: function sc_d_fuc(e) {
+    // sc_d_fuc(e){
+    sc_d_fuc: function sc_d_fuc(id) {
       var that = this;
       _dialog.default.confirm({
         message: '确定删除该房源吗？' }).
       then(function () {
-        console.log(e.currentTarget.dataset.id);
+        // console.log(e.currentTarget.dataset.id)
+        // console.log(id)
         console.log('close');
-        var datas = e.currentTarget.dataset;
+        // var datas=e.currentTarget.dataset
         var data = {
-          ids: datas.id,
+          ids: id,
           token: that.loginDatas.token };
 
         console.log(data);
@@ -606,6 +644,8 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
         case 'left':
           instance.close();
           break;
+        case 'cell':
+        case 'outside':
         case 'right':
           console.log('right');
           instance.close();

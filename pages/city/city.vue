@@ -5,7 +5,7 @@
 			<block slot="content" >城市选择</block>
 		</cu-custom>
 		<view class="html_box">
-			<view class="ss_box1">
+			<view class="ss_box1"  :style="style1">
 				<view class="ss_box">
 					<image class="ss_icon" src="../../static/img/index/search.png" mode=""></image>
 					<m-input class="ss_int" type="text" clearable v-model="qy_search" @input='search_qy' placeholder="输入城市名进行搜索"></m-input>
@@ -72,47 +72,9 @@
 					'写字楼',
 					'租房',
 				],
-				data_list: [
-					1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-				],
-				qy_arr3: [
-					'宜兴',
-					'宜兴a',
-					'宜兴a1',
-					'宜兴a2',
-					'宜兴4a3',
-					'宜兴3a4',
-					'宜兴2a5',
-					'宜兴1a6',
-					'宜兴a17',
-					'科九如城',
-					'宜兴111',
-					'宜兴222',
-					'宜兴333',
-					'宜兴444',
-					'宜兴555',
-					'宜兴666',
-					'科宜兴',
-				],
-				qy_show: [
-					'宜兴',
-					'宜兴a',
-					'宜兴a1',
-					'宜兴a2',
-					'宜兴4a3',
-					'宜兴3a4',
-					'宜兴2a5',
-					'宜兴1a6',
-					'宜兴a17',
-					'科九如城',
-					'宜兴111',
-					'宜兴222',
-					'宜兴333',
-					'宜兴444',
-					'宜兴555',
-					'宜兴666',
-					'科宜兴',
-				],
+				data_list: [],
+				qy_arr3: [],
+				qy_show: [],
 				jg_cur: 0
 			}
 		},
@@ -136,7 +98,7 @@
 			style1() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
-				var style = `padding-top:${CustomBar}px;`;
+				var style = `top:${CustomBar}px;`;
 
 				return style
 			},

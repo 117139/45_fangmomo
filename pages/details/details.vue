@@ -11,7 +11,7 @@
 			<view class="content1" style="">房源详情</view>
 			<view class="nav_right" style="width: 2em;"></view>
 		</view>
-		<view v-if="datas" class="xq_banner">
+		<view v-if="datas&&datas.img.length>0" class="xq_banner">
 			<swiper class="xq_swiper" :autoplay="false" :interval="3000" :duration="1000" :circular="true" @change="swi_change">
 				<swiper-item v-for="(item,index) in datas.img">
 					<!-- <view class="swiper-item"> -->
@@ -34,10 +34,10 @@
 						<text class="iconfont iconredshoucang"></text>
 						<text>已收藏</text>
 					</view>
-					<view class="cz_li" @tap="share_xq" :data-id="datas.id">
+					<!-- <view class="cz_li" @tap="share_xq" :data-id="datas.id">
 						<text class="iconfont iconfenxiang"></text>
 						<text>分享</text>
-					</view>
+					</view> -->
 				</view>
 			</view>
 			<view class="xq_pri">
@@ -93,7 +93,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="xq_bottom">
+		<view class="xq_bottom" v-if="datas.users">
 			<image class="call_tel" :src="getimg(datas.users.avatar)" mode="aspectFill"></image>
 			<view class="call_msg">
 				<view class="call_name">{{datas.users.nickname}}</view>

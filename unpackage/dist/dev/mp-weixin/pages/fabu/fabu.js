@@ -405,10 +405,13 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       that.city_name = that.cityitem.title;
       console.log(that.cityitem.title);
       console.log(that.cityitem);
-      that.getDis(that.cityitem.id);
+      // that.getDis(that.cityitem.id)
       uni.setStorageSync('cityitem', '');
       uni.setStorageSync('xqitem', '');
-
+      uni.removeStorage('cityitem');
+      uni.removeStorage('xqitem');
+      that.xq_name = ''; //小区名称
+      that.xqitem = '';
     }
     //xqitem
     if (uni.getStorageSync('xqitem')) {
@@ -417,6 +420,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
       that.xq_name = that.xqitem.title;
       console.log(that.xq_name);
       uni.setStorageSync('xqitem', '');
+      uni.removeStorage('xqitem');
     }
   },
   computed: _objectSpread({},
@@ -489,7 +493,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           that.cityitem = that.arrayb[0];
           that.city_name = that.arrayb[0].title;
           uni.setStorageSync('city_storage', JSON.stringify(that.arrayb));
-          that.getDis(datas[0].id);
+          // that.getDis(datas[0].id)
           // that.xqitem=that.arrayb[0].child[0]
           // that.xq_name=that.arrayb[0].child[0].title
           // uni.setStorageSync('xq_storage',JSON.stringify(that.arrayb[0].child))
@@ -538,12 +542,12 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
         // if (res.data.code == 1) {
         if (res.data.code == 1) {
           var datas = res.data.data;
-          console.log(typeof datas);
+          // console.log(typeof datas)
 
           if (typeof datas == 'string') {
             datas = JSON.parse(datas);
           }
-          console.log(datas);
+          // console.log(datas)
 
           // that.datas = datas
 
@@ -600,7 +604,7 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
         // if (res.data.code == 1) {
         if (res.data.code == 1) {
           var datas = res.data.data;
-          console.log(typeof datas);
+          // console.log(typeof datas)
 
           if (typeof datas == 'string') {
             datas = JSON.parse(datas);
@@ -811,6 +815,8 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
         return;
       }
       this.fb_type = num;
+      this.xq_name = '';
+      this.xqitem = '';
       this.getcity();
       this.getcateList();
       console.log(this.fb_type);
@@ -963,13 +969,13 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
           return;
         }
       }
-      if (that.imgb.length == 0) {
-        uni.showToast({
-          icon: 'none',
-          title: '请上传图片' });
-
-        return;
-      }
+      // if(that.imgb.length==0){
+      // 	uni.showToast({
+      // 		icon:'none',
+      // 		title:'请上传图片'
+      // 	})
+      // 	return
+      // }
       var value1;
       var dis_id = that.xqitem.path.split('-');
       console.log(dis_id);
@@ -1082,7 +1088,11 @@ var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(o
             icon: 'none',
             title: '操作成功' });
 
-
+          that.jiage = '';
+          that.mianji = '';
+          that.louceng = '';
+          that.yajin = '';
+          that.imgb = [];
 
         } else {
           if (res.data.msg) {

@@ -189,7 +189,7 @@ var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js *
 //
 //
 //
-var mInput = function mInput() {__webpack_require__.e(/*! require.ensure | components/m-input */ "components/m-input").then((function () {return resolve(__webpack_require__(/*! ../../components/m-input.vue */ 252));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { mInput: mInput }, data: function data() {return { account: '', code: '', password: '', verification_key: '', yzm_type: 0, yztime: 60 };}, methods: { getCode: function getCode() {var that = this;if (that.account == '' || !/^1\d{10}$/.test(that.account)) {wx.showToast({ icon: 'none', title: '手机号有误' });return;}if (that.btnkg == 1) {return;
+var mInput = function mInput() {__webpack_require__.e(/*! require.ensure | components/m-input */ "components/m-input").then((function () {return resolve(__webpack_require__(/*! ../../components/m-input.vue */ 258));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { mInput: mInput }, data: function data() {return { account: '', code: '', password: '', verification_key: '', yzm_type: 0, yztime: 60 };}, methods: { getCode: function getCode() {var that = this;if (that.account == '' || !/^1\d{10}$/.test(that.account)) {wx.showToast({ icon: 'none', title: '手机号有误' });return;}if (that.btnkg == 1) {return;
       } else {
         that.btnkg = 1;
       }

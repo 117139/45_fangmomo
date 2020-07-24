@@ -380,7 +380,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 8));
-var _vuex = __webpack_require__(/*! vuex */ 9);var _components$data$onLo;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var mInput = function mInput() {__webpack_require__.e(/*! require.ensure | components/m-input */ "components/m-input").then((function () {return resolve(__webpack_require__(/*! ../../components/m-input.vue */ 252));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+var _vuex = __webpack_require__(/*! vuex */ 9);var _components$data$onLo;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var mInput = function mInput() {__webpack_require__.e(/*! require.ensure | components/m-input */ "components/m-input").then((function () {return resolve(__webpack_require__(/*! ../../components/m-input.vue */ 258));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 
@@ -605,7 +605,8 @@ var inputt;var _default = (_components$data$onLo = {
     style0: function style0() {
       var StatusBar = this.StatusBar;
       var CustomBar = this.CustomBar;
-      var padd_top = CustomBar + 40;
+      // var padd_top = CustomBar+40
+      var padd_top = 80;
       var style = "padding-top:".concat(padd_top, "px;");
 
       return style;
@@ -707,7 +708,7 @@ var inputt;var _default = (_components$data$onLo = {
 }), _defineProperty(_components$data$onLo, "methods",
 {
   retry: function retry() {
-
+    this.xz_type = 0;
     this.page = 1;
     this.getdata();
   },
@@ -1077,6 +1078,7 @@ var inputt;var _default = (_components$data$onLo = {
       that.jg_cur = -1;
       that.jg_start = '';
       that.jg_end = '';
+      that.jg_cs = '';
       console.log(that.jg_start, that.jg_end, that.jg_cur);
     }
     if (that.xz_type == 3) {
@@ -1084,6 +1086,7 @@ var inputt;var _default = (_components$data$onLo = {
       that.mj_cur = -1;
       that.mj_start = '';
       that.mj_end = '';
+      that.mj_cs = '';
       console.log(that.mj_start, that.mj_end, that.mj_cur);
     }
     if (that.xz_type == 4) {
