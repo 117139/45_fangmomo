@@ -6,7 +6,7 @@
 			<block slot="right" @tap="pl_fuc">批量处理</block>
 		</cu-custom> -->
 		<view v-if="pltype==1" class="cu-bar fixed bg-white" :style="style">
-			<view class="action" style="width: 4em;">
+			<view class="action" style="width: 4em;justify-content: flex-start;">
 				<text class="cuIcon-back iconfont iconicon-test" @tap="back_fuc"><span></span></text>
 			</view>
 			<view class="content1" style="">我的收藏</view>

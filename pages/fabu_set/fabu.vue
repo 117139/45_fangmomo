@@ -1125,7 +1125,7 @@
 							}
 							uni.showToast({
 								icon:'none',
-								title: '操作成功'
+								title: '操作成功,请等待审核'
 							});
 							setTimeout(()=>{
 								uni.navigateBack()

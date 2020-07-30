@@ -7,7 +7,7 @@
 		</cu-custom> -->
 		<view v-if="datas.length==0" class="zanwu">暂无数据</view>
 		<view v-if="pltype==1" class="cu-bar fixed bg-white" :style="style">
-			<view class="action"  style="width: 4em;">
+			<view class="action"  style="width: 4em;justify-content: flex-start;">
 				<text class="cuIcon-back iconfont iconicon-test" @tap="back_fuc"><span></span></text>
 			</view>
 			<view class="content1" style="top: 0px;">我的房源</view>
@@ -43,6 +43,7 @@
 			        		</view> -->
 			        	</view>
 			        	<view class="li_msg_r">
+									<view v-if="item.status==0" class="status" style="color: #999;">审核中</view>
 			        		<view class="li_pri" v-if="item.type==2"><text>{{item.price}}</text></view>
 			        		<view class="li_pri" v-else><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
 			        		<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
@@ -71,6 +72,8 @@
 					</view> -->
 				</view>
 				<view class="li_msg_r">
+					
+						<view v-if="item.status==0" class="status" style="color: #999;">审核中</view>
 					<!-- <view class="li_pri" v-if="item.type==2"><text>{{item.price}}</text></view> -->
 					<view class="li_pri" ><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
 					<!-- <image @tap="call_tel" data-tel="18300000000" class="list_tel" src="../../static/img/index/list_tel.png"></image> -->
