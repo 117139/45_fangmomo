@@ -34,6 +34,14 @@
 						<text class="iconfont iconredshoucang"></text>
 						<text>已收藏</text>
 					</view>
+					<view class="cz_li"@tap="jump" data-url="/pages/jubao/jubao">
+						<text class="iconfont iconjubao"></text>
+						<text>举报</text>
+					</view>
+					<view class="cz_li" @tap="lahei_fuc(datas.users.id)">
+						<text class="iconfont iconlahei"></text>
+						<text>拉黑</text>
+					</view>
 					<!-- <view class="cz_li" @tap="share_xq" :data-id="datas.id">
 						<text class="iconfont iconfenxiang"></text>
 						<text>分享</text>
@@ -158,6 +166,38 @@
 			this.getdata()
 		},
 		methods: {
+			...mapMutations(['lahei']),
+			jump(e){
+				service.jump(e)
+			},
+			lahei_fuc(id){
+				var that =this
+				uni.showModal({
+				    title: '提示',
+				    content: '是否拉黑该发布者，拉黑后将不再显示该发布者发布的信息',
+				    success: function (res) {
+				        if (res.confirm) {
+				            console.log('用户点击确定');
+				            console.log(id);
+										uni.showToast({
+											title:'操作成功'
+										})
+										var laheiArr=uni.getStorageSync('lahei')
+										laheiArr+=''
+										laheiArr=laheiArr.split(',')
+										laheiArr.push(id)
+										uni.setStorageSync('lahei', laheiArr)
+										setTimeout(function(){
+											uni.navigateBack()
+										},1000)
+										that.lahei(id)
+										
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }
+				});
+			},
 			back_fuc() {
 				uni.navigateBack()
 			},

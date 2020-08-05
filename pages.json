@@ -147,6 +147,10 @@
 							"titleNView":false
 						}
         }
+        ,{
+            "path" : "pages/jubao/jubao",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#7a7e83",

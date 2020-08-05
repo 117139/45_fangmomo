@@ -41,7 +41,7 @@
 		
 		<view class="data_list">
 			<view v-if="datas.length==0" class="zanwu">暂无数据</view>
-			<view class="data_li" v-for="(item,index) in datas">
+			<view class="data_li" v-for="(item,index) in datas"  v-if="showid(item.user_id)">
 				<view class="li_msg" @tap="jump" :data-url="'../details/details?id='+item.id">
 					<view class="li_tit">
 						<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image src="../../static/img/index/list_img.png" mode=""></image>
@@ -531,6 +531,9 @@
 			console.log('上拉')
 		},
 		methods: {
+			showid(id){
+				return service.show_fuc(id)
+			},
 			retry(){
 				this.xz_type=0
 				this.page=1

@@ -38,6 +38,10 @@
 				that.type=Option.type
 				that.title='关于房嬷嬷'
 			}
+			if(Option.type==3){
+				that.type=Option.type
+				that.title='用户协议'
+			}
 			this.getdata()
 		},
 		methods: {

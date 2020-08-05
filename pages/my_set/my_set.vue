@@ -291,6 +291,7 @@
 				uni.setStorageSync('phone','')
 				
 				uni.removeStorageSync('phone')
+				uni.removeStorageSync('lahei')
 				uni.showToast({
 					icon:'none',
 					title:'正在退出'

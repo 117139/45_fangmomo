@@ -17,6 +17,7 @@ const store = new Vuex.Store({
 		uid:'',
 		phone:'',
 		token:'',
+		laheiArr:[]
 	},
 	mutations: {
 		login(state, userName) {
@@ -24,6 +25,12 @@ const store = new Vuex.Store({
 			state.hasLogin = true;
 			console.log(userName)
 			console.log(state.userName)
+		},
+		lahei(state, id) {
+			// state.userName = userName || '新用户';
+			// state.hasLogin = true;
+			state.laheiArr.push(id)
+			console.log(state.laheiArr)
 		},
 		logindata(state, logindata) {
 			state.loginDatas = logindata || '';

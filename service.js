@@ -229,6 +229,29 @@ const gettime=function (mj){
 		}
 	}
 }
+
+
+
+/**
+ * 供外部get请求调用
+ */
+function show_fuc(id) {
+	var laheiArr=uni.getStorageSync('lahei')
+	console.log(laheiArr)
+	laheiArr+=''
+	if(!laheiArr){
+		return false
+	}
+	laheiArr=laheiArr.split(',')
+	console.log(id)
+	console.log(laheiArr.indexOf(id))
+	for(var i=0;i<laheiArr.length;i++){
+		if(id==laheiArr[i]){
+			return false
+		}
+	}
+	return true
+}
 export default {
 	getUsers,
 	addUser,
@@ -243,5 +266,6 @@ export default {
 	getpri1,
 	getmj,
 	getdw,
-	gettime
+	gettime,
+	show_fuc
 }

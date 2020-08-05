@@ -34,7 +34,7 @@
 		</view>
 		<view class="data_list">
 			<view v-if="datas.length==0" class="zanwu">暂无数据</view>
-			<view class="data_li" v-for="(item,index) in datas">
+			<view class="data_li" v-for="(item,index) in datas" v-if="showid(item.user_id)">
 				<view class="li_msg" @tap="jump" :data-url="'../details/details?id='+item.id">
 					<view class="li_tit">
 						<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image src="../../static/img/index/list_img.png" mode=""></image>
@@ -49,6 +49,7 @@
 					</view>
 					<view v-if="item.users" class="li_fbr">
 						<text>{{item.users.company}} </text>
+						<!-- <text> {{item.users.nickname}}{{showid(item.user_id)}}{{item.user_id}}</text> -->
 						<text> {{item.users.nickname}}</text>
 					</view>
 				</view>
@@ -199,44 +200,7 @@
 				title: '列表',
 				btnkg:0,
 				modalName: null,
-				data_list:[
-					{
-						id:119
-					},
-					{
-						id:121
-					},
-					{
-						id:119
-					},
-					{
-						id:121
-					},
-					{
-						id:119
-					},
-					{
-						id:121
-					},
-					{
-						id:119
-					},
-					{
-						id:121
-					},
-					{
-						id:119
-					},
-					{
-						id:121
-					},
-					{
-						id:119
-					},
-					{
-						id:121
-					},
-				],
+				data_list:[],
 				xz_type:0,
 				type: '',
 				page:1,
@@ -431,7 +395,7 @@
 			this.getdata()
 		},
 		computed: {
-			...mapState(['hasLogin', 'forcedLogin', 'userName']),
+			...mapState(['hasLogin', 'forcedLogin', 'userName','laheiArr']),
 			style0() {
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
@@ -531,6 +495,9 @@
 		},
 		
 		methods: {
+			showid(id){
+				return service.show_fuc(id)
+			},
 			retry(){
 				this.xz_type=0
 				this.page=1
