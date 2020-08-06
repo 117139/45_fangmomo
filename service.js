@@ -240,7 +240,7 @@ function show_fuc(id) {
 	console.log(laheiArr)
 	laheiArr+=''
 	if(!laheiArr){
-		return false
+		return true
 	}
 	laheiArr=laheiArr.split(',')
 	console.log(id)

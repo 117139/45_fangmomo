@@ -56,6 +56,7 @@
 				<view class="li_msg_r">
 					<view class="li_pri" ><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
 					<image v-if="item.users" @tap="call_tel" :data-tel="item.users.phone" class="list_tel" src="../../static/img/index/list_tel.png"></image>
+					<text @tap="caozuo(item.user_id)" class="iconfont iconcaozuo" style="color:rgba(49,113,245,.5);"></text>
 				</view>
 			</view>
 		</view>
@@ -495,6 +496,53 @@
 		},
 		
 		methods: {
+			...mapMutations(['lahei']),
+			caozuo(id){
+				var that =this
+				uni.showActionSheet({
+				    itemList: ['举报该信息', '拉黑该发布者'],
+				    success: function (res) {
+				        console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+								if(res.tapIndex==0){
+									uni.navigateTo({
+										url:'/pages/jubao/jubao'
+									})
+								}else if(res.tapIndex==1){
+									uni.showModal({
+									    title: '提示',
+									    content: '是否拉黑该发布者，拉黑后将不再显示该发布者发布的信息',
+									    success: function (res) {
+									        if (res.confirm) {
+									            console.log('用户点击确定');
+									            console.log(id);
+															uni.showToast({
+																title:'操作成功'
+															})
+															var laheiArr=uni.getStorageSync('lahei')
+															laheiArr+=''
+															laheiArr=laheiArr.split(',')
+															laheiArr.push(id)
+															laheiArr=laheiArr.join(',')
+															uni.setStorageSync('lahei', laheiArr)
+															setTimeout(function(){
+																that.page=1
+																that.getdata()
+															},1000)
+															// that.lahei(id)
+															
+									        } else if (res.cancel) {
+									            console.log('用户点击取消');
+									        }
+									    }
+									});
+								}
+									
+				    },
+				    fail: function (res) {
+				        console.log(res.errMsg);
+				    }
+				});
+			},
 			showid(id){
 				return service.show_fuc(id)
 			},
@@ -1029,6 +1077,7 @@
 		width: 60upx;
 		height: 60upx;
 		margin-top: 12upx;
+		margin-bottom: 12upx;
 	}
 	.data_li+.data_li{
 		border-top: 1px solid #DDDDDD;

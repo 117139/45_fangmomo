@@ -165,13 +165,11 @@
 				this.yhxy = false
 				uni.setStorageSync('yhxy', 'true')
 			},
-			yx_off() {
+			xy_off() {
 				if (plus.os.name.toLowerCase() === 'android') {
-					plus.runtime.quit();
+					plus.runtime.quit() // Android
 				} else {
-					const threadClass = plus.ios.importClass("NSThread");
-					const mainThread = plus.ios.invoke(threadClass, "mainThread");
-					plus.ios.invoke(mainThread, "exit");
+					plus.ios.import("UIApplication").sharedApplication().performSelector("exit"); // IOS
 				}
 			},
 			initProvider() {
@@ -357,6 +355,7 @@
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
+		text-align: center;
 	}
 	.yhxy_box {
 		position: fixed;

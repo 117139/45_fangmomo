@@ -79,6 +79,7 @@
 		color: #666;
 	}
 	.jb_text{
+		width: 100%;
 		background: #eee;
 		border-radius: 10rpx;
 		padding: 20rpx;

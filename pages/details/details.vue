@@ -186,6 +186,7 @@
 										laheiArr+=''
 										laheiArr=laheiArr.split(',')
 										laheiArr.push(id)
+										laheiArr=laheiArr.join(',')
 										uni.setStorageSync('lahei', laheiArr)
 										setTimeout(function(){
 											uni.navigateBack()
