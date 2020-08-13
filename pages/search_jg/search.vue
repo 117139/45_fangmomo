@@ -62,7 +62,7 @@
 					<view class="li_msg_r">
 						<view class="li_pri" ><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
 						<image @tap="call_tel" :data-tel="item.users.phone" class="list_tel" src="../../static/img/index/list_tel.png"></image>
-						<text @tap="caozuo(item.user_id)" class="iconfont iconcaozuo" style="color:rgba(49,113,245,.5);"></text>
+						<text  @tap="caozuo(item.user_id)" class="iconfont iconcaozuo" style="color:rgba(49,113,245,.5);"></text>
 					</view>
 			</view>
 		</view>
@@ -529,7 +529,15 @@
 		},
 		methods: {
 			caozuo(id){
+				
+				
 				var that =this
+				if(!that.hasLogin){
+					uni.navigateTo({
+						url: '../login/login'
+					});
+					return
+				}
 				uni.showActionSheet({
 				    itemList: ['举报该信息', '拉黑该发布者'],
 				    success: function (res) {
@@ -898,6 +906,13 @@
 				})
 			},
 			call_tel(e) {
+				var that=this
+				if(!that.hasLogin){
+					uni.navigateTo({
+						url: '../login/login'
+					});
+					return
+				}
 				uni.makePhoneCall({
 					phoneNumber: e.currentTarget.dataset.tel + ''
 				});

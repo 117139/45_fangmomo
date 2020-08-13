@@ -266,9 +266,9 @@
 			dblogin(){
 				var that =this
 				if(!uni.getStorageSync('phone')){
-					uni.reLaunch({
-						url:'../login/login'
-					})
+					// uni.reLaunch({
+					// 	url:'../login/login'
+					// })
 					return
 				}
 				var account=uni.getStorageSync('phone')

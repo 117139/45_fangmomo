@@ -498,6 +498,12 @@
 		methods: {
 			...mapMutations(['lahei']),
 			caozuo(id){
+				if(!this.hasLogin){
+					uni.navigateTo({
+						url: '../login/login'
+					});
+					return
+				}
 				var that =this
 				uni.showActionSheet({
 				    itemList: ['举报该信息', '拉黑该发布者'],
@@ -861,6 +867,12 @@
 			},
 			
 			call_tel(e){
+				if(!this.hasLogin){
+					uni.navigateTo({
+						url: '../login/login'
+					});
+					return
+				}
 				uni.makePhoneCall({
 				    phoneNumber: e.currentTarget.dataset.tel+'' 
 				});

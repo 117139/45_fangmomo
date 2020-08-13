@@ -168,9 +168,21 @@
 		methods: {
 			...mapMutations(['lahei']),
 			jump(e){
+				if(!this.hasLogin){
+					uni.navigateTo({
+						url: '../login/login'
+					});
+					return
+				}
 				service.jump(e)
 			},
 			lahei_fuc(id){
+				if(!this.hasLogin){
+					uni.navigateTo({
+						url: '../login/login'
+					});
+					return
+				}
 				var that =this
 				uni.showModal({
 				    title: '提示',
@@ -287,6 +299,12 @@
 				this.current=e.detail.current+1
 			},
 			shoucang(){
+				if(!this.hasLogin){
+					uni.navigateTo({
+						url: '../login/login'
+					});
+					return
+				}
 				// this.sc_type=!this.sc_type
 				// console.log(this.sc_type)
 				///api/my/collect
@@ -347,6 +365,12 @@
 				)
 			},
 			call_tel(e){
+				if(!this.hasLogin){
+					uni.navigateTo({
+						url: '../login/login'
+					});
+					return
+				}
 				uni.makePhoneCall({
 				    phoneNumber: e.currentTarget.dataset.tel+'' 
 				});
