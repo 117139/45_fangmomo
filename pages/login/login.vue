@@ -1,5 +1,9 @@
 <template>
 	<view class="content_wrap">
+		<cu-custom bgColor="bg-white" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content"></block>
+		</cu-custom>
 		<view class="wrap_main">
 			<view class="reg_tit">
 				<image src="../../static/img/login_img.png" mode=""></image>
@@ -242,9 +246,10 @@
 							console.log(phone)
 							uni.setStorageSync('password', that.password)
 							setTimeout(() => {
-								uni.reLaunch({
-									url: '../main/main'
-								})
+								// uni.reLaunch({
+								// 	url: '../main/main'
+								// })
+								uni.navigateBack()
 							}, 1000)
 						} else {
 							if (res.data.code == 2) {

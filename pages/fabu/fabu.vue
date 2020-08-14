@@ -264,7 +264,7 @@
 							 * 如果需要强制登录，使用reLaunch方式
 							 */
 						
-								uni.reLaunch({
+								uni.navigateTo({
 									url: '../login/login'
 								});
 							
