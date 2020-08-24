@@ -1,15 +1,15 @@
 
-.hx20.data-v-1c20e163{
+.hx20.data-v-e5151674{
 		width: 100%;
 		height: 20rpx;
 		background: #F3F4F6;
 }
-.my_list.data-v-1c20e163{
+.my_list.data-v-e5151674{
 		width: 100%;
 		box-sizing: border-box;
 		background: #Fff;
 }
-.my_li.data-v-1c20e163{
+.my_li.data-v-e5151674{
 		width: 100%;
 		display: -webkit-box;
 		display: -webkit-flex;
@@ -18,7 +18,7 @@
 		padding: 0 28rpx;
 		box-sizing: border-box;
 }
-.my_li_msg.data-v-1c20e163{
+.my_li_msg.data-v-e5151674{
 		-webkit-box-flex: 1;
 		-webkit-flex: 1;
 		        flex: 1;
@@ -35,29 +35,29 @@
 		color: #1a1a1a;
 		font-size: 18px;
 }
-.my_li_name.data-v-1c20e163{
+.my_li_name.data-v-e5151674{
 		font-size: 18px;
 		color: #1a1a1a;
 }
-.iconnext.data-v-1c20e163{
+.iconnext.data-v-e5151674{
 		color: #999;
 		font-size: 14px;
 		margin-left: 10rpx;
 }
-.btn-row.data-v-1c20e163{
+.btn-row.data-v-e5151674{
 		padding: 10px 28rpx;
 }
-input.data-v-1c20e163,.uni-input-input.data-v-1c20e163{
+input.data-v-e5151674,.uni-input-input.data-v-e5151674{
 		-webkit-box-flex: 1;
 		-webkit-flex: 1;
 		        flex: 1;
 		text-align: right;
 		min-width: 0;
 }
-.yzm.data-v-1c20e163{
+.yzm.data-v-e5151674{
 		text-align: center;
 }
-.getyzm.data-v-1c20e163{
+.getyzm.data-v-e5151674{
 		width:160rpx;
 		height:40px;
 		background:rgba(255,255,255,1);
@@ -75,7 +75,7 @@ input.data-v-1c20e163,.uni-input-input.data-v-1c20e163{
 		-webkit-justify-content: center;
 		        justify-content: center;
 }
-uni-button.primary.data-v-1c20e163 {
+uni-button.primary.data-v-e5151674 {
 	    background-color: rgba(49,113,245,1);
 }
 

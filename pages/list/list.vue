@@ -1,5 +1,5 @@
 <template>
-	<view class="content_wrap">
+	<view class="content_wrap" :class="xz_type>0?'h100':''">
 		<cu-custom bgColor="bg-white" :isBack="true">
 			<block slot="backText"></block>
 			<block slot="content">列表</block>
@@ -1054,6 +1054,10 @@
 </script>
 
 <style scoped>
+	.h100{
+		height: 100vh;
+		overflow: hidden;
+	}
 	.data_list{
 		width: 100%;
 		-webkit-box-sizing: border-box;
@@ -1308,9 +1312,12 @@
 	}
 	.jg_tit{
 		width: 100%;
-		padding: 0 32upx 20upx;
+		height: 50rpx;
+		padding: 0 32upx ;
+		margin-bottom: 20rpx;
 		box-sizing: border-box;
 		display: flex;
+		align-items: center;
 		font-size: 32upx;
 		color: #1A1A1A;
 	}

@@ -11,7 +11,8 @@
         "compilerVersion" : 3,
         /* 模块配置 */
         "modules" : {
-            "OAuth" : {}
+            "OAuth" : {},
+            "Payment" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -51,11 +52,26 @@
                     "NSPhotoLibraryUsageDescription" : "需要您同意才能获取到相册图片用于设置头像和上传资料,允许吗?",
                     "NSPhotoLibraryAddUsageDescription" : "需要您同意才能保存照片到相册用于保存头像,允许吗?",
                     "NSCameraUsageDescription" : "需要您同意才能拍摄头像照片，允许吗?"
+                },
+                "capabilities" : {
+                    "entitlements" : {
+                        "com.apple.developer.associated-domains" : [ "applinks:fangmomo.net.aa.800123456.top" ]
+                    }
                 }
             },
             /* SDK配置 */
             "sdkConfigs" : {
-                "ad" : {}
+                "ad" : {},
+                "payment" : {
+                    "weixin" : {
+                        "__platform__" : [ "android" ],
+                        "appid" : "",
+                        "UniversalLinks" : "https://fangmomo.net.aa.800123456.top"
+                    },
+                    "alipay" : {
+                        "__platform__" : [ "ios", "android" ]
+                    }
+                }
             },
             "icons" : {
                 "android" : {

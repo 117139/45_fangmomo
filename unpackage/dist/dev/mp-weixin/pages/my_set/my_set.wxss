@@ -1,17 +1,17 @@
 
-.my_msg.data-v-435ac383{
+.my_msg.data-v-96a15234{
 	position: relative;
 	top: -50rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
 }
-.user_tx.data-v-435ac383{
+.user_tx.data-v-96a15234{
 	width: 100rpx;
 	height: 100rpx;
 	border-radius: 5px;
 }
-.user_jj.data-v-435ac383{
+.user_jj.data-v-96a15234{
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	        flex: 1;
@@ -27,12 +27,12 @@
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
 }
-.user_name.data-v-435ac383{
+.user_name.data-v-96a15234{
 	color: #1A1A1A;
 	font-size: 18px;
 	line-height: 18px;
 }
-.user_dw.data-v-435ac383{
+.user_dw.data-v-96a15234{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -45,17 +45,17 @@
 	color: #999;
 	font-size: 14px;
 }
-.hx20.data-v-435ac383{
+.hx20.data-v-96a15234{
 	width: 100%;
 	height: 20rpx;
 	background: #F3F4F6;
 }
-.my_list.data-v-435ac383{
+.my_list.data-v-96a15234{
 	width: 100%;
 	box-sizing: border-box;
 	background: #Fff;
 }
-.my_li.data-v-435ac383{
+.my_li.data-v-96a15234{
 	width: 100%;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -64,7 +64,7 @@
 	padding: 0 28rpx;
 	box-sizing: border-box;
 }
-.my_li_msg.data-v-435ac383{
+.my_li_msg.data-v-96a15234{
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	        flex: 1;
@@ -81,24 +81,24 @@
 	color: #999;
 	font-size: 14px;
 }
-.my_li_name.data-v-435ac383{
+.my_li_name.data-v-96a15234{
 	font-size: 18px;
 	color: #1a1a1a;
 }
-.iconnext.data-v-435ac383{
+.iconnext.data-v-96a15234{
 	color: #999;
 	font-size: 14px;
 	margin-left: 30rpx;
 }
-.btn-row.data-v-435ac383{
+.btn-row.data-v-96a15234{
 	padding: 10px 0;
 }
-button.default.data-v-435ac383 {
+button.default.data-v-96a15234 {
 	background-color: #fff;
 	font-size: 18px;
 	color: #1A1A1A;
 }
-button.primary.data-v-435ac383{
+button.primary.data-v-96a15234{
 	width: 100px;
 	height: 60rpx;
 	display: -webkit-box;

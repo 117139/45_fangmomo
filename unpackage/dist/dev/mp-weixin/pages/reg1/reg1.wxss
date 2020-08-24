@@ -1,10 +1,10 @@
 
-.wrap_main.data-v-7bae9b7a {
+.wrap_main.data-v-e18721b4 {
 	width: 100%;
 	padding: 0 68rpx;
 	box-sizing: border-box;
 }
-uni-radio-group.data-v-7bae9b7a {
+uni-radio-group.data-v-e18721b4 {
 	-webkit-box-flex: 0;
 	-webkit-flex: none;
 	        flex: none;
@@ -23,7 +23,7 @@ uni-radio-group.data-v-7bae9b7a {
 	color: #1A1A1A;
 	margin-left: 14px;
 }
-.uni-label-pointer.data-v-7bae9b7a{
+.uni-label-pointer.data-v-e18721b4{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -31,7 +31,7 @@ uni-radio-group.data-v-7bae9b7a {
 	-webkit-align-items: center;
 	        align-items: center;
 }
-.xieyi.data-v-7bae9b7a{
+.xieyi.data-v-e18721b4{
 	color: #1A1A1A;
 	font-size: 10px;
 	display: -webkit-box;
@@ -40,7 +40,7 @@ uni-radio-group.data-v-7bae9b7a {
 	-webkit-flex-wrap: wrap;
 	        flex-wrap: wrap;
 }
-.xieyi navigator.data-v-7bae9b7a{
+.xieyi navigator.data-v-e18721b4{
 	color: #3171F5;
 }
 

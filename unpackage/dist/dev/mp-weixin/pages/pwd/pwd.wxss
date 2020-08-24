@@ -1,10 +1,10 @@
 
-.wrap_main.data-v-34fb2ddf{
+.wrap_main.data-v-cee270fc{
 	width: 100%;
 	padding: 0 68rpx;
 	box-sizing: border-box;
 }
-.getyzm.data-v-34fb2ddf {
+.getyzm.data-v-cee270fc {
 	-webkit-box-flex: 0;
 	-webkit-flex: none;
 	        flex: none;
@@ -25,7 +25,7 @@
 	color: #fff;
 	margin-left: 14px;
 }
-uni-button.primary.data-v-34fb2ddf {
+uni-button.primary.data-v-cee270fc {
     background-color: rgba(49,113,245,1);
 }
 

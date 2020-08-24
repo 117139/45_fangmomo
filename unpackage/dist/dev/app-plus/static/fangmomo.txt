@@ -1,0 +1,7 @@
+ios:
+Bundle ID:uni.UNIEABB812
+
+安卓：
+
+包名：uni.UNIEABB812
+签名：5a93edd7469597c4281565ea2136a101

@@ -1,10 +1,10 @@
 
-.cu-bar.fixed.data-v-48cda53a,
-.nav.fixed.data-v-48cda53a {
+.cu-bar.fixed.data-v-4cedc0c6,
+.nav.fixed.data-v-4cedc0c6 {
 	padding-right: 32rpx;
 	box-shadow: none;
 }
-.ss_box.data-v-48cda53a {
+.ss_box.data-v-4cedc0c6 {
 	width: 616rpx;
 	height: 38px;
 	background: rgba(235, 239, 242, 1);
@@ -19,7 +19,7 @@
 	-webkit-align-items: center;
 	        align-items: center;
 }
-.ss_type.data-v-48cda53a {
+.ss_type.data-v-4cedc0c6 {
 	width: 160rpx;
 	font-size: 16px;
 	color: #1a1a1a;
@@ -32,16 +32,16 @@
 	-webkit-justify-content: space-around;
 	        justify-content: space-around;
 }
-.ss_type .iconfont.data-v-48cda53a {
+.ss_type .iconfont.data-v-4cedc0c6 {
 	font-size: 22rpx;
 }
-.ss_sg.data-v-48cda53a {
+.ss_sg.data-v-4cedc0c6 {
 	width: 1px;
 	height: 18px;
 	background: rgba(191, 191, 191, 1);
 	margin: 0 12px;
 }
-.ss_int.data-v-48cda53a {
+.ss_int.data-v-4cedc0c6 {
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	        flex: 1;
@@ -59,17 +59,17 @@
 	        align-items: center;
 	/* background: #000; */
 }
-.m-input-icon.data-v-48cda53a {
+.m-input-icon.data-v-4cedc0c6 {
 	position: relative;
 	top: 3px;
 }
-.my_cz.data-v-48cda53a {
+.my_cz.data-v-4cedc0c6 {
 	position: absolute;
 	top: 80rpx;
 	right: 30rpx;
 	color: #fff;
 }
-.to_my_box.data-v-48cda53a {
+.to_my_box.data-v-4cedc0c6 {
 	position: absolute;
 	top: 120rpx;
 	left: 120rpx;
@@ -89,10 +89,10 @@
 	background-size: contain;
 	background-repeat: no-repeat;
 }
-.cu-modal.data-v-48cda53a {
+.cu-modal.data-v-4cedc0c6 {
 	background: rgba(0, 0, 0, 0);
 }
-.to_my_box view.data-v-48cda53a {
+.to_my_box view.data-v-4cedc0c6 {
 	color: #333;
 	font-size: 30rpx;
 	text-align: center;
@@ -107,13 +107,13 @@
 	-webkit-justify-content: center;
 	        justify-content: center;
 }
-.to_my_box view+view.data-v-48cda53a {
+.to_my_box view+view.data-v-4cedc0c6 {
 	/* border-top: 1upx solid #eee; */
 }
-.to_my_box .cur.data-v-48cda53a {
+.to_my_box .cur.data-v-4cedc0c6 {
 	color: #3171F5;
 }
-.ssjg_list.data-v-48cda53a {
+.ssjg_list.data-v-4cedc0c6 {
 	width: 100%;
 	padding: 40rpx 32rpx 20rpx;
 	position: fixed;
@@ -121,7 +121,7 @@
 	bottom: 0;
 	background: #fff;
 }
-.ssjg_li.data-v-48cda53a {
+.ssjg_li.data-v-4cedc0c6 {
 	width: 100%;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -136,16 +136,16 @@
 	font-size: 14px;
 	color: #1a1a1a;
 }
-.ssjg_li_add.data-v-48cda53a {
+.ssjg_li_add.data-v-4cedc0c6 {
 	font-size: 10px;
 	color: #bfbfbf;
 }
-.data_list.data-v-48cda53a {
+.data_list.data-v-4cedc0c6 {
 	width: 100%;
 	box-sizing: border-box;
 	padding: 10rpx 32rpx;
 }
-.data_li.data-v-48cda53a {
+.data_li.data-v-4cedc0c6 {
 	width: 100%;
 	padding: 30rpx 0;
 	display: -webkit-box;
@@ -158,10 +158,10 @@
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
 }
-.li_msg.data-v-48cda53a {
+.li_msg.data-v-4cedc0c6 {
 	width: 500rpx;
 }
-.li_msg_r.data-v-48cda53a {
+.li_msg_r.data-v-4cedc0c6 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -173,23 +173,23 @@
 	-webkit-align-items: flex-end;
 	        align-items: flex-end;
 }
-.li_pri.data-v-48cda53a {
+.li_pri.data-v-4cedc0c6 {
 	color: #FE6043;
 	font-size: 32rpx;
 }
-.li_pri text.data-v-48cda53a {
+.li_pri text.data-v-4cedc0c6 {
 	color: #FE6043;
 	font-size: 48rpx;
 }
-.list_tel.data-v-48cda53a {
+.list_tel.data-v-4cedc0c6 {
 	width: 60rpx;
 	height: 60rpx;
 	margin-top: 12rpx;
 }
-.data_li+.data_li.data-v-48cda53a {
+.data_li+.data_li.data-v-4cedc0c6 {
 	border-top: 1px solid #DDDDDD;
 }
-.li_tit.data-v-48cda53a {
+.li_tit.data-v-4cedc0c6 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -202,23 +202,23 @@
 	font-size: 28rpx;
 	color: #999;
 }
-.li_name.data-v-48cda53a {
+.li_name.data-v-4cedc0c6 {
 	color: #1A1A1A;
 	font-size: 32rpx;
 }
-.li_name image.data-v-48cda53a {
+.li_name image.data-v-4cedc0c6 {
 	width: 23rpx;
 	height: 20rpx;
 	margin-left: 12rpx;
 }
-.li_bq.data-v-48cda53a {
+.li_bq.data-v-4cedc0c6 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
 	-webkit-flex-wrap: wrap;
 	        flex-wrap: wrap;
 }
-.li_bq view.data-v-48cda53a {
+.li_bq view.data-v-4cedc0c6 {
 	margin-top: 10rpx;
 	margin-right: 10rpx;
 	font-size: 20rpx;
@@ -237,7 +237,7 @@
 	-webkit-justify-content: center;
 	        justify-content: center;
 }
-.li_fbr.data-v-48cda53a {
+.li_fbr.data-v-4cedc0c6 {
 	font-size: 28rpx;
 	color: #1a1a1a;
 	margin-top: 18rpx;

@@ -1,5 +1,5 @@
 <template>
-	<view class="content_wrap" :style="style0">
+	<view class="content_wrap"  :class="xz_type>0?'h100':''" :style="style0">
 		<cu-custom bgColor="bg-white" :isBack="true">
 			<block slot="backText"></block>
 			<block slot="content" >房源列表</block>
@@ -1103,6 +1103,10 @@
 </script>
 
 <style scoped>
+	.h100{
+		height: 100vh;
+		overflow: hidden;
+	}
 	.cu-bar.fixed,
 	.nav.fixed {
 		padding-right: 32upx;
@@ -1351,9 +1355,12 @@
 	}
 	.jg_tit{
 		width: 100%;
-		padding: 0 32upx 20upx;
+		height: 50rpx;
+		padding: 0 32upx ;
+		margin-bottom: 20rpx;
 		box-sizing: border-box;
 		display: flex;
+		align-items: center;
 		font-size: 32upx;
 		color: #1A1A1A;
 	}
