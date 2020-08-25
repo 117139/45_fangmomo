@@ -43,6 +43,8 @@
 				pay_type:2,
 				datas:'',
 				token:'',
+				account:'',
+				password:'',
 			}
 		},
 		computed: mapState(['platform', 'hasLogin', 'userName']),
@@ -56,7 +58,8 @@
 			});
 			if(option.token){
 				this.token=option.token
-				
+				this.account=option.account
+				this.password=option.password
 			}
 			this.getpay()
 		},
@@ -143,20 +146,57 @@
 							var datas = res.data.data
 							console.log(typeof datas)
 							
-							if (typeof datas == 'string') {
-								datas = JSON.parse(datas)
-							}
+							// if (typeof datas == 'string') {
+							// 	datas = JSON.parse(datas)
+							// }
 							console.log(datas)
-							// that.datas = datas
+							// 支付宝
 							if(that.pay_type==2){
 								uni.requestPayment({
 								    provider: 'alipay',
-								    orderInfo: datas.datas, //微信、支付宝订单数据
+								    orderInfo: datas, //微信、支付宝订单数据
 								    success: function (res) {
 								        console.log('success:' + JSON.stringify(res));
+												wx.showToast({
+													title: '支付成功',
+													icon: 'none',
+													duration: 1000
+												});
+												setTimeout(function (){
+													that.bindLogin()
+												},1000)
 								    },
 								    fail: function (err) {
 								        console.log('fail:' + JSON.stringify(err));
+												uni.showModal({
+												    content: "支付失败",
+												    showCancel: false
+												})
+								    }
+								});
+							}
+							//微信
+							if(that.pay_type==1){
+								uni.requestPayment({
+								    provider: 'wxpay',
+								    orderInfo: datas, //微信、支付宝订单数据
+								    success: function (res) {
+								        console.log('success:' + JSON.stringify(res));
+												wx.showToast({
+													title: '支付成功',
+													icon: 'none',
+													duration: 1000
+												});
+												setTimeout(function (){
+													that.bindLogin()
+												},1000)
+								    },
+								    fail: function (err) {
+								        console.log('fail:' + JSON.stringify(err));
+												uni.showModal({
+												    content: "支付失败",
+												    showCancel: false
+												})
 								    }
 								});
 							}
@@ -190,10 +230,80 @@
 						}
 					}
 				)
-				uni.showToast({
-					title:'支付'
+				// uni.showToast({
+				// 	title:'支付'
+				// })
+			},
+			bindLogin() {
+				var that = this
+				const data = {
+					phone: that.account,
+					password: that.password
+				}
+				var jkurl = '/api/login/login'
+				uni.showLoading({
+					title:'正在重新登录...'
 				})
-			}
+				service.post(jkurl, data,
+					function(res) {
+						that.btnkg = 0
+						if (res.data.code == 1) {
+			
+							uni.showToast({
+								icon: 'none',
+								title: '登录成功'
+							})
+							that.login(res.data.data.nickname);
+							that.logindata(res.data.data)
+							uni.setStorageSync('loginmsg', JSON.stringify(res.data.data))
+							uni.setStorageSync('phone', that.account)
+							var phone = uni.getStorageSync('phone')
+							console.log(phone)
+							uni.setStorageSync('password', that.password)
+							setTimeout(() => {
+								uni.reLaunch({
+									url: '../main/main'
+								})
+								// uni.navigateBack()
+							}, 1000)
+						} else {
+							if (res.data.code == 2) {
+								setTimeout(() => {
+									uni.navigateTo({
+										url: '../my_pay/my_pay?token=' + res.data.token
+									})
+								}, 1500)
+							}
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+						that.btnkg = 0
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+			
+			},
 		}
 	}
 </script>

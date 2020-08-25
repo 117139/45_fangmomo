@@ -255,7 +255,7 @@
 							if (res.data.code == 2) {
 								setTimeout(() => {
 									uni.navigateTo({
-										url: '../my_pay/my_pay?token=' + res.data.token
+										url: '../my_pay/my_pay?token=' + res.data.token+'&account='+that.account+'&password='+that.password
 									})
 								}, 1500)
 							}

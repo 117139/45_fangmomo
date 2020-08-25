@@ -12,7 +12,8 @@
         /* 模块配置 */
         "modules" : {
             "OAuth" : {},
-            "Payment" : {}
+            "Payment" : {},
+            "Messaging" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -36,11 +37,14 @@
                     "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_SMS\"/>",
                     "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+                    "<uses-permission android:name=\"android.permission.SEND_SMS\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_SMS\"/>"
                 ],
                 "autoSdkPermissions" : false
             },
@@ -64,13 +68,11 @@
                 "ad" : {},
                 "payment" : {
                     "weixin" : {
-                        "__platform__" : [ "android" ],
-                        "appid" : "",
+                        "__platform__" : [ "ios", "android" ],
+                        "appid" : "wxe881cae0397532f2",
                         "UniversalLinks" : "https://fangmomo.net.aa.800123456.top"
                     },
-                    "alipay" : {
-                        "__platform__" : [ "ios", "android" ]
-                    }
+                    "appleiap" : {}
                 }
             },
             "icons" : {

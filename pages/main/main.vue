@@ -309,7 +309,7 @@
 							}
 							setTimeout(()=>{
 								uni.hideToast()
-								uni.reLaunch({
+								uni.navigateTo({
 									url:'../login/login'
 								})
 							},2000)

@@ -118,62 +118,63 @@
 				</view>
 				<!-- 更多 -->
 				<view class="qy_box qy_box1" v-if="xz_type==4"> 
-					<block v-if="array.length>0">
-						<view class="jg_tit">房源</view>
-						<view class="jg_list jg_list1">
-							<view class="jg_li" :class="index==index0 ?'cur':''" v-for="(item,index) in array" data-xz="0" :data-index="index" @tap="more_xz">{{item.title}}</view>
-						</view>
-					</block>
-					<block v-if="array1.length>0">
-						<view class="jg_tit">类型</view>
-						<view class="jg_list jg_list1">
-							<view class="jg_li" :class="index==index1 ?'cur':''" v-for="(item,index) in array1" data-xz="1" :data-index="index" @tap="more_xz">{{item.title}}</view>
-						</view>
-					</block>
-					<block v-if="array2.length>0">
-						<view class="jg_tit">户型</view>
-						<view class="jg_list jg_list1">
-							<view class="jg_li" :class="index==index2 ?'cur':''" v-for="(item,index) in array2" data-xz="2" :data-index="index" @tap="more_xz">{{item.title}}</view>
-						</view>
-					</block>
-					<block v-if="array3.length>0">
-						<view class="jg_tit">朝向</view>
-						<view class="jg_list jg_list1">
-							<view class="jg_li" :class="index==index3 ?'cur':''" v-for="(item,index) in array3" data-xz="3" :data-index="index" @tap="more_xz">{{item.title}}</view>
-						</view>
-					</block>
-					<block v-if="array4.length>0">
-						<view class="jg_tit">房本</view>
-						<view class="jg_list jg_list1">
-							<view class="jg_li" :class="index==index4 ?'cur':''" v-for="(item,index) in array4" data-xz="4" :data-index="index" @tap="more_xz">{{item.title}}</view>
-						</view>
-					</block>
-					<block v-if="array5.length>0">
-						<view class="jg_tit">装修</view>
-						<view class="jg_list jg_list1">
-							<view class="jg_li" :class="index==index5 ?'cur':''" v-for="(item,index) in array5" data-xz="5" :data-index="index" @tap="more_xz">{{item.title}}</view>
-						</view>
-					</block>
-					<block v-if="array6.length>0">
-						<view class="jg_tit">车库</view>
-						<view class="jg_list jg_list1">
-							<view class="jg_li" :class="index==index6 ?'cur':''" v-for="(item,index) in array6" data-xz="6" :data-index="index" @tap="more_xz">{{item.title}}</view>
-						</view>
-					</block>
-					<block v-if="array7.length>0">
-						<view class="jg_tit">出租方式</view>
-						<view class="jg_list jg_list1">
-							<view class="jg_li" :class="index==index7 ?'cur':''" v-for="(item,index) in array7" data-xz="7" :data-index="index" @tap="more_xz">{{item.title}}</view>
-						</view>
-					</block>
-					<block v-if="array8.length>0">
-						<view class="jg_tit">付款方式</view>
-						<view class="jg_list jg_list1">
-							<view class="jg_li" :class="index==index8 ?'cur':''" v-for="(item,index) in array8" data-xz="8" :data-index="index" @tap="more_xz">{{item.title}}</view>
-						</view>
-					</block>
-					
-					
+					<scroll-view scroll-y="true" class="">
+						<block v-if="array.length>0">
+							<view class="jg_tit">房源</view>
+							<view class="jg_list jg_list1">
+								<view class="jg_li" :class="index==index0 ?'cur':''" v-for="(item,index) in array" data-xz="0" :data-index="index" @tap="more_xz">{{item.title}}</view>
+							</view>
+						</block>
+						<block v-if="array1.length>0">
+							<view class="jg_tit">类型</view>
+							<view class="jg_list jg_list1">
+								<view class="jg_li" :class="index==index1 ?'cur':''" v-for="(item,index) in array1" data-xz="1" :data-index="index" @tap="more_xz">{{item.title}}</view>
+							</view>
+						</block>
+						<block v-if="array2.length>0">
+							<view class="jg_tit">户型</view>
+							<view class="jg_list jg_list1">
+								<view class="jg_li" :class="index==index2 ?'cur':''" v-for="(item,index) in array2" data-xz="2" :data-index="index" @tap="more_xz">{{item.title}}</view>
+							</view>
+						</block>
+						<block v-if="array3.length>0">
+							<view class="jg_tit">朝向</view>
+							<view class="jg_list jg_list1">
+								<view class="jg_li" :class="index==index3 ?'cur':''" v-for="(item,index) in array3" data-xz="3" :data-index="index" @tap="more_xz">{{item.title}}</view>
+							</view>
+						</block>
+						<block v-if="array4.length>0">
+							<view class="jg_tit">房本</view>
+							<view class="jg_list jg_list1">
+								<view class="jg_li" :class="index==index4 ?'cur':''" v-for="(item,index) in array4" data-xz="4" :data-index="index" @tap="more_xz">{{item.title}}</view>
+							</view>
+						</block>
+						<block v-if="array5.length>0">
+							<view class="jg_tit">装修</view>
+							<view class="jg_list jg_list1">
+								<view class="jg_li" :class="index==index5 ?'cur':''" v-for="(item,index) in array5" data-xz="5" :data-index="index" @tap="more_xz">{{item.title}}</view>
+							</view>
+						</block>
+						<block v-if="array6.length>0">
+							<view class="jg_tit">车库</view>
+							<view class="jg_list jg_list1">
+								<view class="jg_li" :class="index==index6 ?'cur':''" v-for="(item,index) in array6" data-xz="6" :data-index="index" @tap="more_xz">{{item.title}}</view>
+							</view>
+						</block>
+						<block v-if="array7.length>0">
+							<view class="jg_tit">出租方式</view>
+							<view class="jg_list jg_list1">
+								<view class="jg_li" :class="index==index7 ?'cur':''" v-for="(item,index) in array7" data-xz="7" :data-index="index" @tap="more_xz">{{item.title}}</view>
+							</view>
+						</block>
+						<block v-if="array8.length>0">
+							<view class="jg_tit">付款方式</view>
+							<view class="jg_list jg_list1">
+								<view class="jg_li" :class="index==index8 ?'cur':''" v-for="(item,index) in array8" data-xz="8" :data-index="index" @tap="more_xz">{{item.title}}</view>
+							</view>
+						</block>
+						
+					</scroll-view>	
 				</view>
 				<view class="tk_cz_box">
 					<view @tap="reset_fuc">重置</view>
@@ -1185,7 +1186,8 @@
 		margin-left: auto;
 		margin-right: auto;
 		width: 100%;
-		height: 640upx;
+		min-height: 640upx;
+		max-height: 80%;
 		padding-top: 10upx;
 		background-color: #fff;
 		overflow: hidden;
