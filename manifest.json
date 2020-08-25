@@ -72,7 +72,10 @@
                         "appid" : "wxe881cae0397532f2",
                         "UniversalLinks" : "https://fangmomo.net.aa.800123456.top"
                     },
-                    "appleiap" : {}
+                    "appleiap" : {},
+                    "alipay" : {
+                        "__platform__" : [ "ios", "android" ]
+                    }
                 }
             },
             "icons" : {

@@ -40,6 +40,7 @@
 	export default {
 		data() {
 			return {
+				btnkg:0,
 				pay_type:2,
 				datas:'',
 				token:'',
@@ -62,6 +63,9 @@
 				this.password=option.password
 			}
 			this.getpay()
+		},
+		onShow() {
+			this.btnkg=0
 		},
 		methods: {
 			getpay(){
@@ -137,8 +141,14 @@
 				//selectSaraylDetailByUserCard
 				var jkurl = '/api/order/createOrder'
 				uni.showLoading({
-					title: '正在发起支付'
+					title: '正在发起支付',
+					mask:true
 				})
+				if(that.btnkg==1){
+					return
+				}else{
+					that.btnkg=1
+				}
 				service.post(jkurl, data,
 					function(res) {
 						
@@ -163,10 +173,12 @@
 													duration: 1000
 												});
 												setTimeout(function (){
+													that.btnkg=0
 													that.bindLogin()
 												},1000)
 								    },
 								    fail: function (err) {
+											that.btnkg=0
 								        console.log('fail:' + JSON.stringify(err));
 												uni.showModal({
 												    content: "支付失败",
@@ -178,11 +190,8 @@
 							//微信
 							if(that.pay_type==1){
 								uni.requestPayment({
-								    timeStamp: datas.timeStamp,
-								    nonceStr: datas.nonceStr,
-								    package: datas.package,
-								    signType: 'MD5',
-								    paySign: datas.sign,
+								    provider: 'wxpay',
+								    orderInfo: datas, //微信、支付宝订单数据
 								    success: function (res) {
 								        console.log('success:' + JSON.stringify(res));
 												wx.showToast({
@@ -191,10 +200,12 @@
 													duration: 1000
 												});
 												setTimeout(function (){
+													that.btnkg=0
 													that.bindLogin()
 												},1000)
 								    },
 								    fail: function (err) {
+											that.btnkg=0
 								        console.log('fail:' + JSON.stringify(err));
 												uni.showModal({
 												    content: "支付失败",
@@ -205,6 +216,7 @@
 							}
 				
 						} else {
+							that.btnkg=0
 							if (res.data.msg) {
 								uni.showToast({
 									icon: 'none',
@@ -219,7 +231,7 @@
 						}
 					},
 					function(err) {
-						
+						that.btnkg=0
 						if (err.data.msg) {
 							uni.showToast({
 								icon: 'none',
