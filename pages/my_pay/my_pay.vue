@@ -178,8 +178,11 @@
 							//微信
 							if(that.pay_type==1){
 								uni.requestPayment({
-								    provider: 'wxpay',
-								    orderInfo: datas, //微信、支付宝订单数据
+								    timeStamp: datas.timeStamp,
+								    nonceStr: datas.nonceStr,
+								    package: datas.package,
+								    signType: 'MD5',
+								    paySign: datas.sign,
 								    success: function (res) {
 								        console.log('success:' + JSON.stringify(res));
 												wx.showToast({
