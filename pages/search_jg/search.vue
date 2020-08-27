@@ -418,6 +418,7 @@
 		 */
 		onPullDownRefresh: function () {
 			this.page=1
+			this.datas=[]
 		  this.getdata()
 		},
 		
@@ -525,9 +526,6 @@
 					return '面积'
 				}
 			},
-		},
-		onReachBottom() {
-			console.log('上拉')
 		},
 		methods: {
 			caozuo(id){
@@ -861,6 +859,9 @@
 								}
 								if(datas.fitment){ //装修
 									that.array5=datas.fitment
+								}
+								if(datas.carbarn){ //车库
+									that.array6=datas.carbarn
 								}
 								if(datas.rent_out_type){ //出租方式
 									that.array7=datas.rent_out_type
@@ -1336,8 +1337,12 @@
 		padding: 0 32upx 20upx;
 	}
 	.jg_li{
-		width:148upx;
+		min-width:148upx;
 		height:50upx;
+		padding: 0 10upx;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 		background:rgba(238,238,238,1);
 		border-radius:8upx;
 		display: flex;
@@ -1345,16 +1350,21 @@
 		justify-content: center;
 		color: #1A1A1A;
 		font-size: 20upx;
-		margin-right: 30upx;
+		margin-right: 20upx;
 		margin-bottom: 20upx;
+		/* overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical; */
 	}
 	.jg_li.cur{
 		background: #3171F5;
 		color: #fff;
 	}
-	.jg_li:nth-child(4n){
+	/* .jg_li:nth-child(4n){
 		margin-right: 0;
-	}
+	} */
 	.jg_tit{
 		width: 100%;
 		height: 50rpx;

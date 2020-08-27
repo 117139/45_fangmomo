@@ -136,10 +136,10 @@
 				</view>
 			</picker>
 			<!-- 车库 -->
-			<picker v-if="fb_type==1" @change="bindPickerChange"  data-type="6" :value="index6" :range="array6">
+			<picker v-if="fb_type==1" @change="bindPickerChange" range-key="title" data-type="6" :value="index6" :range="array6">
 				<view class="fb_li">
 					<view>车库</view>
-					<view>{{array6[index6]}}</view>
+					<view>{{array6[index6].title}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
@@ -332,6 +332,7 @@
 				var that =this
 				var data = {
 					id:that.id,
+					my_issue:1,
 					token:that.loginDatas.token,
 				}
 				//selectSaraylDetailByUserCard
@@ -438,7 +439,16 @@
 									if(datas.cash_pledge){
 										that.yajin=datas.cash_pledge                    //押金
 									}
-									
+									// that.index6=datas.carbarn==1?1:2  //车库//车库
+									if(datas.carbarn){
+										// for(var i in that.array5){
+										for(var i=0;i<that.array6.length;i++){
+											//console.log(datas.carbarn)
+											if(datas.carbarn==that.array6[i].id){
+												that.index6==i      //车库//车库
+											}
+										}
+									}
 									if(datas.rent_out_type_id){
 										// for(var i in that.array5){
 										for(var i=0;i<that.array7.length;i++){
@@ -457,7 +467,7 @@
 											}
 										}
 									}
-									that.index6=datas.carbarn==1?1:2  //车库//车库
+									
 									that.imgb=datas.img
 								// that.getcateList()
 								
@@ -679,6 +689,9 @@
 								}
 								if(datas.fitment){ //装修
 									that.array5=datas.fitment
+								}
+								if(datas.carbarn){ //装修
+									that.array6=datas.carbarn
 								}
 								if(datas.rent_out_type){ //出租方式
 									that.array7=datas.rent_out_type
@@ -1036,7 +1049,7 @@
 						
 						premises_permit_id:that.array4[that.index4].id,  //房本
 						fitment_id:that.array5[that.index5].id,  //装修
-						carbarn:that.index6==1?1:2,  //车库
+						carbarn:that.array6[that.index6].id,  //车库
 						img:that.imgb.join(',')
 					}
 				}

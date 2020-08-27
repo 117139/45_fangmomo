@@ -84,14 +84,14 @@
 				<view class="xq_msg1" v-if="datas.orientations">
 					<text>朝向：</text><text class="c1a">{{datas.orientations.title}}</text>
 				</view>
-				<view class="xq_msg1" v-if="datas.floors">
-					<text>楼层：</text><text class="c1a">{{datas.floors.title+'层'}}</text>
+				<view class="xq_msg1" v-if="datas.floor_id">
+					<text>楼层：</text><text class="c1a">{{datas.floor_id+'层'}}</text>
 				</view>
 				<view class="xq_msg1" v-if="datas.cash_pledge">
 					<text>押金：</text><text class="c1a">{{datas.cash_pledge}}</text>
 				</view>
-				<view class="xq_msg1" v-if="datas.carbarn">
-					<text>车库：</text><text class="c1a">{{datas.carbarn.title}}</text>
+				<view class="xq_msg1" v-if="datas.carbarns">
+					<text>车库：</text><text class="c1a">{{datas.carbarns.title}}</text>
 				</view>
 				<view class="xq_msg1" v-if="datas.homeTypes">
 					<text>类型：</text><text class="c1a">{{datas.homeTypes.title}}</text>
@@ -227,6 +227,7 @@
 				var that =this
 				var data = {
 					id:that.id,
+					my_issue:1,
 					token:that.loginDatas.token,
 				}
 				//selectSaraylDetailByUserCard
