@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "小区选择",
-  "usingComponents": {
-    "m-input": "/components/m-input"
-  }
-}

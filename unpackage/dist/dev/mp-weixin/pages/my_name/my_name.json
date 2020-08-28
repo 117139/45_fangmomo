@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "修改称呼",
-  "usingComponents": {
-    "m-input": "/components/m-input"
-  }
-}

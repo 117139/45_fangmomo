@@ -1,6 +1,6 @@
 <template>
 	<view class="content_wrap" :style="style0">
-		<cu-custom bgColor="bg-white" :isBack="true" >
+		<cu-custom bgColor="bg-white" :isBack="true">
 			<block slot="backText"></block>
 			<block slot="content">房贷计算器</block>
 		</cu-custom>
@@ -11,7 +11,7 @@
 		</view>
 		<view class="fb_list">
 			<!-- 计算方式 -->
-			<picker  @change="bindPickerChange" data-type="0" :value="index" :range="array">
+			<picker @change="bindPickerChange" data-type="0" :value="index" :range="array">
 				<view class="fb_li">
 					<view>计算方式</view>
 					<view>{{array[index]}}</view>
@@ -32,9 +32,9 @@
 				<input type="number" placeholder="请输入" v-model="jiage_g"></input>
 				<text class="iconfont">万</text>
 				<!-- <text class="iconfont iconnext"></text> -->
-			</view
-			<!-- 公积金年限 -->
-			<picker v-if="fb_type==1||fb_type==2" @change="bindPickerChange" data-type="3" :value="index3" range-key="name" :range="array3">
+			</view <!-- 公积金年限 -->
+			<picker v-if="fb_type==1||fb_type==2" @change="bindPickerChange" data-type="3" :value="index3" range-key="name"
+			 :range="array3">
 				<view class="fb_li">
 					<view>公积金年限</view>
 					<view>{{array3[index3].name}}</view>
@@ -56,9 +56,10 @@
 				<input type="number" placeholder="请输入" v-model="jiage"></input>
 				<text class="iconfont">万</text>
 			</view>
-			
+
 			<!-- 商贷年限 -->
-			<picker v-if="fb_type==0||fb_type==1" @change="bindPickerChange" data-type="1" :value="index1" range-key="name" :range="array1">
+			<picker v-if="fb_type==0||fb_type==1" @change="bindPickerChange" data-type="1" :value="index1" range-key="name"
+			 :range="array1">
 				<view class="fb_li">
 					<view>商贷年限</view>
 					<view>{{array1[index1].name}}</view>
@@ -90,7 +91,7 @@
 			<!-- 商贷利率 -->
 			<view v-if="fb_type==0||fb_type==1" class="fb_li">
 				<view>商贷利率</view>
-				
+
 				<text class="iconfont">{{LPR}}%</text>
 				<text class="iconfont">+</text>
 				<text class="iconfont">{{jidian}}(‱)</text>
@@ -99,10 +100,10 @@
 				<text class="iconfont">%</text>
 				<!-- <text class="iconfont iconnext"></text> -->
 			</view>
-			
-			
-			
-			
+
+
+
+
 		</view>
 		<view class="btn-row">
 			<button type="primary" class="primary" @tap="jisuan_fuc" data-url="../jisuan_jg/jisuan_jg">开始计算</button>
@@ -127,67 +128,66 @@
 				StatusBar: this.StatusBar,
 				CustomBar: this.CustomBar,
 				xq_name: '', //小区名称
-				dujia:false,
+				dujia: false,
 				array: ['按贷款总额'],
 				index: 0,
-				jiage_z:'',
-				jiage_g:'',
-				jiage:'',
-				LPR: '3.85',
-				array1: [
-					{
-						name:'10年',
-						num:10
+				jiage_z: '',
+				jiage_g: '',
+				jiage: '',
+				LPR: '4.65',
+				array1: [{
+						name: '10年',
+						num: 10
 					},
 					{
-						name:'20年',
-						num:20
+						name: '20年',
+						num: 20
 					},
 					{
-						name:'30年',
-						num:30
+						name: '30年',
+						num: 30
 					},
 					{
-						name:'40年',
-						num:40
+						name: '40年',
+						num: 40
 					},
 				],
 				index1: 0,
 				array2: ['按最新LPR'],
 				index2: 0,
 				jidian: '',
-				array3: [
-					{
-						name:'10年',
-						num:10
+				array3: [{
+						name: '10年',
+						num: 10
 					},
 					{
-						name:'20年',
-						num:20
+						name: '20年',
+						num: 20
 					},
 					{
-						name:'30年',
-						num:30
+						name: '30年',
+						num: 30
 					},
 					{
-						name:'40年',
-						num:40
+						name: '40年',
+						num: 40
 					},
 				],
 				index3: 0,
 				louceng: '',
-				array4: [
-					{
-						name:'最新基准利率(3.25%)',
-						lv:3.25
-					},
-				],
+				array4: [{
+					name: '最新基准利率(3.25%)',
+					lv: 3.25
+				}, ],
 				index4: 0,
-				
+
 			};
 		},
 		components: {
 			simpleAddress
+		},
+		onLoad() {
+			this.getpay()
 		},
 		computed: {
 			...mapState(['hasLogin', 'forcedLogin']),
@@ -195,7 +195,7 @@
 				var StatusBar = this.StatusBar;
 				var CustomBar = this.CustomBar;
 				// var padd_top = CustomBar 
-				var padd_top = 50 
+				var padd_top = 50
 				var style = `padding-top:${padd_top}px;`;
 
 				return style
@@ -215,8 +215,8 @@
 
 				return style
 			},
-			sdlv(){
-				return (this.LPR*1+this.jidian*0.01).toFixed(2)
+			sdlv() {
+				return (this.LPR * 1 + this.jidian * 0.01).toFixed(2)
 			}
 		},
 		onPullDownRefresh() {
@@ -227,54 +227,114 @@
 			console.log('上拉')
 		},
 		methods: {
-			jisuan_fuc(e){
-				if(this.fb_type==1||this.fb_type==2){
-					if(!this.jiage_g){
+			getpay() {
+				var that = this
+				var data = {
+					keyword: 'LPR,gjj'
+				}
+
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/info/list'
+				uni.showLoading({
+					title: '正在获取数据'
+				})
+				service.get(jkurl, data,
+					function(res) {
+
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							// console.log(typeof datas)
+
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							console.log(datas)
+							that.LPR = datas.LPR[0].body
+							
+							var newa = [{
+								name: '最新基准利率('+datas.gjj[0].body+'%)',
+								lv: datas.gjj[0].body
+							}]
+							that.array4=newa
+
+						} else {
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+			},
+			jisuan_fuc(e) {
+				if (this.fb_type == 1 || this.fb_type == 2) {
+					if (!this.jiage_g) {
 						uni.showToast({
-							icon:'none',
-							title:'请输入公积金金额'
+							icon: 'none',
+							title: '请输入公积金金额'
 						})
 						return
 					}
 				}
-				if(this.fb_type==0||this.fb_type==1){
-					if(!this.jiage){
+				if (this.fb_type == 0 || this.fb_type == 1) {
+					if (!this.jiage) {
 						uni.showToast({
-							icon:'none',
-							title:'请输入商贷金额'
+							icon: 'none',
+							title: '请输入商贷金额'
 						})
 						return
 					}
 				}
 				//商贷
-				var arg_a=this.jiage*10000
-				var arg_m=this.array1[this.index1].num*12
-				var arg_b=this.sdlv/12/100
-				console.log(arg_a,arg_m,arg_b)
-				 var arg0=(1+arg_b)**arg_m
-				 console.log(arg0)
-				var arg1=arg_a*arg_b*arg0
-				var arg2=arg0-1
-				console.log(arg1,arg2)
-				console.log(arg1/arg2)
-				var mon_num=arg1/arg2
-				mon_num=mon_num.toFixed(2)
+				var arg_a = this.jiage * 10000
+				var arg_m = this.array1[this.index1].num * 12
+				var arg_b = this.sdlv / 12 / 100
+				console.log(arg_a, arg_m, arg_b)
+				var arg0 = (1 + arg_b) ** arg_m
+				console.log(arg0)
+				var arg1 = arg_a * arg_b * arg0
+				var arg2 = arg0 - 1
+				console.log(arg1, arg2)
+				console.log(arg1 / arg2)
+				var mon_num = arg1 / arg2
+				mon_num = mon_num.toFixed(2)
 				//公积金
-				var arg_a1=this.jiage_g*10000
-				var arg_m1=this.array3[this.index3].num*12
-				var arg_b1=this.array4[this.index4].lv/12/100
-				var arg01=(1+arg_b1)**arg_m1
-				 console.log(arg01)
-				var arg11=arg_a1*arg_b1*arg01
-				var arg21=arg0-1
-				var mon_num1=arg11/arg21
-				mon_num1=mon_num1.toFixed(2)
+				var arg_a1 = this.jiage_g * 10000
+				var arg_m1 = this.array3[this.index3].num * 12
+				var arg_b1 = this.array4[this.index4].lv / 12 / 100
+				var arg01 = (1 + arg_b1) ** arg_m1
+				console.log(arg01)
+				var arg11 = arg_a1 * arg_b1 * arg01
+				var arg21 = arg0 - 1
+				var mon_num1 = arg11 / arg21
+				mon_num1 = mon_num1.toFixed(2)
 				console.log(mon_num1)
-				 var mon_num2=mon_num1*1+mon_num*1
-				 mon_num2=mon_num2.toFixed(2)
-				 var jiage_z=this.jiage+this.jiage_g
+				var mon_num2 = mon_num1 * 1 + mon_num * 1
+				mon_num2 = mon_num2.toFixed(2)
+				var jiage_z = this.jiage + this.jiage_g
 				uni.navigateTo({
-					url:'../jisuan_jg/jisuan_jg?mon_num='+mon_num2+'&mon='+this.array1[this.index1].num+'&jiage='+jiage_z
+					url: '../jisuan_jg/jisuan_jg?mon_num=' + mon_num2 + '&mon=' + this.array1[this.index1].num + '&jiage=' + jiage_z
 				})
 			},
 			bindPickerChange: function(e) {
@@ -306,17 +366,17 @@
 				}
 
 			},
-			
-			
+
+
 			fb_fuc(num) {
 				if (this.fb_type == num) {
 					return
 				}
 				this.fb_type = num
-				this.jiage_z=''
-				this.jiage_g=''
-				this.jiage=''
-				this.jidian=""
+				this.jiage_z = ''
+				this.jiage_g = ''
+				this.jiage = ''
+				this.jidian = ""
 				console.log(this.fb_type)
 			},
 			jump(e) {
@@ -355,7 +415,7 @@
 		/* padding-top: 100upx; */
 	}
 
-	
+
 	.xx_list {
 		width: 100%;
 	}
@@ -426,19 +486,21 @@
 	.fb_type .cur {
 		color: #3171F5;
 	}
-.fb_type .cur::after{
-	content: '';
-	position: absolute;
-	bottom: 0;
-	left: 50%;
-	margin-left: -10px;
-	width:20px;
-	height:2px;
-	background:rgba(49,113,245,1);
-}
+
+	.fb_type .cur::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		margin-left: -10px;
+		width: 20px;
+		height: 2px;
+		background: rgba(49, 113, 245, 1);
+	}
+
 	.fb_list {
 		width: 100%;
-		
+
 		background: #fff;
 	}
 
@@ -453,9 +515,13 @@
 		align-items: center;
 		justify-content: space-between;
 	}
-.fb_li+.fb_li,picker,picker+.fb_li{
-	border-bottom: 1px solid #eee;
-}
+
+	.fb_li+.fb_li,
+	picker,
+	picker+.fb_li {
+		border-bottom: 1px solid #eee;
+	}
+
 	.iconfont {
 		font-size: 14px;
 		color: #BFBFBF;
@@ -486,17 +552,20 @@
 		margin: 5px;
 
 	}
-	.btn-row{
+
+	.btn-row {
 		padding: 20px 28upx;
 		/* background: #F3F4F6; */
 	}
+
 	uni-button.primary {
-	    background-color: rgba(49,113,245,1);
+		background-color: rgba(49, 113, 245, 1);
 	}
-	.hx20{
+
+	.hx20 {
 		width: 100%;
 		height: 20upx;
 		background: #F3F4F6;
-		
+
 	}
 </style>

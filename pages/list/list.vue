@@ -37,7 +37,7 @@
 			<view class="data_li" v-for="(item,index) in datas" v-if="showid(item.user_id)">
 				<view class="li_msg" @tap="jump" :data-url="'../details/details?id='+item.id">
 					<view class="li_tit">
-						<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image src="../../static/img/index/list_img.png" mode=""></image>
+						<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image v-if="item.img>0" src="../../static/img/index/list_img.png" mode=""></image>
 						</view>
 						<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
 						<view v-else>{{gettime(item.create_time).time}}</view>

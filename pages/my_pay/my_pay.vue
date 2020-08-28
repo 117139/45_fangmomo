@@ -4,13 +4,14 @@
 			<block slot="backText"></block>
 			<block slot="content"></block>
 		</cu-custom>
-		<view v-if="platform =='ios'">
+		<!-- <view v-if="platform =='ios'">
 			<view class="wrap_main">
 				<view class="reg_tit">审核</view>
 				<view class="kfwx">客服微信 <text>{{datas.applePay?datas.applePay[0].body:''}}</text></view>
 			</view>
-		</view>
-		<view v-else>
+		</view> -->
+		<!-- <view v-else> -->
+		<view>
 			<view class="wrap_main">
 				<view class="reg_tit">支付</view>
 				<view class="kfwx">会员费 <text>￥</text><text class="hy_money">{{datas.vip?datas.vip[0].body:'0'}}</text></view>
@@ -44,9 +45,9 @@
 		mapState,
 		mapMutations
 	} from 'vuex'
-	let iapChannel = null,
-	productId = 'HelloUniappPayment1',
-	productIds = ['HelloUniappPayment1', 'HelloUniappPayment6'];
+	// var iapChannel = null
+	var productId = 198802137211
+	var productIds = ['V198802137211']
 	export default {
 		data() {
 			return {
@@ -57,41 +58,38 @@
 				account: '',
 				password: '',
 				
-				
+				iapChannel:null,
 				loading: false,
 				disabled: true,
 			}
 		},
 		computed: mapState(['platform', 'hasLogin', 'userName']),
 		onLoad(option) {
-			// platform
-			uni.getSystemInfo({
-				success: function(res) {
-
-					console.log(res.platform);
-				}
-			});
+			var that =this
+			uni.showLoading({
+				title: '获取到channel'
+			})
 			plus.payment.getChannels((channels) => {
 					console.log("获取到channel" + JSON.stringify(channels))
 					for (var i in channels) {
 							var channel = channels[i];
 							if (channel.id === 'appleiap') {
-									iapChannel = channel;
-									this.requestOrder();
+									that.iapChannel = channel;
+									that.requestOrder();
 							}
 					}
-					if(!iapChannel){
-							this.errorMsg()
+					if(!that.iapChannel){
+							that.errorMsg()
 					}
 			}, (error) => {
-					this.errorMsg()
+					that.errorMsg()
 			});
 			if (option.token) {
-				this.token = option.token
-				this.account = option.account
-				this.password = option.password
+				that.token = option.token
+				that.account = option.account
+				that.password = option.password
 			}
-			this.getpay()
+			that.getpay()
 		},
 		onShow() {
 			console.log('onshow')
@@ -167,6 +165,10 @@
 					return
 				} else {
 					that.btnkg = 1
+				}
+				if(that.pay_type==3){
+					that.requestPayment()
+					return
 				}
 				var data = {
 					type: that.pay_type,
@@ -355,19 +357,27 @@
 			},
 
 			requestOrder() {
+				var that =this
 				uni.showLoading({
 					title: '检测支付环境...'
 				})
-				iapChannel.requestOrder(productIds, (orderList) => { //必须调用此方法才能进行 iap 支付
+				console.log('productId===>'+productId)
+				console.log('productIds===>'+productIds)
+				that.iapChannel.requestOrder(productIds, (orderList) => { //必须调用此方法才能进行 iap 支付
 					this.disabled = false;
+					
 					console.log('requestOrder success666: ' + JSON.stringify(orderList));
 					uni.hideLoading();
 					for (var index in orderList) {  
 							var OrderItem = orderList[index];  
-							outLine("Title:" + OrderItem.title + "Price:" + OrderItem.price + "Description:" + OrderItem.description + "ProductID:" + OrderItem.productid);  
+							console.log("Title:" + OrderItem.title + "Price:" + OrderItem.price + "Description:" + OrderItem.description + "ProductID:" + OrderItem.productid);  
 					}  
 				}, (e) => {
 					console.log('requestOrder failed: ' + JSON.stringify(e));
+					uni.showModal({
+						content: JSON.stringify(e),
+						showCancel: false
+					})
 					uni.hideLoading();
 					this.errorMsg();
 				});
@@ -392,6 +402,7 @@
 						})
 					},
 					complete: () => {
+						that.btnkg =0
 						console.log("payment结束")
 						this.loading = false;
 					}
