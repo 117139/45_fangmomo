@@ -11,7 +11,7 @@
 			<view class="content1" style="">房源详情</view>
 			<view class="nav_right" style="width: 2em;"></view>
 		</view>
-		<view v-if="datas&&datas.img.length>0" class="xq_banner">
+		<view v-if="datas.img&&datas.img.length>0" class="xq_banner">
 			<swiper class="xq_swiper" :autoplay="false" :interval="3000" :duration="1000" :circular="true" @change="swi_change">
 				<swiper-item v-for="(item,index) in datas.img">
 					<!-- <view class="swiper-item"> -->
@@ -20,11 +20,12 @@
 					<!-- </view> -->
 				</swiper-item>
 			</swiper>
-			<view v-if="datas.img" class="xq_swi_index">{{current}}/{{datas.img.length}}</view>
+			<view v-if="datas.img&&datas.img.length>0" class="xq_swi_index">{{current}}/{{datas.img.length}}</view>
 		</view>
 		<view v-if="datas" class="xq_box">
 			<view class="xq_tit">
-				<view class="xq_name">{{datas.estates.title}}</view>
+				<view class="xq_name" v-if="hasLogin">{{datas.estates.title}}</view>
+				<view class="xq_name" v-if="!hasLogin">房嬷嬷小区</view>
 				<view class="xq_cz">
 					<view class="cz_li" v-if="!datas.collect" @tap="shoucang" :data-id="datas.id">
 						<text class="iconfont iconshoucang-copy"></text>
@@ -105,7 +106,7 @@
 			<image class="call_tel" :src="getimg(datas.users.avatar)" mode="aspectFill"></image>
 			<view class="call_msg">
 				<view class="call_name">{{datas.users.nickname}}</view>
-				<view class="call_dw">{{datas.users.company}}</view>
+				<view class="call_dw" v-if="hasLogin">{{datas.users.company}}</view>
 			</view>
 			<view class="call_btn" @tap="call_tel" :data-tel="datas.users.phone">联系TA</view>
 		</view>

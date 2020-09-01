@@ -302,7 +302,7 @@
 				// if (this.forcedLogin) {
 					setTimeout(()=>{
 						uni.reLaunch({
-							url: '../login/login',
+							url: '../main/main',
 						});
 					},1000)
 				// }

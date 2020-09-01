@@ -44,7 +44,13 @@
 			<view class="data_li" v-for="(item,index) in datas"  v-if="showid(item.user_id)">
 				<view class="li_msg" @tap="jump" :data-url="'../details/details?id='+item.id">
 					<view class="li_tit">
-						<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image  v-if="item.img>0" src="../../static/img/index/list_img.png" mode=""></image>
+						<view class="li_name oh1"  v-if="hasLogin">
+							{{item.estates?item.estates.title:''}}
+							<image  v-if="item.img>0" src="../../static/img/index/list_img.png" mode=""></image>
+						</view>
+						<view class="li_name oh1" v-if="!hasLogin">
+							房嬷嬷小区
+							<image v-if="item.img>0" src="../../static/img/index/list_img.png" mode=""></image>
 						</view>
 						<view class="cf00" v-if="gettime(item.create_time).type==2">{{gettime(item.create_time).time}}</view>
 						<view v-else>{{gettime(item.create_time).time}}</view>
@@ -54,14 +60,14 @@
 						<view v-if="item.fitments">{{item.fitments.title}}</view>
 						<view v-if="item.premisesPermits">{{item.premisesPermits.title}}</view>
 					</view>
-					<view class="li_fbr">
-							<text>{{item.users.company}} </text>
+					<view class="li_fbr" v-if="item.users">
+							<text  v-if="hasLogin">{{item.users.company}} </text>
 							<text> {{item.users.nickname}}</text>
 						</view>
 					</view>
 					<view class="li_msg_r">
 						<view class="li_pri" ><text>{{getpri(item.price)}}</text>{{getdw(item.price)}}</view>
-						<image @tap="call_tel" :data-tel="item.users.phone" class="list_tel" src="../../static/img/index/list_tel.png"></image>
+						<image v-if="item.users" @tap="call_tel" :data-tel="item.users.phone" class="list_tel" src="../../static/img/index/list_tel.png"></image>
 						<text  @tap="caozuo(item.user_id)" class="iconfont iconcaozuo" style="color:rgba(49,113,245,.5);"></text>
 					</view>
 			</view>
