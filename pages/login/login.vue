@@ -102,7 +102,7 @@
 		onShow() {
 
 		},
-		computed: mapState(['forcedLogin']),
+		computed: mapState(['forcedLogin','uuid']),
 		methods: {
 			...mapMutations(['login', 'logindata']),
 			jump(e){
@@ -225,7 +225,8 @@
 
 				const data = {
 					phone: that.account,
-					password: that.password
+					password: that.password,
+					device_id:that.uuid
 				}
 				var jkurl = '/api/login/login'
 

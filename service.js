@@ -1,6 +1,7 @@
 // 管理账号信息
 const USERS_KEY = 'USERS_KEY';
 const STATE_KEY = 'STATE_KEY';
+import store from './store/index.js'
 const IPurl = 'http://fangmomo.net.aa.800123456.top/';
 const imgurl = 'http://fangmomo.net.aa.800123456.top/';
 import Vue from 'vue'
@@ -97,7 +98,11 @@ function request(url, params, method, onSuccess, onFailed) {
  */
 function dealParams(params) {
 	console.log("请求参数:", params)
-	return params;
+	console.log(store.state.uuid)
+	var params1=params
+	Vue.set(params1,'device_id',store.state.uuid)
+	console.log("请求参数1:", params1)
+	return params1;
 }
 
 

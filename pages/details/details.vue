@@ -136,7 +136,8 @@
 					'../../static/img/fang_img5.jpg',
 				],
 				sc_type:0,
-				datas:{}
+				datas:{},
+				my_issue:''
 			}
 		},
 		computed: {
@@ -160,6 +161,9 @@
 		onLoad(option) {
 			this.id= option.id
 			console.log(this.id)
+			if(option.my_issue==1){
+				this.my_issue=1
+			}
 			this.getdata()
 		},
 		onPullDownRefresh() {
@@ -228,8 +232,15 @@
 				var that =this
 				var data = {
 					id:that.id,
-					my_issue:1,
+					// my_issue:1,
 					token:that.loginDatas.token,
+				}
+				if(that.my_issue==1){
+					data = {
+						id:that.id,
+						my_issue:1,
+						token:that.loginDatas.token,
+					}
 				}
 				//selectSaraylDetailByUserCard
 				var jkurl = '/api/issue/show'
@@ -470,7 +481,7 @@
 	}
 	.xqp1{
 		color: #FE6043;
-		font-size: 36upx;
+		font-size: 32upx;
 		font-weight:500;
 	}
 	.xqp2{

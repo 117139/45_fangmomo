@@ -46,7 +46,8 @@
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SMS\"/>"
                 ],
-                "autoSdkPermissions" : false
+                "autoSdkPermissions" : false,
+                "targetSdkVersion" : 26
             },
             /* ios打包配置 */
             "ios" : {

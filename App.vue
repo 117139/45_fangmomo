@@ -9,14 +9,16 @@
 		data() {
 			return {
 				btnkg:0,
-				
+				uuid1:'',
 			};
 		},
 		onLaunch: function() {
 			var that=this
 			console.log('App Launch');
+			
 			uni.getSystemInfo({
 				success: function(e) {
+					console.log(e);
 					console.log(e.platform);
 					that.setplatform(e.platform)
 					// #ifndef MP
@@ -48,7 +50,25 @@
 					// #endif
 				}
 			})
-			that.dblogin()
+			// #ifdef APP-PLUS
+			plus.device.getInfo({
+					success:function(e){
+							console.log('getDeviceInfo success: '+JSON.stringify(e));
+							console.log('uuid: '+JSON.stringify(e.uuid));
+							that.setuuid(e.uuid)
+							that.uuid1=e.uuid
+							that.dblogin()
+					},
+					fail:function(e){
+							console.log('getDeviceInfo failed: '+JSON.stringify(e));
+					}
+			});
+			// #endif
+			// #ifdef H5
+			 that.setuuid('H5')
+			 that.uuid1='H5'
+			 that.dblogin()
+			// #endif
 		},
 		onShow: function() {
 			console.log('App Show');
@@ -56,8 +76,78 @@
 		onHide: function() {
 			console.log('App Hide');
 		},
+		computed: {
+			...mapState(['hasLogin', 'forcedLogin','loginDatas', 'uuid']),
+			
+		},
+		watch:{
+			hasLogin(){
+				if(this.hasLogin){
+					this.dandian()
+				}
+			}
+		},
+		
 		methods: {
-				...mapMutations(['login','logindata','logout','setplatform']),
+				...mapMutations(['login','logindata','logout','setplatform','setuuid']),
+				dandian(){
+					var that =this
+					if(!that.hasLogin) return
+					var jkurl='api/info/getDeviceId'
+					var datas={
+						token:that.loginDatas.token,
+					}
+					console.log('请求url：'+service.IPurl + jkurl)
+					console.log('请求参数：'+that.loginDatas.token)
+					uni.request({
+						url: service.IPurl + jkurl,
+						data: datas,
+						method: 'POST',
+						header: service.header,
+						success: function(res) {
+							console.log('响应：', res.data);
+					
+							// if (res.data) {
+							if (res.data.code == 1) {
+								if(res.data.data==that.uuid1){
+									console.log('login')
+									setTimeout(function(){
+										that.dandian()
+									},5000)
+								}else{
+									that.logout();
+									uni.setStorageSync('phone','')
+									
+									uni.removeStorageSync('phone')
+									uni.removeStorageSync('lahei')
+									uni.showToast({
+										icon:'none',
+										title:'账号已在其他地方登录'
+									})
+									/**
+									 * 如果需要强制登录跳转回登录页面
+									 */
+									// if (this.forcedLogin) {
+										setTimeout(()=>{
+											uni.reLaunch({
+												url: '/pages/main/main',
+											});
+										},1000)
+								}
+					
+							}
+					
+							/** start 根据需求 接口的返回状态码进行处理 */
+							// onSuccess(res);
+							/** end 处理结束*/
+							// }
+						},
+						fail: function(error) {
+					
+							console.log('error：', error)
+						}
+					})
+				},
 				dblogin(){
 					var that =this
 					if(!uni.getStorageSync('phone')){
@@ -79,10 +169,10 @@
 					console.log(account)
 					const data = {
 						phone: account,
-						password: password
+						password: password,
+						device_id:that.uuid1
 					}
 					var jkurl='/api/login/login'
-					
 					service.post(jkurl, data,
 						function(res) {
 							that.btnkg=0

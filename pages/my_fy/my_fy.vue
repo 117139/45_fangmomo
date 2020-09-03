@@ -24,7 +24,7 @@
 			<uni-swipe-action v-if="pltype==1" style="width: 750upx;">
 			    <uni-swipe-action-item :options="options" @click="onClick($event,index,item.id,item)" @change="change" v-for="(item,index) in datas" :data-id='item.id'>
 			        <view class="data_li">
-			        	<view class="li_msg" @tap="jump"  :data-url="'../details/details?id='+item.id">
+			        	<view class="li_msg" @tap="jump"  :data-url="'../details/details?my_issue==1&id='+item.id">
 			        		<view class="li_tit">
 			        			<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image v-if="item.img==1"
 			        				src="../../static/img/index/list_img.png" mode=""></image>
@@ -53,7 +53,7 @@
 			    </uni-swipe-action-item>
 			</uni-swipe-action>
 			<view class="data_li data_li_d" v-if="pltype!=1" v-for="(item,index) in datas">
-				<view class="li_msg" @tap="jump"  :data-url="'../details/details?id='+item.id">
+				<view class="li_msg" @tap="jump"  :data-url="'../details/details?my_issue==1&id='+item.id">
 					<view class="li_tit">
 						<view class="li_name oh1">{{item.estates?item.estates.title:''}}<image v-if="item.img==1"
 							src="../../static/img/index/list_img.png" mode=""></image>

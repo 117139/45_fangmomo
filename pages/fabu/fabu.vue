@@ -57,14 +57,14 @@
 			<picker  v-if="fb_type !=2" @change="bindPickerChange" range-key="title" data-type="0" :value="index" :range="array">
 				<view class="fb_li">
 					<view>几手</view>
-					<view>{{array[index].title}}</view>
+					<view v-if="array">{{array[index].title}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
 			<picker v-if="fb_type==1" @change="bindPickerChange" range-key="title" data-type="1" :value="index1" :range="array1">
 				<view class="fb_li">
 					<view>类型</view>
-					<view>{{array1[index1].title}}</view>
+					<view  v-if="array1">{{array1[index1].title}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
@@ -79,7 +79,7 @@
 			<picker v-if="fb_type==1||fb_type==2" @change="bindPickerChange" range-key="title" data-type="2" :value="index2" :range="array2">
 				<view class="fb_li">
 					<view>户型</view>
-					<view>{{array2[index2].title}}</view>
+					<view  v-if="array2">{{array2[index2].title}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
@@ -93,7 +93,7 @@
 			<picker v-if="fb_type==1||fb_type==2" @change="bindPickerChange" range-key="title" data-type="3" :value="index3" :range="array3">
 				<view class="fb_li">
 					<view>朝向</view>
-					<view>{{array3[index3].title}}</view>
+					<view  v-if="array3">{{array3[index3].title}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
@@ -115,7 +115,7 @@
 			<picker v-if="fb_type!=2" @change="bindPickerChange" range-key="title" data-type="4" :value="index4" :range="array4">
 				<view class="fb_li">
 					<view>房本</view>
-					<view>{{array4[index4].title}}</view>
+					<view  v-if="array4">{{array4[index4].title}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
@@ -123,7 +123,7 @@
 			<picker @change="bindPickerChange" range-key="title" data-type="5" :value="index5" :range="array5">
 				<view class="fb_li">
 					<view>装修</view>
-					<view>{{array5[index5].title}}</view>
+					<view v-if="array5">{{array5[index5].title}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
@@ -131,7 +131,7 @@
 			<picker v-if="fb_type==1" @change="bindPickerChange"  range-key="title" data-type="6" :value="index6" :range="array6">
 				<view class="fb_li">
 					<view>车库</view>
-					<view>{{array6[index6].title}}</view>
+					<view  v-if="array6">{{array6[index6].title}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
@@ -153,7 +153,7 @@
 			<picker v-if="fb_type==2" @change="bindPickerChange" range-key="title" data-type="7" :value="index7" :range="array7">
 				<view class="fb_li">
 					<view>出租方式</view>
-					<view>{{array7[index7].title}}</view>
+					<view v-if="array7">{{array7[index7].title}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>
@@ -161,7 +161,7 @@
 			<picker v-if="fb_type==2" @change="bindPickerChange" range-key="title" data-type="8" :value="index8" :range="array8">
 				<view class="fb_li">
 					<view>付款方式</view>
-					<view>{{array8[index8].title}}</view>
+					<view v-if="array8">{{array8[index8].title}}</view>
 					<text class="iconfont iconnext"></text>
 				</view>
 			</picker>

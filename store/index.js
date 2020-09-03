@@ -17,9 +17,13 @@ const store = new Vuex.Store({
 		uid:'',
 		phone:'',
 		token:'',
-		laheiArr:[]
+		laheiArr:[],
+		uuid:''
 	},
 	mutations: {
+		setuuid(state, uuid) {
+			state.uuid = uuid || '';
+		},
 		login(state, userName) {
 			state.userName = userName || '新用户';
 			state.hasLogin = true;

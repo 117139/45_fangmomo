@@ -81,7 +81,7 @@
 			};
 		},
 		onLoad() {
-			this.dblogin()
+			// this.dblogin()
 			this.getdata()
 			
 			
