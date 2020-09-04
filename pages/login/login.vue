@@ -363,66 +363,7 @@
 		box-sizing: border-box;
 		text-align: center;
 	}
-	.yhxy_box {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-color: rgba(0, 0, 0, .5);
-		z-index: 9999;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-.yhxy_box_xy{
-	color: #007aff;
-}
-	.dyxy_box {
-		width: 80%;
-		/* min-height: 80%; */
-		background-color: #fff;
-		border-radius: 18upx;
-		padding: 30upx 44upx;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.dyxy_tit {
-		text-align: center;
-		font-size: 36upx;
-		color: #000;
-		padding-bottom: 20upx;
-		border-bottom: 1px solid #ddd;
-		margin-bottom: 26upx;
-	}
-
-	.dyxy_inr {
-		font-size: 28upx;
-		color: #666;
-		height: 800upx;
-		overflow: scroll;
-	}
-
-	.next_btn {
-		margin: 20px 10px 5px;
-		font-size: 28upx;
-		color: #fff;
-		flex: 1;
-		height: 80upx;
-		background: rgba(244, 116, 22, 1);
-		border-radius: 18upx;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.next_btn_cal {
-		background: #ddd;
-	}
-
+	
 	.action-row {
 		display: flex;
 		flex-direction: row;

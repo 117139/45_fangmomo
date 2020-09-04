@@ -67,17 +67,17 @@
 			</view>
 			<view class="xq_msg">
 				<!-- //rent_out_type -->
-				<view class="xq_msg1"  v-if="datas.rent_out_type">
-					<text>方式：</text><text class="c1a">{{datas.rent_out_type.title}}</text>
+				<view class="xq_msg1"  v-if="datas.rentOutTypes">
+					<text>方式：</text><text class="c1a">{{datas.rentOutTypes.title}}</text>
 				</view>
-				<view class="xq_msg1"  v-if="datas.payment">
-					<text>付款：</text><text class="c1a">{{datas.payment.title}}</text>
+				<view class="xq_msg1"  v-if="datas.payments">
+					<text>付款：</text><text class="c1a">{{datas.payments.title}}</text>
 				</view>
 				<view class="xq_msg1" >
 					<text>独家：</text><text class="c1a">{{datas.exclusive==1?'是':'否'}}</text>
 				</view>
-				<view class="xq_msg1" v-if="datas.jishou">
-					<text>房源：</text><text class="c1a">{{datas.jishou.title}}</text>
+				<view class="xq_msg1" v-if="datas.jishous">
+					<text>房源：</text><text class="c1a">{{datas.jishous.title}}</text>
 				</view>
 				<view class="xq_msg1" v-if="datas.premisesPermits">
 					<text>房本：</text><text class="c1a">{{datas.premisesPermits.title}}</text>

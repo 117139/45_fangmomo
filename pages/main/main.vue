@@ -56,6 +56,20 @@
 				<image class="gj_li" src="../../static/img/index/gjbtn2.png" mode=""></image>
 			</view>
 		</view>
+		<view v-show="yhxy" class="yhxy_box">
+			<view class="dyxy_box">
+				<view class="dyxy_tit">用户协议</view>
+				<scroll-view class="dyxy_inr" v-html="datas_xy.body">
+					<!-- {{datas.body}} -->
+					<!-- <view v-if="datas" class="xieyi_main" v-html="datas.body"></view> -->
+				</scroll-view>
+				<!-- <view class="dis_flex ydxy_btn" :class="xdxy_type==1?'cur':''" @tap="xdxy_type_fuc"><view class="d1 dis_flex"><image  v-if="xdxy_type==1" src="../../static/images/duigou.png"></image></view>我已阅读并同意该协议</view> -->
+				<view class="dis_flex">
+					<view class="next_btn next_btn_cal dis_flex" @tap="xy_off">拒绝</view>
+					<view class="next_btn dis_flex" @tap="xy_on">同意</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -69,6 +83,10 @@
 	export default {
 		data() {
 			return {
+				yhxy: false,
+				datas_xy: {
+					body: ''
+				},
 				btnkg: 0,
 				time_zz:'你好',
 				StatusBar: this.StatusBar,
@@ -81,9 +99,12 @@
 			};
 		},
 		onLoad() {
-			// this.dblogin()
+			var yhxy = uni.getStorageSync('yhxy')
+			if (!yhxy) {
+				this.yhxy = true
+			}
 			this.getdata()
-			
+			this.getyxdata()
 			
 		},
 		onShow() {
@@ -170,6 +191,74 @@
 		},
 		methods: {
 			...mapMutations(['login','logindata','logout','setplatform']),
+			xy_on() {
+				this.yhxy = false
+				uni.setStorageSync('yhxy', 'true')
+			},
+			xy_off() {
+				if (plus.os.name.toLowerCase() === 'android') {
+					plus.runtime.quit() // Android
+				} else {
+					plus.ios.import("UIApplication").sharedApplication().performSelector("exit"); // IOS
+				}
+			},
+			getyxdata() {
+				///api/info/list
+				var that = this
+				var data = {
+					keyword: 'Privacy_agreement'
+				}
+			
+				//selectSaraylDetailByUserCard
+				var jkurl = '/api/info/list'
+				uni.showLoading({
+					title: '正在获取数据'
+				})
+				service.get(jkurl, data,
+					function(res) {
+			
+						if (res.data.code == 1) {
+							var datas = res.data.data
+							console.log(typeof datas)
+			
+							if (typeof datas == 'string') {
+								datas = JSON.parse(datas)
+							}
+							console.log(datas)
+							that.datas_xy = datas
+			
+			
+						} else {
+							if (res.data.msg) {
+								uni.showToast({
+									icon: 'none',
+									title: res.data.msg
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '操作失败'
+								})
+							}
+						}
+					},
+					function(err) {
+			
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
+			},
+			
 			getimg(img){
 				return service.getimg(img)
 			},
@@ -336,6 +425,9 @@
 </script>
 
 <style scoped>
+	
+	
+	
 	.content_wrap {
 		padding-top: 200upx;
 	}
