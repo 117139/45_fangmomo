@@ -50,7 +50,7 @@ function request(url, params, method, onSuccess, onFailed) {
 		success: function(res) {
 			uni.hideLoading();
 			uni.stopPullDownRefresh();
-			console.log('响应：', res.data);
+			// console.log('响应：', res.data);
 
 			// if (res.data) {
 			if (res.data.code == -1) {

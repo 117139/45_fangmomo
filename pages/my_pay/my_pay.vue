@@ -31,7 +31,8 @@
 					<view v-if="iapChannel" class="pay_type"></view>
 				</view>
 				<view class="btn-row">
-					<button v-if="btnkg==0" type="primary" class="primary" @tap="pay">确认支付</button>
+					<button v-if="btnkg==0&&pay_type!=3" type="primary" class="primary" @tap="pay">确认支付</button>
+					<button v-if="btnkg==0&&pay_type==3" type="primary" class="primary" @tap="requestPayment_ios">确认支付</button>
 					<button v-if="btnkg==1" type="primary" class="primary">确认支付</button>
 				</view>
 			</view>
@@ -47,7 +48,7 @@
 	} from 'vuex'
 	// var iapChannel = null
 	var productId = 198802137211
-	var productIds = ['V198802137211']
+	var productIds = ['198802137211']
 	export default {
 		data() {
 			return {
@@ -57,32 +58,33 @@
 				token: '',
 				account: '',
 				password: '',
-				
-				iapChannel:null,
+
+				iapChannel: null,
 				loading: false,
 				disabled: true,
 			}
 		},
 		computed: mapState(['platform', 'hasLogin', 'userName']),
 		onLoad(option) {
-			var that =this
+			var that = this
 			uni.showLoading({
 				title: '获取到channel'
 			})
+			
 			plus.payment.getChannels((channels) => {
-					console.log("获取到channel" + JSON.stringify(channels))
-					for (var i in channels) {
-							var channel = channels[i];
-							if (channel.id === 'appleiap') {
-									that.iapChannel = channel;
-									that.requestOrder();
-							}
+				console.log("获取到channel" + JSON.stringify(channels))
+				for (var i in channels) {
+					var channel = channels[i];
+					if (channel.id === 'appleiap') {
+						that.iapChannel = channel;
+						that.requestOrder();
 					}
-					if(!that.iapChannel){
-							that.errorMsg()
-					}
-			}, (error) => {
+				}
+				if (!that.iapChannel) {
 					that.errorMsg()
+				}
+			}, (error) => {
+				that.errorMsg()
 			});
 			if (option.token) {
 				that.token = option.token
@@ -166,10 +168,11 @@
 				} else {
 					that.btnkg = 1
 				}
-				if(that.pay_type==3){
-					that.requestPayment()
+				/*if(that.pay_type==3){
+				
+					that.requestPayment_ios()
 					return
-				}
+				}*/
 				var data = {
 					type: that.pay_type,
 					id: that.datas.vip[0].id,
@@ -248,9 +251,7 @@
 									}
 								});
 							}
-							if(that.pay_type==3){
-								that.requestPayment()
-							}
+
 						} else {
 							that.btnkg = 0
 							if (res.data.msg) {
@@ -357,21 +358,22 @@
 			},
 
 			requestOrder() {
-				var that =this
+				var that = this
 				uni.showLoading({
 					title: '检测支付环境...'
 				})
-				console.log('productId===>'+productId)
-				console.log('productIds===>'+productIds)
+				console.log('productId===>' + productId)
+				console.log('productIds===>' + productIds)
 				that.iapChannel.requestOrder(productIds, (orderList) => { //必须调用此方法才能进行 iap 支付
 					this.disabled = false;
-					
+
 					console.log('requestOrder success666: ' + JSON.stringify(orderList));
 					uni.hideLoading();
-					for (var index in orderList) {  
-							var OrderItem = orderList[index];  
-							console.log("Title:" + OrderItem.title + "Price:" + OrderItem.price + "Description:" + OrderItem.description + "ProductID:" + OrderItem.productid);  
-					}  
+					// for (var index in orderList) {
+					// 	var OrderItem = orderList[index];
+					// 	console.log("Title:" + OrderItem.title + "Price:" + OrderItem.price + "Description:" + OrderItem.description +
+					// 		"ProductID:" + OrderItem.productid);
+					// }
 				}, (e) => {
 					console.log('requestOrder failed: ' + JSON.stringify(e));
 					uni.showModal({
@@ -382,31 +384,47 @@
 					this.errorMsg();
 				});
 			},
-			requestPayment(e) {
-				this.loading = true;
+			requestPayment_ios() {
+				var that = this
+				// console.log('正在进行苹果支付')
+				uni.showLoading({
+					title: '正在进行苹果支付'
+				})
+				// uni.showToast({
+				// 	icon: 'none',
+				// 	title: '正在发起支付'
+				// });
 				uni.requestPayment({
 					provider: 'appleiap',
 					orderInfo: {
-						productid: productId
+						productid: productIds[0]
 					},
 					success: (e) => {
+						console.log(e)
+						that.btnkg = 0
+						uni.hideLoading()
 						uni.showModal({
-							content: "感谢您的赞助",
+							content: "感谢您的赞助" + JSON.stringify(e),
 							showCancel: false
 						})
 					},
 					fail: (e) => {
+						console.log(JSON.stringify(e))
+						that.btnkg = 0
+						uni.hideLoading()
 						uni.showModal({
+							icon: 'none',
 							content: "支付失败,原因为: " + e.errMsg,
 							showCancel: false
 						})
 					},
-					complete: () => {
-						that.btnkg =0
+					complete: (e) => {
+						console.log(e)
 						console.log("payment结束")
-						this.loading = false;
+						that.loading = false;
 					}
 				})
+
 			},
 			applePriceChange(e) {
 				productId = e.detail.value;

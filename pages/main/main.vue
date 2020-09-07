@@ -224,7 +224,7 @@
 							if (typeof datas == 'string') {
 								datas = JSON.parse(datas)
 							}
-							console.log(datas)
+							// console.log(datas)
 							that.datas_xy = datas
 			
 			
