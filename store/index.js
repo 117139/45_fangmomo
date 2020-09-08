@@ -22,7 +22,7 @@ const store = new Vuex.Store({
 	},
 	mutations: {
 		setuuid(state, uuid) {
-			state.uuid = uuid || '';
+			state.uuid = uuid || 'h5';
 		},
 		login(state, userName) {
 			state.userName = userName || '新用户';
