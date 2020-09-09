@@ -2,8 +2,10 @@
 const USERS_KEY = 'USERS_KEY';
 const STATE_KEY = 'STATE_KEY';
 import store from './store/index.js'
-const IPurl = 'http://fangmomo.net.aa.800123456.top/';
-const imgurl = 'http://fangmomo.net.aa.800123456.top/';
+// const IPurl = 'http://fangmomo.net.aa.800123456.top/';
+// const imgurl = 'http://fangmomo.net.aa.800123456.top/';
+const IPurl = 'http://www.fangmomo.net/';
+const imgurl = 'http://www.fangmomo.net/';
 import Vue from 'vue'
 /**
  * 请求头
