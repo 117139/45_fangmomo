@@ -62,7 +62,7 @@
 					</view>
 					<view class="li_fbr" v-if="item.users">
 							<text  v-if="hasLogin">{{item.users.company}} </text>
-							<text> {{item.users.nickname}}</text>
+							<text v-if="hasLogin"> {{item.users.nickname}}</text>
 						</view>
 					</view>
 					<view class="li_msg_r">

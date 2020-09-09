@@ -88,6 +88,7 @@
 								icon: 'none',
 								title: '发送成功'
 							})
+							console.log(res)
 							that.verification_key=res.data.data.key
 							that.codetime()
 			

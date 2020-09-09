@@ -31,8 +31,8 @@
 					<view v-if="iapChannel" class="pay_type"></view>
 				</view>
 				<view class="btn-row">
-					<button v-if="btnkg==0&&pay_type!=3" type="primary" class="primary" @tap="pay">确认支付</button>
-					<button v-if="btnkg==0&&pay_type==3" type="primary" class="primary" @tap="requestPayment_ios">确认支付</button>
+					<button v-if="btnkg==0" type="primary" class="primary" @tap="pay">确认支付</button>
+					<!-- <button v-if="btnkg==0&&pay_type==3" type="primary" class="primary" @tap="requestPayment_ios">确认支付</button> -->
 					<button v-if="btnkg==1" type="primary" class="primary">确认支付</button>
 				</view>
 			</view>
@@ -62,15 +62,21 @@
 				iapChannel: null,
 				loading: false,
 				disabled: true,
+				
+				no_id:'', 
 			}
 		},
 		computed: mapState(['platform', 'hasLogin', 'userName']),
 		onLoad(option) {
 			var that = this
-			uni.showLoading({
-				title: '获取到channel'
-			})
-			
+			// uni.showLoading({
+			// 	title: '获取到channel'
+			// })
+			if (option.token) {
+				that.token = option.token
+				that.account = option.account
+				that.password = option.password
+			}
 			plus.payment.getChannels((channels) => {
 				console.log("获取到channel" + JSON.stringify(channels))
 				for (var i in channels) {
@@ -86,17 +92,14 @@
 			}, (error) => {
 				that.errorMsg()
 			});
-			if (option.token) {
-				that.token = option.token
-				that.account = option.account
-				that.password = option.password
-			}
+
 			that.getpay()
 		},
 		onShow() {
 			console.log('onshow')
 			this.btnkg = 0
 		},
+		computed: mapState(['forcedLogin', 'loginDatas']),
 		methods: {
 			...mapMutations(['login', 'logindata']),
 			getpay() {
@@ -197,6 +200,11 @@
 							// 	datas = JSON.parse(datas)
 							// }
 							console.log(datas)
+							if (that.pay_type == 3) {
+								console.log(datas.no)
+								that.no_id=datas.no
+								that.requestPayment_ios()
+							}
 							// 支付宝
 							if (that.pay_type == 2) {
 								uni.requestPayment({
@@ -356,7 +364,51 @@
 				)
 
 			},
+			iap_fuc(paymsg) {
+				var that = this
+				const data = {
+					receipt_data: paymsg,
+					no: that.no_id
+				}
+				uni.showLoading({
+					title: '正在进行校验'
+				})
+				var jkurl = '/api/order/checkApplePay'
+				console.log('开始校验')
+				service.post(jkurl, data,
+					function(res) {
+						uni.hideLoading()
+						that.btnkg = 0
+						if (res.data.code == 1) {
+							wx.showToast({
+								title: '支付成功',
+								icon: 'none',
+								duration: 1000
+							});
+							setTimeout(function() {
+								that.btnkg = 0
+								that.bindLogin()
+							}, 1000)
+						}
+					},
+					function(err) {
+						uni.hideLoading()
+						that.btnkg = 0
+						if (err.data.msg) {
+							uni.showToast({
+								icon: 'none',
+								title: err.data.msg
+							})
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '操作失败'
+							})
+						}
+					}
+				)
 
+			},
 			requestOrder() {
 				var that = this
 				uni.showLoading({
@@ -400,13 +452,16 @@
 						productid: productIds[0]
 					},
 					success: (e) => {
+						uni.hideLoading()
 						console.log(e)
 						that.btnkg = 0
-						uni.hideLoading()
-						uni.showModal({
-							content: "感谢您的赞助" + JSON.stringify(e),
-							showCancel: false
-						})
+						console.log(JSON.stringify(e))
+						console.log('苹果支付成功')
+						that.iap_fuc(JSON.stringify(e))
+						// uni.showModal({
+						// 	content: "感谢您的赞助" + JSON.stringify(e),
+						// 	showCancel: false
+						// })
 					},
 					fail: (e) => {
 						console.log(JSON.stringify(e))

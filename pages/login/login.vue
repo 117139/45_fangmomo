@@ -253,6 +253,7 @@
 								uni.navigateBack()
 							}, 1000)
 						} else {
+								console.log(res)
 							if (res.data.code == 2) {
 								setTimeout(() => {
 									uni.navigateTo({

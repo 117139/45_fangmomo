@@ -56,7 +56,7 @@
 					<view v-if="item.users" class="li_fbr">
 						<text  v-if="hasLogin">{{item.users.company}} </text>
 						<!-- <text> {{item.users.nickname}}{{showid(item.user_id)}}{{item.user_id}}</text> -->
-						<text> {{item.users.nickname}}</text>
+						<text v-if="hasLogin"> {{item.users.nickname}}</text>
 					</view>
 				</view>
 				<view class="li_msg_r">

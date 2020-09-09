@@ -26,7 +26,7 @@
 			<view class="xq_tit">
 				<view class="xq_name" v-if="hasLogin">{{datas.estates.title}}</view>
 				<view class="xq_name" v-if="!hasLogin">房嬷嬷小区</view>
-				<view class="xq_cz">
+				<view class="xq_cz" v-if="hasLogin">
 					<view class="cz_li" v-if="!datas.collect" @tap="shoucang" :data-id="datas.id">
 						<text class="iconfont iconshoucang-copy"></text>
 						<text>收藏</text>
@@ -105,7 +105,7 @@
 		<view class="xq_bottom" v-if="datas.users">
 			<image class="call_tel" :src="getimg(datas.users.avatar)" mode="aspectFill"></image>
 			<view class="call_msg">
-				<view class="call_name">{{datas.users.nickname}}</view>
+				<view class="call_name"  v-if="hasLogin">{{datas.users.nickname}}</view>
 				<view class="call_dw" v-if="hasLogin">{{datas.users.company}}</view>
 			</view>
 			<view class="call_btn" @tap="call_tel" :data-tel="datas.users.phone">联系TA</view>
