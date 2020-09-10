@@ -24,7 +24,7 @@
 		</view>
 		<view v-if="datas" class="xq_box">
 			<view class="xq_tit">
-				<view class="xq_name" v-if="hasLogin">{{datas.estates.title}}</view>
+				<view class="xq_name" v-if="hasLogin">{{datas.estates.title?datas.estates.title:''}}</view>
 				<view class="xq_name" v-if="!hasLogin">房嬷嬷小区</view>
 				<view class="xq_cz" v-if="hasLogin">
 					<view class="cz_li" v-if="!datas.collect" @tap="shoucang" :data-id="datas.id">
@@ -136,7 +136,7 @@
 					'../../static/img/fang_img5.jpg',
 				],
 				sc_type:0,
-				datas:{},
+				datas:'',
 				my_issue:''
 			}
 		},

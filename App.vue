@@ -57,7 +57,7 @@
 							console.log('uuid: '+JSON.stringify(e.uuid));
 							that.setuuid(e.uuid)
 							that.uuid1=e.uuid
-							that.dblogin()
+							that.dblogin(e.uuid)
 					},
 					fail:function(e){
 							console.log('getDeviceInfo failed: '+JSON.stringify(e));
@@ -67,7 +67,7 @@
 			// #ifdef H5
 			 that.setuuid('H5')
 			 that.uuid1='H5'
-			 that.dblogin()
+			 that.dblogin('H5')
 			// #endif
 		},
 		onShow: function() {
@@ -148,7 +148,7 @@
 						}
 					})
 				},
-				dblogin(){
+				dblogin(e_uuid){
 					var that =this
 					if(!uni.getStorageSync('phone')){
 						// uni.showToast({
@@ -170,7 +170,7 @@
 					const data = {
 						phone: account,
 						password: password,
-						device_id:that.uuid1
+						device_id:e_uuid?e_uuid:'h5'
 					}
 					var jkurl='/api/login/login'
 					service.post(jkurl, data,

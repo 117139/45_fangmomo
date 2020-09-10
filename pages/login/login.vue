@@ -88,6 +88,7 @@
 				positionTop: 0,
 				isDevtools: false,
 				SystemInfo: '',
+				uuid1:'',
 			}
 		},
 		onLoad() {
@@ -98,13 +99,30 @@
 			if (yhxy) {
 				this.yhxy = false
 			}
+			// #ifdef APP-PLUS
+			plus.device.getInfo({
+					success:function(e){
+							console.log('getDeviceInfo success: '+JSON.stringify(e));
+							console.log('uuid: '+JSON.stringify(e.uuid));
+							that.setuuid(e.uuid)
+							that.uuid1=e.uuid
+					},
+					fail:function(e){
+							console.log('getDeviceInfo failed: '+JSON.stringify(e));
+					}
+			});
+			// #endif
+			// #ifdef H5
+			 that.setuuid('H5')
+			 that.uuid1='H5'
+			// #endif
 		},
 		onShow() {
 
 		},
 		computed: mapState(['forcedLogin','uuid']),
 		methods: {
-			...mapMutations(['login', 'logindata']),
+			...mapMutations(['login', 'logindata','setuuid']),
 			jump(e){
 				service.jump(e)
 			},
@@ -226,7 +244,7 @@
 				const data = {
 					phone: that.account,
 					password: that.password,
-					device_id:that.uuid
+					device_id:that.uuid?that.uuid:'h5'
 				}
 				var jkurl = '/api/login/login'
 
