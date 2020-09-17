@@ -68,7 +68,15 @@
             "sdkConfigs" : {
                 "ad" : {},
                 "payment" : {
-                    "appleiap" : {}
+                    "appleiap" : {},
+                    "alipay" : {
+                        "__platform__" : [ "android" ]
+                    },
+                    "weixin" : {
+                        "__platform__" : [ "android" ],
+                        "appid" : "wxe881cae0397532f2",
+                        "UniversalLinks" : "https://fangmomo.net.aa.800123456.top/"
+                    }
                 }
             },
             "icons" : {
