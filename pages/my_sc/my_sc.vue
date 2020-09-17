@@ -317,7 +317,7 @@
 					message: '确定要删除这些收藏吗？',
 				}).then(() => {
 					var data = {
-						id:arr.join(','),
+						ids:arr.join(','),
 						token:that.loginDatas.token,
 					}
 					console.log(data)

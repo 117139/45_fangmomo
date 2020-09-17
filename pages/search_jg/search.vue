@@ -104,7 +104,7 @@
 						<!-- <input  type="text" placeholder="请输入"> -->
 						<m-input class="sv2_input" type="text" clearable v-model="qy_search" @input='search_qy' placeholder="请输入"></m-input>
 						<scroll-view scroll-y="true" class="sv1">
-							<view :class="index==qy_cur3 ?'cur':''" v-for="(item,index) in qy_show" :data-index="index" data-type="3" @tap="xz_fuc">{{item.title}}</view>
+							<view :class="index==qy_cur3 ?'cur':''" v-for="(item,index) in qy_show" :data-index="index" :data-item="item" data-type="3" @tap="xz_fuc">{{item.title}}</view>
 						</scroll-view>
 					</view>
 				</view>
@@ -258,6 +258,7 @@
 				qy_cur:-1,
 				qy_cur2:-1,
 				qy_cur3:-1,
+				qy_cur3_item:'',
 				jg_show:[
 					{
 						name:'80万以下',
@@ -604,7 +605,7 @@
 					page_size:that.pagesize,
 					"city_id": that.qy_cur>-1?that.qy_arr[that.qy_cur].id:'',
 					"district_id": that.qy_cur2>-1?that.qy_arr2[that.qy_cur2].id:'',
-					"estate_id":that.qy_cur3>-1?that.qy_arr3[that.qy_cur3].id:'',
+					"estate_id":that.qy_cur3>-1?that.qy_cur3_item.id:'',
 					"price": that.jg_cs?that.jg_cs:'',
 					"proportion": that.mj_cs?that.mj_cs:'',
 					"search": that.qy_cur3>-1?'':that.qy_search,
@@ -626,6 +627,10 @@
 				}else{
 					that.btnkg=1
 				}
+				uni.showLoading({
+					title:'正在请求数据',
+					mask:true
+				})
 				service.post(jkurl, data,
 					function(res) {
 						
@@ -941,20 +946,25 @@
 					this.qy_cur=datas.index
 					this.qy_cur2=-1
 					this.qy_cur3=-1
+					this.qy_cur3_item=''
 					this.getDis(this.qy_arr[datas.index].id)
 				}
 				if(datas.type==2){
 					if(this.qy_cur2==datas.index) return
 					this.qy_cur2=datas.index
 					this.qy_cur3=-1
+					this.qy_cur3_item=''
 					console.log(this.qy_arr2)
+					this.qy_search=''
 					this.qy_arr3=this.qy_arr2[datas.index].child
 					this.qy_show=this.qy_arr2[datas.index].child
 				}
 				if(datas.type==3){
 					if(this.qy_cur3==datas.index) return
 					this.qy_cur3=datas.index
-					this.qy_search=this.qy_arr3[datas.index].title
+					this.qy_search=datas.item.title
+					this.qy_cur3_item=datas.item
+					console.log(datas.item)
 				}
 				
 			},
@@ -965,6 +975,7 @@
 					that.qy_cur=-1
 					that.qy_cur2=-1
 					that.qy_cur3=-1
+					that.qy_cur3_item=''
 					console.log(that.qy_cur,that.qy_cur2,that.qy_cur3)
 				}
 				if(that.xz_type==2){
@@ -1033,8 +1044,16 @@
 										}
 									}
 									that.qy_show=news
+									that.qy_cur3=-1
+									that.qy_cur3_item=''
+									that.page=1
+									that.getdata()
 								}else{
 									that.qy_show=that.qy_arr3
+									that.qy_cur3=-1
+									that.qy_cur3_item=''
+									that.page=1
+									that.getdata()
 								}
 						},400)
 			},

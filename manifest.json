@@ -2,8 +2,8 @@
     "name" : "房嬷嬷",
     "appid" : "__UNI__EABB812",
     "description" : "房嬷嬷",
-    "versionName" : "1.0.4",
-    "versionCode" : 104,
+    "versionName" : "1.0.7",
+    "versionCode" : 107,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -68,14 +68,6 @@
             "sdkConfigs" : {
                 "ad" : {},
                 "payment" : {
-                    "weixin" : {
-                        "__platform__" : [ "ios", "android" ],
-                        "appid" : "wxe881cae0397532f2",
-                        "UniversalLinks" : "https://fangmomo.net.aa.800123456.top"
-                    },
-                    "alipay" : {
-                        "__platform__" : [ "ios", "android" ]
-                    },
                     "appleiap" : {}
                 }
             },

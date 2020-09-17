@@ -16,14 +16,14 @@
 				<view class="reg_tit">支付</view>
 				<view class="kfwx">会员费 <text>￥</text><text class="hy_money">{{datas.vip?datas.vip[0].body:'0'}}</text></view>
 				<view class="dis_flex aic ju_a pay_list">
-					<view class="pay_type" @tap="pay_fuc(2)">
+					<!-- <view v-if="platform=='android'" class="pay_type" @tap="pay_fuc(2)">
 						<image v-if="pay_type!=2" class="pay_type" src="../../static/img/pay11.png" mode=""></image>
 						<image v-if="pay_type==2" class="pay_type" src="../../static/img/pay12.png" mode=""></image>
 					</view>
-					<view class="pay_type" @tap="pay_fuc(1)">
+					<view v-if="platform=='android'" class="pay_type" @tap="pay_fuc(1)">
 						<image v-if="pay_type!=1" class="pay_type" src="../../static/img/pay21.png" mode=""></image>
 						<image v-if="pay_type==1" class="pay_type" src="../../static/img/pay22.png" mode=""></image>
-					</view>
+					</view> -->
 					<view v-if="iapChannel" class="pay_type" @tap="pay_fuc(3)">
 						<image v-if="pay_type!=3" class="pay_type" src="../../static/img/pay31.png" mode=""></image>
 						<image v-if="pay_type==3" class="pay_type" src="../../static/img/pay32.png" mode=""></image>
@@ -53,7 +53,8 @@
 		data() {
 			return {
 				btnkg: 0,
-				pay_type: 2,
+				// pay_type: 2,
+				pay_type: 3,
 				datas: '',
 				token: '',
 				account: '',

@@ -245,7 +245,7 @@ const gettime=function (mj){
  */
 function show_fuc(id) {
 	var laheiArr=uni.getStorageSync('lahei')
-	console.log(laheiArr)
+	// console.log(laheiArr)
 	laheiArr+=''
 	if(!laheiArr){
 		return true

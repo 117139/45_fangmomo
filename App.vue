@@ -82,9 +82,13 @@
 		},
 		watch:{
 			hasLogin(){
-				if(this.hasLogin){
-					this.dandian()
-				}
+				var that=this
+					if(that.hasLogin){
+						setTimeout(function (){
+								that.dandian()
+						},5000)
+					}
+				
 			}
 		},
 		
@@ -132,7 +136,7 @@
 											uni.reLaunch({
 												url: '/pages/main/main',
 											});
-										},1000)
+										},5000)
 								}
 					
 							}
