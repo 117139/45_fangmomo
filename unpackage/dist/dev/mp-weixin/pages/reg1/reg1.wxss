@@ -1,0 +1,46 @@
+
+.wrap_main.data-v-e18721b4 {
+	width: 100%;
+	padding: 0 68rpx;
+	box-sizing: border-box;
+}
+uni-radio-group.data-v-e18721b4 {
+	-webkit-box-flex: 0;
+	-webkit-flex: none;
+	        flex: none;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
+	width:285rpx;
+	height:45px;
+	border-radius:6px;
+	font-size: 36rpx;
+	color: #1A1A1A;
+	margin-left: 14px;
+}
+.uni-label-pointer.data-v-e18721b4{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.xieyi.data-v-e18721b4{
+	color: #1A1A1A;
+	font-size: 10px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.xieyi navigator.data-v-e18721b4{
+	color: #3171F5;
+}
+

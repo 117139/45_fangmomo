@@ -1,0 +1,15 @@
+ios:
+Bundle ID:uni.UNIEABB812
+
+安卓：
+
+包名：uni.UNIEABB812
+签名：5a93edd7469597c4281565ea2136a101
+
+
+
+weixin:
+
+wxe881cae0397532f2
+
+http://fangmomo.net.aa.800123456.top/

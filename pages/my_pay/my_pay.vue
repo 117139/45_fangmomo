@@ -16,7 +16,7 @@
 				<view class="reg_tit">支付</view>
 				<view class="kfwx">会员费 <text>￥</text><text class="hy_money">{{datas.vip?datas.vip[0].body:'0'}}</text></view>
 				<view class="dis_flex aic ju_a pay_list">
-					<view class="pay_type" @tap="pay_fuc(2)">
+					<!-- <view class="pay_type" @tap="pay_fuc(2)">
 						<image v-if="pay_type!=2" class="pay_type" src="../../static/img/pay11.png" mode=""></image>
 						<image v-if="pay_type==2" class="pay_type" src="../../static/img/pay12.png" mode=""></image>
 					</view>
@@ -28,9 +28,9 @@
 						<image v-if="pay_type!=3" class="pay_type" src="../../static/img/pay31.png" mode=""></image>
 						<image v-if="pay_type==3" class="pay_type" src="../../static/img/pay32.png" mode=""></image>
 					</view>
-					<view v-if="iapChannel" class="pay_type"></view>
+					<view v-if="iapChannel" class="pay_type"></view> -->
 				</view>
-				<view class="btn-row">
+				<view class="btn-row w100">
 					<button v-if="btnkg==0" type="primary" class="primary" @tap="pay">确认支付</button>
 					<!-- <button v-if="btnkg==0&&pay_type==3" type="primary" class="primary" @tap="requestPayment_ios">确认支付</button> -->
 					<button v-if="btnkg==1" type="primary" class="primary">确认支付</button>

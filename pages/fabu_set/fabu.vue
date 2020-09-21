@@ -380,9 +380,10 @@
 									}
 									
 									if(datas.home_type_id){
+											console.log('home_type_id----'+datas.home_type_id)
 										for(var i=0;i<that.array1.length;i++){
-											//console.log(datas.home_type_id)
 											if(datas.home_type_id==that.array1[i].id){
+												console.log(that.array1[i])
 												that.index1=i  //类型
 											}
 										}
@@ -398,7 +399,7 @@
 										for(var i=0;i<that.array2.length;i++){
 											//console.log(datas.house_type_id)
 											if(datas.house_type_id==that.array2[i].id){
-												that.index2==i   //户型
+												that.index2=i   //户型
 											}
 										}
 									}
@@ -406,11 +407,13 @@
 									that.mianji=datas.proportion                  //面积
 									
 									if(datas.orientation_id){
+										console.log('orientation_id========='+datas.orientation_id)
 										// for(var i in that.array3){
 										for(var i=0;i<that.array3.length;i++){
 											//console.log(datas.orientation_id)
 											if(datas.orientation_id==that.array3[i].id){
-												that.index3==i     //朝向
+												console.log(that.array3[i])
+												that.index3=i     //朝向
 											}
 										}
 									}
@@ -423,7 +426,7 @@
 										for(var i=0;i<that.array4.length;i++){
 											//console.log(datas.premises_permit_id)
 											if(datas.premises_permit_id==that.array4[i].id){
-												that.index4==i     //房本
+												that.index4=i     //房本
 											}
 										}
 									}
@@ -432,7 +435,7 @@
 										for(var i=0;i<that.array5.length;i++){
 											//console.log(datas.fitment_id)
 											if(datas.fitment_id==that.array5[i].id){
-												that.index5==i      //装修
+												that.index5=i      //装修
 											}
 										}
 									}
@@ -445,7 +448,7 @@
 										for(var i=0;i<that.array6.length;i++){
 											//console.log(datas.carbarn)
 											if(datas.carbarn==that.array6[i].id){
-												that.index6==i      //车库//车库
+												that.index6=i      //车库//车库
 											}
 										}
 									}
@@ -454,7 +457,7 @@
 										for(var i=0;i<that.array7.length;i++){
 											//console.log(datas.rent_out_type_id)
 											if(datas.rent_out_type_id==that.array7[i].id){
-												that.index7==i      //出租方式
+												that.index7=i      //出租方式
 											}
 										}
 									}
@@ -463,7 +466,7 @@
 										for(var i=0;i<that.array8.length;i++){
 											//console.log(datas.payment_id)
 											if(datas.payment_id==that.array8[i].id){
-												that.index8==i      //付款方式
+												that.index8=i      //付款方式
 											}
 										}
 									}
@@ -517,12 +520,12 @@
 						// if (res.data.code == 1) {
 						if (res.data.code == 1) {
 							var datas = res.data.data
-							console.log(typeof datas)
+							// console.log(typeof datas)
 							
 							if (typeof datas == 'string') {
 								datas = JSON.parse(datas)
 							}
-							console.log(datas)
+							// console.log(datas)
 						
 								// that.datas = datas
 								
@@ -590,12 +593,12 @@
 						// if (res.data.code == 1) {
 						if (res.data.code == 1) {
 							var datas = res.data.data
-							console.log(typeof datas)
+							// console.log(typeof datas)
 							
 							if (typeof datas == 'string') {
 								datas = JSON.parse(datas)
 							}
-							console.log(datas)
+							// console.log(datas)
 						
 								// that.datas = datas
 								

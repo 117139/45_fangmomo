@@ -1,0 +1,81 @@
+
+.login_tip.data-v-b237504c{
+	font-size: 20rpx;
+	padding: 20rpx;
+	box-sizing: border-box;
+	text-align: center;
+}
+.action-row.data-v-b237504c {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
+	position: fixed;
+	bottom: 35px;
+	width: 200px;
+	left: 50%;
+	margin-left: -100px;
+}
+.action-row navigator.data-v-b237504c {
+	color: #666;
+	padding: 0 10px;
+	font-size: 14px;
+}
+.oauth-row.data-v-b237504c {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+.oauth-image.data-v-b237504c {
+	position: relative;
+	width: 50px;
+	height: 50px;
+	border: 1px solid #dddddd;
+	border-radius: 50px;
+	margin: 0 20px;
+	background-color: #ffffff;
+}
+.oauth-image image.data-v-b237504c {
+	width: 30px;
+	height: 30px;
+	margin: 10px;
+}
+.oauth-image button.data-v-b237504c {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+}
+.wrap_main.data-v-b237504c {
+	width: 100%;
+	padding: 0 68rpx;
+	box-sizing: border-box;
+}
+.reg_tit.data-v-b237504c {
+	font-weight: 500;
+}
+.reg_tit image.data-v-b237504c {
+	display: block;
+	width: 45px;
+	height: 54px;
+	margin-bottom: 17px;
+}
+

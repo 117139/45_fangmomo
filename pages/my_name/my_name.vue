@@ -6,16 +6,16 @@
 		</cu-custom>
 		<view class="hx20"></view>
 		<view class="my_list">
-			<view class="my_li">
+			<view class="my_li dis_flex aic">
 				<m-input class="m-input" type="text" v-model="uname" placeholder="姓"></m-input>
-				<radio-group @change="radioChange" v-model="sex">
-					<label class="uni-list-cell uni-list-cell-pd" >
+				<radio-group class="dis_flex aic" @change="radioChange" v-model="sex">
+					<label class="uni-list-cell uni-list-cell-pd dis_flex aic" >
 						<view>
 							<radio value="先生" :checked="sex=='先生'?true:false" style="transform:scale(0.7)"/>
 						</view>
 						<view>先生</view>
 					</label>
-					<label class="uni-list-cell uni-list-cell-pd" >
+					<label class="uni-list-cell uni-list-cell-pd dis_flex aic" >
 						<view>
 							<radio value="女士" :checked="sex=='女士'?true:false" style="transform:scale(0.7)"/>
 						</view>
@@ -211,7 +211,13 @@
 </script>
 
 <style scoped>
-	
+	.radio-group{
+		width: 40%;
+	}
+	.dis_flex{
+		display: flex;
+		
+	}
 .hx20{
 		width: 100%;
 		height: 20upx;

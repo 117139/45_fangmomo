@@ -64,7 +64,7 @@
 					}
 			});
 			// #endif
-			// #ifdef H5
+			// #ifndef APP-PLUS
 			 that.setuuid('H5')
 			 that.uuid1='H5'
 			 that.dblogin('H5')

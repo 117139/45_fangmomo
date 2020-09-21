@@ -1,0 +1,35 @@
+
+.wrap_main.data-v-537b07b4 {
+	width: 100%;
+	padding: 0 68rpx;
+	box-sizing: border-box;
+}
+.kfwx.data-v-537b07b4 {
+	color: #1A1A1A;
+	font-size: 14px;
+}
+.kfwx text.data-v-537b07b4 {
+	color: #3171F5;
+	font-size: 16px;
+	margin-left: 20px;
+}
+.kfwx .hy_money.data-v-537b07b4 {
+	margin-left: 0;
+	font-size: 30px;
+	font-weight: bold;
+}
+uni-button.primary.data-v-537b07b4 {
+	margin-top: 70px;
+	background-color: rgba(49, 113, 245, 1);
+}
+.pay_list.data-v-537b07b4 {
+	margin-top: 80px;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.pay_type.data-v-537b07b4 {
+	width: 278rpx;
+	height: 118rpx;
+	margin-bottom: 20rpx;
+}
+
