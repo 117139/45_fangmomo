@@ -441,8 +441,9 @@
 				var that = this
 				// console.log('正在进行苹果支付')
 				uni.showLoading({
-					title: '正在进行苹果支付'
+					title: '正在进行支付,请勿进行其他操作'
 				})
+				// return
 				// uni.showToast({
 				// 	icon: 'none',
 				// 	title: '正在发起支付'
