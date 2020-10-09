@@ -14,7 +14,8 @@
 		<view>
 			<view class="wrap_main">
 				<view class="reg_tit">支付</view>
-				<view class="kfwx">会员费 <text>￥</text><text class="hy_money">{{datas.vip?datas.vip[0].body:'0'}}</text></view>
+				<view class="kfwx">房嬷嬷年度会员<text>￥</text><text class="hy_money">{{datas.vip?datas.vip[0].body:'0'}}/年</text></view>
+				<!-- <view class="kfwx">会员费 <text>￥</text><text class="hy_money">{{datas.vip?datas.vip[0].body:'0'}}/年</text></view> -->
 				<view class="dis_flex aic ju_a pay_list">
 					<!-- <view class="pay_type" @tap="pay_fuc(2)">
 						<image v-if="pay_type!=2" class="pay_type" src="../../static/img/pay11.png" mode=""></image>

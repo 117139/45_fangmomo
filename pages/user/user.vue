@@ -21,6 +21,7 @@
 						<view class="d1">{{loginDatas.company?loginDatas.company:''}}</view>
 						<text class="iconfont iconnext"></text>
 					</view>
+					<view class="user_dw" style="color: #333;">VIP时间:{{gettime(loginDatas.vip_end_time)}}</view>
 				</view>
 			</view>
 		</view>
@@ -131,6 +132,11 @@
 			...mapMutations(['logout']),
 			getimg(img){
 				return service.getimg(img)
+			},
+			gettime(time){
+				if(!time) return
+				time=time.split(' ')
+				return time[0]
 			},
 			bindLogin() {
 				uni.navigateTo({
