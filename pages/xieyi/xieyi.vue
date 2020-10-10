@@ -42,6 +42,10 @@
 				that.type=Option.type
 				that.title='用户协议'
 			}
+			if(Option.type==4){
+				that.type=Option.type
+				that.title='自动续费服务规则'
+			}
 			this.getdata()
 		},
 		methods: {
@@ -55,6 +59,11 @@
 				if(that.type==2){
 					data={
 						keyword:'about_us'
+					}
+				}
+				if(that.type==4){
+					data={
+						keyword:'zdxfxy'
 					}
 				}
 				//selectSaraylDetailByUserCard

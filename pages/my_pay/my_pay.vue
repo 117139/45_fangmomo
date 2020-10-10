@@ -2,7 +2,7 @@
 	<view class="content_wrap">
 		<cu-custom bgColor="bg-white" :isBack="true">
 			<block slot="backText"></block>
-			<block slot="content"></block>
+			<block slot="content">房嬷嬷年度会员</block>
 		</cu-custom>
 		<!-- <view v-if="platform =='ios'">
 			<view class="wrap_main">
@@ -14,8 +14,9 @@
 		<view>
 			<view class="wrap_main">
 				<view class="reg_tit">支付</view>
-				<view class="kfwx">房嬷嬷年度会员<text>￥</text><text class="hy_money">{{datas.vip?datas.vip[0].body:'0'}}/年</text></view>
 				<!-- <view class="kfwx">会员费 <text>￥</text><text class="hy_money">{{datas.vip?datas.vip[0].body:'0'}}/年</text></view> -->
+				<view class="kfwx">年度会员<text>￥</text><text class="hy_money">{{datas.vip?datas.vip[0].body:'0'}}</text>/年</view>
+				<view class="reg_tit_tip">加入会员即可享受一年房嬷嬷APP房源信息浏览联系</view>
 				<view class="dis_flex aic ju_a pay_list">
 					<!-- <view class="pay_type" @tap="pay_fuc(2)">
 						<image v-if="pay_type!=2" class="pay_type" src="../../static/img/pay11.png" mode=""></image>
@@ -35,6 +36,25 @@
 					<button v-if="btnkg==0" type="primary" class="primary" @tap="pay">确认支付</button>
 					<!-- <button v-if="btnkg==0&&pay_type==3" type="primary" class="primary" @tap="requestPayment_ios">确认支付</button> -->
 					<button v-if="btnkg==1" type="primary" class="primary">确认支付</button>
+				</view>
+				
+				<view class="zf_tip">开通前阅读<text class="yhxy_box_xy" @tap="jump" data-url="/pages/xieyi/xieyi?type=3"
+					>《用户服务协议》</text>和<text class="yhxy_box_xy" @tap="jump" data-url="/pages/xieyi/xieyi?type=4"
+					>《自动续费服务规则》</text>
+				</view>
+				<view v-show="zfxy" class="yhxy_box">
+					<view class="dyxy_box">
+						<view class="dyxy_tit">用户协议</view>
+						<scroll-view class="dyxy_inr" v-html="datas.body">
+							<!-- {{datas.body}} -->
+							<!-- <view v-if="datas" class="xieyi_main" v-html="datas.body"></view> -->
+						</scroll-view>
+						<!-- <view class="dis_flex ydxy_btn" :class="xdxy_type==1?'cur':''" @tap="xdxy_type_fuc"><view class="d1 dis_flex"><image  v-if="xdxy_type==1" src="../../static/images/duigou.png"></image></view>我已阅读并同意该协议</view> -->
+						<view class="dis_flex">
+							<view class="next_btn next_btn_cal dis_flex" @tap="xy_off">拒绝</view>
+							<view class="next_btn dis_flex" @tap="xy_on">同意</view>
+						</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -66,10 +86,13 @@
 				disabled: true,
 				
 				no_id:'', 
+				
+				zfxy:'',
 			}
 		},
 		computed: mapState(['platform', 'hasLogin', 'userName']),
 		onLoad(option) {
+			var zfxy = uni.getStorageSync('zfxy')
 			var that = this
 			// uni.showLoading({
 			// 	title: '获取到channel'
@@ -104,6 +127,9 @@
 		computed: mapState(['forcedLogin', 'loginDatas']),
 		methods: {
 			...mapMutations(['login', 'logindata']),
+			jump(e){
+				service.jump(e)
+			},
 			getpay() {
 				var that = this
 				var data = {
@@ -501,7 +527,7 @@
 <style scoped>
 	.wrap_main {
 		width: 100%;
-		padding: 0 68upx;
+		padding: 0 60upx;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
@@ -538,5 +564,13 @@
 		width: 278upx;
 		height: 118upx;
 		margin-bottom: 20upx;
+	}
+	.reg_tit_tip{
+		margin-top: 20px;
+		font-size: 12px;
+	}
+	.zf_tip{
+		margin-top: 20px;
+		font-size: 12px;
 	}
 </style>
